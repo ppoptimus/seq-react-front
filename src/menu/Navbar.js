@@ -1,4 +1,6 @@
 import React from "react"
+import { Link } from "react-router-dom"
+
 
 export default function Navbar() {
 	return (
@@ -12,9 +14,9 @@ export default function Navbar() {
 						</a>
 					</li>
 					<li className='nav-item d-none d-sm-inline-block'>
-						<a href='index3.html' className='nav-link'>
+						<Link to='/NewRequest' className='nav-link'>
 							บันทึกรายการใหม่
-						</a>
+						</Link>
 					</li>
 					<li className='nav-item d-none d-sm-inline-block'>
 						<a href='#' className='nav-link'>
