@@ -14,9 +14,9 @@ function App() {
 		<>
 			<Router>
 				<Suspense fallback={<div>Loading...</div>}>
-					<div className='wrapper'>
-						<Navbar />
-						<Sidebar />
+					<Navbar />
+					<Sidebar />
+					<div className='content-wrapper'>
 						<Switch>
 							<Route exact path='/Dashboard' component={Dashboard} />
 							<Route exact path='/UploadFile' component={UploadFile} />

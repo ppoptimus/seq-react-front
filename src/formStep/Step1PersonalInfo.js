@@ -24,7 +24,7 @@ export default function PersonalInfo({ handleChange }) {
 		<>
 			<div className='container align-items-center'>
 				<div className='form-group'>
-					<select className='form-control-lg'>
+					<select className='form-control form-control-lg'>
 						{titleItem.map((item) => (
 							<option key={item.title_code} value={item.title_code}>
 								{item.title_name}

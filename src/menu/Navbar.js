@@ -9,9 +9,9 @@ export default function Navbar() {
 				{/* Left navbar links */}
 				<ul className='navbar-nav'>
 					<li className='nav-item'>
-						<a className='nav-link' data-widget='pushmenu' href='#' role='button'>
+						<span className='nav-link' data-widget='pushmenu' role='button'>
 							<i className='fas fa-bars' />
-						</a>
+						</span>
 					</li>
 					<li className='nav-item d-none d-sm-inline-block'>
 						<Link to='/NewRequest' className='nav-link'>
@@ -19,22 +19,22 @@ export default function Navbar() {
 						</Link>
 					</li>
 					<li className='nav-item d-none d-sm-inline-block'>
-						<a href='#' className='nav-link'>
+						<Link to='/' className='nav-link'>
 							ตรวจสอบรายการใหม่
-						</a>
+						</Link>
 					</li>
 				</ul>
 				{/* Right navbar links */}
 				<ul className='navbar-nav ml-auto'>
 					<li className='nav-item'>
-						<a className='nav-link' data-widget='fullscreen' href='#' role='button'>
+						<Link to='/' className='nav-link' data-widget='fullscreen' role='button'>
 							<i className='fas fa-expand-arrows-alt' />
-						</a>
+						</Link>
 					</li>
 					<li className='nav-item'>
-						<a className='nav-link' data-widget='control-sidebar' data-slide='true' href='#' role='button'>
+						<Link to='/' className='nav-link' data-widget='control-sidebar' data-slide='true' role='button'>
 							<i className='fas fa-user' />
-						</a>
+						</Link>
 					</li>
 				</ul>
 			</nav>

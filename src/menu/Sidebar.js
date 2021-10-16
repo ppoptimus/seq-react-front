@@ -1,14 +1,15 @@
 import React from "react"
+import { Link } from "react-router-dom"
 
 export default function Sidebar() {
 	return (
-		<div>
+		<>
 			<aside className='main-sidebar sidebar-dark-primary elevation-4 vh-100'>
 				{/* Brand Logo */}
-				<a href='index3.html' className='brand-link'>
+				<Link to='/' className='brand-link'>
 					<img src='dist/img/logo.png' alt='sequester' className='brand-image img-circle elevation-3' style={{ opacity: ".8" }} />
 					<span className='brand-text font-weight-light'>SEQUESTER</span>
-				</a>
+				</Link>
 				{/* Sidebar */}
 				<div className='sidebar'>
 					
@@ -27,97 +28,97 @@ export default function Sidebar() {
 					<nav className='mt-2'>
 						<ul className='nav nav-pills nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>
 							<li className='nav-item menu-open'>
-								<a href='#' className='nav-link active'>
+								<Link to='/' className='nav-link active'>
 									<i className='nav-icon fas fa-tachometer-alt' />
 									<p>
 										Dashboard
 									</p>
-								</a>
+								</Link>
 							</li>
 							<li className='nav-item'>
-								<a href='pages/widgets.html' className='nav-link'>
+								<Link to='/' className='nav-link'>
 									<i className='nav-icon fas fa-th' />
 									<p>
 										New Request
 										<span className='right badge badge-danger'>New</span>
 									</p>
-								</a>
+								</Link>
 							</li>
 							<li className='nav-item'>
-								<a href='#' className='nav-link'>
+								<Link to='/' className='nav-link'>
 									<i className='nav-icon fas fa-copy' />
 									<p>
 										Save Document set
 									</p>
-								</a>
+								</Link>
 								
 							</li>
 							<li className='nav-item'>
-								<a href='#' className='nav-link'>
+								<Link to='/' className='nav-link'>
 									<i className='nav-icon fas fa-chart-pie' />
 									<p>
 										Export File
 									</p>
-								</a>
+								</Link>
 								
 							</li>
 							<li className='nav-item'>
-								<a href='#' className='nav-link'>
+								<Link to='/' className='nav-link'>
 									<i className='nav-icon fas fa-tree' />
 									<p>
 										Import File
 									</p>
-								</a>
+								</Link>
 							</li>
 							<li className='nav-item'>
-								<a href='#' className='nav-link'>
+								<Link to='/' className='nav-link'>
 									<i className='nav-icon fas fa-edit' />
 									<p>
 										Master Data
 										<i className='fas fa-angle-left right' />
 									</p>
-								</a>
+								</Link>
 								<ul className='nav nav-treeview'>
 									<li className='nav-item'>
-										<a href='pages/forms/general.html' className='nav-link'>
+										<Link to='/' className='nav-link'>
 											<i className='far fa-circle nav-icon' />
 											<p>Master User</p>
-										</a>
+										</Link>
 									</li>
 									<li className='nav-item'>
-										<a href='pages/forms/advanced.html' className='nav-link'>
+										<Link to='/' className='nav-link'>
 											<i className='far fa-circle nav-icon' />
 											<p>Master UserLevel</p>
-										</a>
+										</Link>
 									</li>
 									<li className='nav-item'>
-										<a href='pages/forms/editors.html' className='nav-link'>
+										<Link to='/' className='nav-link'>
 											<i className='far fa-circle nav-icon' />
 											<p>Master Department</p>
-										</a>
+										</Link>
 									</li>
 									<li className='nav-item'>
-										<a href='pages/forms/validation.html' className='nav-link'>
+										<Link to='/' className='nav-link'>
 											<i className='far fa-circle nav-icon' />
 											<p>Master Bank</p>
-										</a>
+										</Link>
 									</li>
 									<li className='nav-item'>
-										<a href='pages/forms/validation.html' className='nav-link'>
+										<Link to='/' className='nav-link'>
 											<i className='far fa-circle nav-icon' />
 											<p>Master Title</p>
-										</a>
+										</Link>
 									</li>
 								
 								</ul>
 							</li>
 							<li className='nav-item'>
-								<a href='#' className='nav-link'>
+								<Link to='/' className='nav-link'>
 									<i className='nav-icon fas fa-table' />
 									<p>
 										System Config
 									</p>
-								</a>
+								</Link>
 								
 							</li>
 							
@@ -127,6 +128,6 @@ export default function Sidebar() {
 				</div>
 				{/* /.sidebar */}
 			</aside>
-		</div>
+		</>
 	)
 }
