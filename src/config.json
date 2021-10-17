@@ -1,10 +1,21 @@
 {
     "MasterData":{
-      "getTitleUrl": "http://localhost:3000/api/getTitle/",
-      "LINE_MESSAGE_HEADER": {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer ngzLiVXA+gTsrTv7nQikkH2ZwJehhC2BUzDbiMJLiCckJ31GYoiIbIvjToe7w21cJQmMBry0P0wj7OvnqHb5LguCR7D5Fr8/+MokxuRZp5FDy/blsZHFn2tAVZ3WhFVdQTWxl1Hv7EcENwnpO6yONwdB04t89/1O/w1cDnyilFU="
-      },
-      "LINE_USER_ID":["U37d3a5f0191f7ccc298979b769971f24", "Ud96f2fe9128fd857fe2958227533a5be"]
+      "getTitleUrl": "http://localhost:3000/api/getTitle/"
+    },
+
+    "TestData": [{
+      "id": 1,
+      "title_name": "Mr.",
+      "name": "Rathapong",
+      "address": "1234",
+      "department": "Oper"
+    },
+    {
+      "id": 2,
+      "title_name": "Miss",
+      "name": "pumpo",
+      "address": "45678",
+      "department": "IT"
     }
+  ] 
 }

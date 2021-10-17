@@ -1,8 +1,7 @@
 import React, { useState } from "react"
 
-import PersonalInfo from "../formStep/Step1PersonalInfo"
-import ContactInfo from "../formStep/Step2ContactInfo"
-import LocationInfo from "../formStep/LocationInfo"
+import PersonalInfo from "./formStep/Step1PersonalInfo"
+import ContactInfo from "./formStep/Step2ContactInfo"
 
 export default function NewRequest() {
 	
@@ -21,9 +20,9 @@ export default function NewRequest() {
 	const [step, setStep] = useState(1)
 
 	const nextStep = () => {
-		if (step < 3) {
+		if (step < 2) {
 			setStep(step + 1)
-		} else if (step === 3) {
+		} else if (step === 2) {
 			console.log(values)
 		}
 	}
@@ -65,7 +64,6 @@ export default function NewRequest() {
 							{
 								1: <PersonalInfo handleChange={handleChange} />,
 								2: <ContactInfo handleChange={handleChange} />,
-								3: <LocationInfo handleChange={handleChange} />,
 							}[step]
 						}
 						<div className='d-flex justify-content-around px-1'>
@@ -75,12 +73,13 @@ export default function NewRequest() {
 								</button>
 							) : null}
 							<button className='btn btn-lg btn-info px-4' onClick={nextStep}>
-								{step === 3 ? "Submit" : "Next"}
+								{step === 2 ? "Submit" : "Next"}
 							</button>
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</>
 	)
 }

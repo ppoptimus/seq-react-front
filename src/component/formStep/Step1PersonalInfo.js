@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import systemConfig from "../config.json"
+import systemConfig from "../../config.json"
 import axios from "axios"
 
 export default function PersonalInfo({ handleChange }) {
@@ -10,15 +10,15 @@ export default function PersonalInfo({ handleChange }) {
 		headers: {},
 	}
 
-	useEffect(() => {
-		axios(config)
-			.then(function (response) {
-				setTitleItems(response.data)
-			})
-			.catch(function (error) {
-				console.log(error)
-			})
-	})
+	// useEffect(() => {
+	// 	axios(config)
+	// 		.then(function (response) {
+	// 			setTitleItems(response.data)
+	// 		})
+	// 		.catch(function (error) {
+	// 			console.log(error)
+	// 		})
+	// })
 
 	return (
 		<>
