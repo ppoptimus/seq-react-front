@@ -14,13 +14,13 @@ export default function Navbar() {
             </span>
           </li>
           <li className='nav-item d-none d-sm-inline-block'>
-            <Link to='/NewRequest' className='nav-link'>
+            <Link to='/SaveNewRequest' className='nav-link'>
               บันทึกรายการใหม่
             </Link>
           </li>
           <li className='nav-item d-none d-sm-inline-block'>
             <Link to='/GetNewRequest' className='nav-link'>
-              ตรวจสอบรายการใหม่{' '}
+              ตรวจสอบรายการใหม่
               <span className='right badge badge-danger'>New</span>
             </Link>
           </li>

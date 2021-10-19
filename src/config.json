@@ -1,6 +1,10 @@
 {
     "MasterData":{
-      "getTitleUrl": "http://localhost:3000/api/getTitle/"
+      "getTitleUrl": "http://localhost:3000/api/",
+      "headersList" : {
+        "Accept": "*/*",
+        "Content-Type": "application/json" 
+       }
     },
 
     "TestData": [{

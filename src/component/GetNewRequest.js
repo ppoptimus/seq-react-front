@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import axios from "axios";
 import Data from '../config.json'
 
-export default function GetNewRequest() {
+export default function GetNewRequest(prop) {
   const [data, setData] = useState([])
   const [id, setId] = useState(null)
   const [titleName, setTitleName] = useState(null)
