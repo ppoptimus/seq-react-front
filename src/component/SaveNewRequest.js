@@ -5,8 +5,16 @@ import PersonalInfo2 from "./formStep/Step1PersonalInfo2"
 import ContactInfo from "./formStep/Step2ContactInfo"
 
 export default function NewRequest() {
-	const [isPerson, setIsPerson] = useState(true)
+	const [userDetail, setUserDetail] = useState(() => {
+		const userData = localStorage.getItem("userDetail")
+		if (userData) {
+			return JSON.parse(userData)
+		} else {
+			return null
+		}
+	})
 
+	const [isPerson, setIsPerson] = useState(true)
 	const [values, setValues] = useState({
 		document_no: null,
 		document_date: null,
@@ -21,8 +29,8 @@ export default function NewRequest() {
 		birth_date: null,
 		address: null,
 		remark: null,
-		department_code: null,
-		create_by: null,
+		department_code: userDetail.department_code,
+		create_by: userDetail.department_code,
 		ip_address: null,
 		is_confirm: 0,
 	})

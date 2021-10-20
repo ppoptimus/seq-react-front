@@ -44,26 +44,26 @@ export default function Sidebar() {
               <li className='nav-item'>
                 <Link to='/' className='nav-link'>
                   <i className='nav-icon fas fa-paste' />
-                  <p>Save Document set</p>
+                  <p>บันทึกเลขชุดเอกสาร</p>
                 </Link>
               </li>
               <li className='nav-item'>
                 <Link to='/' className='nav-link'>
                   <i className='nav-icon fas fa-file-export' />
-                  <p>Export File</p>
+                  <p>ส่งออกไฟล์</p>
                 </Link>
               </li>
               <li className='nav-item'>
                 <Link to='/' className='nav-link'>
                   <i className='nav-icon fas fa-cloud-upload-alt' />
-                  <p>Import File</p>
+                  <p>นำเข้าไฟล์</p>
                 </Link>
               </li>
               <li className='nav-item'>
                 <Link to='/' className='nav-link'>
                   {/* <i className='nav-icon fas fa-angle-right' /> */}
                   <p>
-                    Master Data
+                    ข้อมูลหลัก
                     <i className='fas fa-angle-left right' />
                   </p>
                 </Link>
@@ -71,31 +71,31 @@ export default function Sidebar() {
                   <li className='nav-item'>
                     <Link to='/' className='nav-link'>
                       <i className='fas fa-user-edit nav-icon' />
-                      <p>Master User</p>
+                      <p>ข้อมูลผู้ใช้งานระบบ</p>
                     </Link>
                   </li>
                   <li className='nav-item'>
                     <Link to='/' className='nav-link'>
                       <i className='fas fa-user-shield nav-icon' />
-                      <p>Master UserLevel</p>
+                      <p>ข้อมูลระดับผู้ใช้งาน</p>
                     </Link>
                   </li>
                   <li className='nav-item'>
                     <Link to='/' className='nav-link'>
                       <i className='fas fa-flag nav-icon' />
-                      <p>Master Department</p>
+                      <p>ข้อมูลแผนก/สาขา</p>
                     </Link>
                   </li>
                   <li className='nav-item'>
                     <Link to='/' className='nav-link'>
                       <i className='fas fa-building nav-icon' />
-                      <p>Master Bank</p>
+                      <p>ข้อมูลธนาคาร</p>
                     </Link>
                   </li>
                   <li className='nav-item'>
                     <Link to='/' className='nav-link'>
                       <i className='fas fa-heading nav-icon' />
-                      <p>Master Title</p>
+                      <p>ข้อมูลคำนำหน้าชื่อ</p>
                     </Link>
                   </li>
                 </ul>
@@ -103,7 +103,7 @@ export default function Sidebar() {
               <li className='nav-item'>
                 <Link to='/' className='nav-link'>
                   <i className='nav-icon fas fa-cog' />
-                  <p>System Config</p>
+                  <p>ตั้งค่าระบบ</p>
                 </Link>
               </li>
             </ul>

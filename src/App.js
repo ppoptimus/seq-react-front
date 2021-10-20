@@ -1,7 +1,7 @@
-import React from "react"
+import React, {useState} from "react"
 import { Suspense, lazy } from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
-import Test from "./Test"
+import Login from "./component/Login"
 
 const Navbar = lazy(() => import("./menu/Navbar"))
 const Sidebar = lazy(() => import("./menu/Sidebar"))
@@ -12,10 +12,19 @@ const SaveNewRequest = lazy(() => import("./component/SaveNewRequest"))
 const GetNewRequest = lazy(() => import("./component/GetNewRequest"))
 
 function App() {
+	const [userDetail, setUserDetail] = useState(() => {
+    const userData = localStorage.getItem('userDetail')
+    if(userData) {
+      return JSON.parse(userData);
+    }
+    else{
+      return null;
+    }
+  })
 	return (
 		<>
 			<Router>
-				<Suspense fallback={<div>Loading...</div>}>
+				{userDetail ? (<Suspense fallback={<div>Loading...</div>}>
 					<Navbar />
 					<Sidebar />
 					<div className='content-wrapper p-3'>
@@ -25,10 +34,10 @@ function App() {
 							<Route exact path='/SaveNewRequest' component={SaveNewRequest} />
 							<Route exact path='/GetNewRequest' component={GetNewRequest} />
 						</Switch>
-						<Test/>
 						<Footer />
 					</div>
-				</Suspense>
+				</Suspense>) : (<Login/>)}
+				
 			</Router>
 		</>
 	)

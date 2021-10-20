@@ -30,6 +30,7 @@ export default function PersonalInfo({ handleChange }) {
 
 				<div className='form-group'>
 					<select className='form-control form-control-lg' onChange={handleChange("is_foreigner")}>
+					<option value={0}>กรุณาเลือก</option>
 						<option value={0}>บุคคลธรรมดาในประเทศ</option>
 						<option value={1}>บุคคลธรรมดาต่างประเทศ</option>
 					</select>
