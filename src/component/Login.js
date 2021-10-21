@@ -29,20 +29,27 @@ export default function Login() {
 		localStorage.setItem("userDetail", JSON.stringify(userDetail))
 	}, [userDetail])
 
-	const onFormSubmit = (e) => {
+	const onSubmitLogin = (e) => {
+	
 		axios(config)
 			.then(function (response) {
+
 				setUserDetail(response.data)
+				refreshPage()
 			})
 			.catch(function (error) {
 				console.log(error)
 			})
 	}
 
+	function refreshPage() {
+    window.location.reload(false);
+  }
+
 	return (
 		<div className='body vh-100'>
 			<div className='container px-4 py-5 mx-auto'>
-				<div className='card card0' style={{ background: "center" }}>
+				<div className=' card0' style={{ background: "center"}}>
 					<div className='d-flex flex-lg-row flex-column-reverse'>
 						<div className='card card1'>
 							<div className='row justify-content-center my-auto'>
@@ -51,11 +58,11 @@ export default function Login() {
 										<img id='logo' src='dist/img/logo.png' />
 									</div>
 									<h3 className='mb-5 text-center heading'>SEQUESTER</h3>
-									<form onSubmit={onFormSubmit}>
+									<form>
 										<div className='form-group'>
 											<input
 												type='text'
-												name='email'
+												name='user_name'
 												placeholder='ชื่อผู้ใช้'
 												className='form-control input'
 												onChange={(e) => setUserName(e.target.value)}
@@ -73,7 +80,7 @@ export default function Login() {
 											/>
 										</div>
 										<div className='row justify-content-center my-3 px-3'>
-											<button className='btn-block btn-color' type='submit' value='Submit'>
+											<button className='btn-block btn-color' type='button' onClick={onSubmitLogin}>
 												เข้าระบบ
 											</button>
 										</div>

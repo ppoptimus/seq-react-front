@@ -1,9 +1,9 @@
 import React, { useState } from "react"
-// import useHistory from 're'
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 
 export default function Navbar() {
 	
+	let history = useHistory()
 	const [userDetail, setUserDetail] = useState(() => {
 		const userData = localStorage.getItem("userDetail")
 		if (userData) {
@@ -15,7 +15,7 @@ export default function Navbar() {
 	
   const onLogoutClick = (e) => {
     localStorage.removeItem('userDetail')
-		// let history = useHistory()
+		history.push('/')
     refreshPage()
   }
 

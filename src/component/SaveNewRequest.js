@@ -5,17 +5,21 @@ import PersonalInfo2 from "./formStep/Step1PersonalInfo2"
 import ContactInfo from "./formStep/Step2ContactInfo"
 
 export default function NewRequest() {
+	const [isAdmin, setIsAdmin] = useState(null)
+	const [isRemarkCheck, setIsRemarkCheck] = useState(false)
+	const [isPerson, setIsPerson] = useState(true)
 	const [userDetail, setUserDetail] = useState(() => {
 		const userData = localStorage.getItem("userDetail")
 		if (userData) {
+			setIsAdmin(JSON.parse(userData).userlevel_id === "3" ? false : true)
+
 			return JSON.parse(userData)
 		} else {
 			return null
 		}
 	})
 
-	const [isPerson, setIsPerson] = useState(true)
-	const [values, setValues] = useState({
+	const [newRequestValue, setNewRequestValue] = useState({
 		document_no: null,
 		document_date: null,
 		employer_account: null,
@@ -40,7 +44,7 @@ export default function NewRequest() {
 		if (step < 2) {
 			setStep(step + 1)
 		} else if (step === 2) {
-			console.log(values)
+			console.log(newRequestValue)
 		}
 	}
 
@@ -53,16 +57,19 @@ export default function NewRequest() {
 	const handleChange = (name) => (e) => {
 		if (name === "birth_date" || name === "document_date") {
 			e = formatDate(e)
-			setValues({ ...values, [name]: e })
+			setNewRequestValue({ ...newRequestValue, [name]: e })
 		} else {
 			if (name === "personal_type") {
 				setIsPerson(e.target.value === "1" ? true : false)
 			}
-			setValues({ ...values, [name]: e.target.value })
+			setNewRequestValue({ ...newRequestValue, [name]: e.target.value })
 		}
-		console.log(isPerson)
 	}
 
+	const handleCheckBoxChange = (e) => {
+		setIsRemarkCheck(e.target.checked)
+	}
+	console.log(isRemarkCheck)
 	return (
 		<>
 			<div className='bg-light vh-100'>
@@ -85,7 +92,7 @@ export default function NewRequest() {
 								onChange={handleChange("employer_account")}></input>
 						</div>
 						<div className='form-group ml-1'>
-							<select className='form-control form-control-lg' onChange={(handleChange("personal_type"))}>
+							<select className='form-control form-control-lg' onChange={handleChange("personal_type")}>
 								{/* <option className='text-bold'>เลือกประเภทบุคคล</option> */}
 								<option value={1}>บุคคลธรรมดา</option>
 								<option value={2}>นิติบุคคล</option>
@@ -115,15 +122,19 @@ export default function NewRequest() {
 						</div>
 					</div>
 
-					{/* <div className='card p-3 w-75 mt-3'>
-						<div className='form-check'>
-							<input type='checkbox' className='form-check-input' id='exampleCheck1' />
-							<label className='form-check-label' htmlFor='exampleCheck1'>
-								Check me out
-							</label>
+					{isAdmin ? (
+						<div className='card p-3 w-75 mt-3'>
+							<div className='icheck-primary d-inline'>
+								<input type='checkbox' id='checkboxPrimary2' onChange={handleCheckBoxChange} />
+								<label htmlFor='checkboxPrimary2'>ข้อมูลไม่สมบูรณ์</label>
+							</div>
+							{isRemarkCheck? (
+								<textarea className='form-control' rows={2} placeholder='หมายเหตุ' onChange={handleChange("remark")}></textarea>
+							):''}
 						</div>
-					</div> */}
-
+					) : (
+						""
+					)}
 				</div>
 			</div>
 		</>
