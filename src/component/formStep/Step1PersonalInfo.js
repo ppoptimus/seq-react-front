@@ -1,11 +1,26 @@
 import React, { useEffect, useState } from "react"
-import systemConfig from "../../config.json"
-import axios from "axios"
 import DatePicker from "react-datepicker"
+import axios from "axios"
+import systemConfig from "../../config.json"
 import "react-datepicker/dist/react-datepicker.css"
 
 export default function PersonalInfo({ handleChange }) {
 	const [birthDate, setBirthDate] = useState(null)
+
+	const months = [
+    "มกราคม",
+    "กุมภาพันธ์",
+    "มีนาคม",
+    "เมษายน",
+    "พฤษภาคม",
+    "มิถุนายน",
+    "กรกฎาคม",
+    "สิงหาคม",
+    "กันยายน",
+    "ตุลาคม",
+    "พฤศจิกายน",
+    "ธันวาคม",
+  ];
 	const [titleItem, setTitleItems] = useState([])
 	const config = {
 		method: "get",
@@ -70,6 +85,10 @@ export default function PersonalInfo({ handleChange }) {
 						dateFormat='dd/MM/yyyy'
 						locale='en-GB'
 						placeholderText='วันเกิด'
+						dropdownMode="select"
+						peekNextMonth
+      showMonthDropdown = {months}
+      showYearDropdown
 					/>
 				</div>
 			</div>

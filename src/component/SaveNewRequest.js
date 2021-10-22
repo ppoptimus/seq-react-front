@@ -1,13 +1,18 @@
 import React, { useState } from "react"
-
+import { confirmAlert } from "react-confirm-alert"
+import "react-confirm-alert/src/react-confirm-alert.css"
+import axios from "axios"
+import systemConfig from "../config.json"
 import PersonalInfo from "./formStep/Step1PersonalInfo"
 import PersonalInfo2 from "./formStep/Step1PersonalInfo2"
 import ContactInfo from "./formStep/Step2ContactInfo"
+import { BrowserRouter as Router, Link } from "react-router-dom"
 
 export default function NewRequest() {
 	const [isAdmin, setIsAdmin] = useState(null)
 	const [isRemarkCheck, setIsRemarkCheck] = useState(false)
 	const [isPerson, setIsPerson] = useState(true)
+
 	const [userDetail, setUserDetail] = useState(() => {
 		const userData = localStorage.getItem("userDetail")
 		if (userData) {
@@ -21,7 +26,7 @@ export default function NewRequest() {
 
 	const [newRequestValue, setNewRequestValue] = useState({
 		document_no: null,
-		document_date: null,
+		document_date: formatDate(new Date()),
 		employer_account: null,
 		refference_id: null,
 		personal_type: "1",
@@ -34,7 +39,7 @@ export default function NewRequest() {
 		address: null,
 		remark: null,
 		department_code: userDetail.department_code,
-		create_by: userDetail.department_code,
+		create_by: userDetail.username,
 		ip_address: null,
 		is_confirm: 0,
 	})
@@ -44,7 +49,7 @@ export default function NewRequest() {
 		if (step < 2) {
 			setStep(step + 1)
 		} else if (step === 2) {
-			console.log(newRequestValue)
+			postNewRequest()
 		}
 	}
 
@@ -69,11 +74,76 @@ export default function NewRequest() {
 	const handleCheckBoxChange = (e) => {
 		setIsRemarkCheck(e.target.checked)
 	}
-	console.log(isRemarkCheck)
+
+	const postNewRequest = () => {
+		let reqOptions = {
+			url: `${systemConfig.MasterData.getTitleUrl}saveNewRequest`,
+			method: "POST",
+			headers: systemConfig.MasterData.headersList,
+			data: newRequestValue,
+		}
+
+		axios
+			.request(reqOptions)
+			.then((res) => {
+				console.log(res.data)
+				if (res.data.result === "Success") {
+					confirmAlert({
+						title: "ผลการบันทึก",
+						message: "บันทึกสำเร็จ",
+						buttons: [
+							{
+								label: (
+									<Router>
+										<Link to='/GetNewRequest'>ตกลง</Link>
+									</Router>
+								),
+								onClick: () => refreshPage(),
+							},
+						],
+					})
+				}
+
+				if (res.data.result === "exists") {
+					confirmAlert({
+						title: "ผลการบันทึก",
+						message: "รายการนี้เคยมีการบันทึกไปแล้ว คุณต้องการบันทึกซ้ำหรือไม่",
+						buttons: [
+							{
+								label: "บันทึกซ้ำ",
+								onClick: () => {
+									newRequestValue.is_confirm = 1
+									postNewRequest()
+								},
+							},
+							{
+								label: "ไม่บันทึก",
+							},
+						],
+					})
+				}
+			})
+			.catch((err) => {
+				console.log(err)
+				confirmAlert({
+					title: "ผลการบันทึก",
+					message: "บันทึกไม่สำเร็จ \n" + err,
+					buttons: [
+						{
+							label: "Ok",
+						},
+					],
+				})
+			})
+	}
+
 	return (
 		<>
-			<div className='bg-light vh-100'>
+			<div className='bg-light'>
 				<div className='container justify-content-center align-items-center'>
+					<div className='form-group ml-1'>
+						<p className='h5'>วันที่ทำเอกสาร : {getShowDateFormat()} </p>
+					</div>
 					<div className='form-row align-items-center mt-3'>
 						<div className='form-group ml-1'>
 							<input
@@ -117,7 +187,7 @@ export default function NewRequest() {
 								</button>
 							) : null}
 							<button className='btn btn-lg btn-info px-4' onClick={nextStep}>
-								{step === 2 ? "Submit" : "ถัดไป"}
+								{step === 2 ? "บันทึก" : "ถัดไป"}
 							</button>
 						</div>
 					</div>
@@ -128,9 +198,7 @@ export default function NewRequest() {
 								<input type='checkbox' id='checkboxPrimary2' onChange={handleCheckBoxChange} />
 								<label htmlFor='checkboxPrimary2'>ข้อมูลไม่สมบูรณ์</label>
 							</div>
-							{isRemarkCheck? (
-								<textarea className='form-control' rows={2} placeholder='หมายเหตุ' onChange={handleChange("remark")}></textarea>
-							):''}
+							{isRemarkCheck ? <textarea className='form-control' rows={2} placeholder='หมายเหตุ' onChange={handleChange("remark")}></textarea> : ""}
 						</div>
 					) : (
 						""
@@ -149,4 +217,31 @@ const formatDate = (e) => {
 	e = dd + "/" + mm + "/" + yyyy
 
 	return e
+}
+
+const getShowDateFormat = () => {
+	let dateNow = new Date()
+	let date = dateNow.getDate()
+	let month = dateNow.getMonth()
+	let year = dateNow.getFullYear() + 543
+	let monthNames = [
+		"มกราคม",
+		"กุมภาพันธ์",
+		"มีนาคม",
+		"เมษายน",
+		"พฤษภาคม",
+		"มิถุนายน",
+		"กรกฎาคม",
+		"สิงหาคม",
+		"กันยายน",
+		"ตุลาคม",
+		"พฤศจิกายน",
+		"ธันวาคม",
+	]
+
+	return date + " " + monthNames[month] + " " + year
+}
+
+function refreshPage() {
+	window.location.reload(false)
 }

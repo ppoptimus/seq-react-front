@@ -60,13 +60,12 @@ export default function Sidebar() {
                 </Link>
               </li>
               <li className='nav-item'>
-                <Link to='/' className='nav-link'>
-                  {/* <i className='nav-icon fas fa-angle-right' /> */}
+                <span className='nav-link'>
                   <p>
                     ข้อมูลหลัก
                     <i className='fas fa-angle-left right' />
                   </p>
-                </Link>
+                </span>
                 <ul className='nav nav-treeview ml-4'>
                   <li className='nav-item'>
                     <Link to='/' className='nav-link'>

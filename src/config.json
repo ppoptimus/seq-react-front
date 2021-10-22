@@ -5,21 +5,6 @@
         "Accept": "*/*",
         "Content-Type": "application/json" 
        }
-    },
-
-    "TestData": [{
-      "id": 1,
-      "title_name": "Mr.",
-      "name": "Rathapong",
-      "address": "1234",
-      "department": "Oper"
-    },
-    {
-      "id": 2,
-      "title_name": "Miss",
-      "name": "pumpo",
-      "address": "45678",
-      "department": "IT"
     }
-  ] 
+
 }

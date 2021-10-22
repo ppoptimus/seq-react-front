@@ -57,32 +57,32 @@ export default function Navbar() {
 						<a className='nav-link' data-toggle='dropdown' href='#'>
 							<i className='fas fa-user' />
 						</a>
-						<div className='dropdown-menu dropdown-menu-lg dropdown-menu-right'>
+						<div className='dropdown-menu dropdown-menu-lg dropdown-menu-right p-2'>
 							<span className='dropdown-item dropdown-header'>ข้อมูลผู้ใช้งาน</span>
 							<div className='dropdown-divider' />
 							<span className='dropdown-item'>
 								<i className='fas fa-user mr-2' />
-								ชื่อผู้ใช้ : {userDetail.username}
+								ชื่อผู้ใช้ : <b>{userDetail.username}</b>
 							</span>
 							<div className='dropdown-divider' />
 							<span className='dropdown-item'>
 								<i className='fas fa-flag mr-2' />
-								รหัสสาขา : {userDetail.department_code}
+								รหัสสาขา : <b>{userDetail.department_code}</b>
 							</span>
 							<div className='dropdown-divider' />
 							<span className='dropdown-item'>
 								<i className='fas fa-shield-alt mr-2' />
-								ระดับการเข้าถึง : {userDetail.user_level_name}
+								ระดับการเข้าถึง : <b>{userDetail.user_level_name}</b>
 							</span>
               <div className='dropdown-divider' />
 							<span className='dropdown-item'>
 								<i className='fas fa-clipboard mr-2' />
-								ชื่อ-สกุล : {userDetail.first_name} {userDetail.last_name}
+								ชื่อ-สกุล : <b>{userDetail.first_name} {userDetail.last_name}</b>
 							</span>
               <div className='dropdown-divider' />
 							<span className='dropdown-item'>
 								<i className='fas fa-id-badge mr-2' />
-								บัตรประชาชน : {userDetail.personal_id}
+								บัตรประชาชน : <b>{userDetail.personal_id}</b>
 							</span>
 							<div className='dropdown-divider' />
 							<button className='dropdown-item dropdown-footer bg-danger' role='button' type='submit' onClick={onLogoutClick}>
