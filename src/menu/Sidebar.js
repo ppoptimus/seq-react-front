@@ -27,7 +27,7 @@ export default function Sidebar() {
           <nav className='mt-2'>
             <ul className='nav nav-pills nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>
               <li className='nav-item'>
-                <Link to='/' className='nav-link active'>
+                <Link to='/' className='nav-link bg-purple'>
                   <i className='nav-icon fas fa-table' />
                   <p>หน้าหลัก</p>
                 </Link>
