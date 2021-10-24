@@ -3,28 +3,47 @@ import axios from "axios"
 import systemConfig from "../config.json"
 
 export default function GetNewRequest() {
+	useEffect(() => {
+		getAllNewRequest(null)
+		setIsReadOnly(isAdmin ? "disabled" : "")
+	}, [])
+
+	const [isReject, setIsReject] = useState(false)
+	const [isAdmin, setIsAdmin] = useState(null)
+	const [isReadOnly, setIsReadOnly] = useState("")
 	const [userDetail, setUserDetail] = useState(() => {
 		const userData = localStorage.getItem("userDetail")
 		if (userData) {
+			setIsAdmin(JSON.parse(userData).userlevel_id === "3" ? false : true)
 			return JSON.parse(userData)
 		} else {
 			return null
 		}
 	})
 
+	const [titleItem, setTitleItems] = useState([])
 	const [allNewRequest, setAllNewRequest] = useState([])
 	const [newRequestById, setNewRequestById] = useState([])
-	const [titleItem, setTitleItems] = useState([])
+	const [submitEditData, setSubmitEditData] = useState({
+		request_detail_id: null,
+		document_no: null,
+		document_date: null,
+		employer_account: null,
+		refference_id: null,
+		title_code: null,
+		first_name: null,
+		last_name: null,
+		company_name: null,
+		birth_date: null,
+		address: null,
+		remark: null,
+		user_name: userDetail.username,
+	})
 
-	useEffect(() => {
-		getAllNewRequest(null)
-	}, [])
-
-const onGetFormEdit = async (id) => {
-	await getNewRequestById(id)
-	await getTitle()
-	
-}
+	const onGetFormEdit = async (id) => {
+		await getNewRequestById(id)
+		await getTitle()
+	}
 
 	const getAllNewRequest = () => {
 		let reqOptions = {
@@ -66,9 +85,24 @@ const onGetFormEdit = async (id) => {
 			.request(reqOptions)
 			.then((res) => {
 				setNewRequestById(res.data[0])
+				submitEditData.request_detail_id = id
+				submitEditData.document_no = res.data[0].document_no
+				submitEditData.document_date = res.data[0].document_date
+				submitEditData.employer_account = res.data[0].employer_account
+				submitEditData.refference_id = res.data[0].refference_id
+				submitEditData.title_code = res.data[0].title_code
+				submitEditData.first_name = res.data[0].first_name
+				submitEditData.last_name = res.data[0].last_name
+				submitEditData.company_name = res.data[0].company_name
+				submitEditData.birth_date = res.data[0].birth_date
+				submitEditData.address = res.data[0].address
+				submitEditData.remark = res.data[0].remark
 			})
 			.catch((err) => {
 				console.log(err)
+			})
+			.finally(() => {
+				console.log(submitEditData)
 			})
 	}
 
@@ -86,6 +120,18 @@ const onGetFormEdit = async (id) => {
 			.catch(function (error) {
 				console.log(error)
 			})
+	}
+
+	const handleChange = (name) => (e) => {
+		setNewRequestById({ ...newRequestById, [name]: e.target.value })
+		setSubmitEditData({ ...submitEditData, [name]: e.target.value })
+	}
+	const onCheckboxChange = (e) => {
+		setIsReject(e.target.checked)
+	}
+	const onSubmitEdit = () => {
+		console.log(submitEditData)
+		console.log(isReject)
 	}
 
 	return (
@@ -131,106 +177,135 @@ const onGetFormEdit = async (id) => {
 					))}
 				</tbody>
 			</table>
-			<div
-				className='modal fade'
-				id='popupEdit'
-				data-backdrop='static'
-				data-keyboard='false'
-				tabIndex={-1}
-				aria-labelledby='popupEditLabel'
-				aria-hidden='true'>
-				<div className='modal-dialog' style={{maxWidth:'750px'}}>
-					<div className='modal-content'>
-						<div className='modal-header'>
-							<h5 className='modal-title' id='popupEditLabel'>
-								แก้ไขรายการใหม่
-							</h5>
-						</div>
 
-						<form className='container justify-content-center align-items-center bg-light p-4'>
-							<div className='row mb-4'>
-								<div className='col-4'>
-									<label className='form-label'>เลขที่หนังสือ</label>
-									<input type='text' className='form-control' value={newRequestById.document_no} />
-								</div>
-								<div className='col-4'>
-									<label className='form-label'>วันที่หนังสือ</label>
-									<input type='text' className='form-control' value={newRequestById.document_date}/>
-								</div>
-								<div className='col-4'>
-									<label className='form-label'>เลขที่บัญชีนายจ้าง</label>
-									<input type='text' className='form-control' value={newRequestById.employer_account}/>
-								</div>
-							</div>
-							<div className='row mb-4'>
-
-								<div className='col-6'>
-									<label className='form-label'>ประเภทบุคคล</label>
-									<select className='form-control' value={newRequestById.personal_type}>
-										<option value={1}>บุคคลธรรมดา</option>
-										<option value={2}>นิติบุคคล</option>
-									</select>
-								</div>
-						
-								<div className='col-6'>
-									<label className='form-label'>คำนำหน้าชื่อ</label>
-									<select className='form-control'>
-										<option>{newRequestById.title_name}</option>
-										{titleItem.map((item) => (
-											<option key={item.title_code} value={item.title_code}>
-												{item.title_name}
-											</option>
-										))}
-									</select>
-								</div>
-							</div>
-							<div className='row mb-4'>
-
-							<div className='col-6'>
-								<label className='form-label'>ชื่อ</label>
-								<input type='text' className='form-control' value={newRequestById.first_name} />
-							</div>
-							<div className='col-6'>
-								<label className='form-label'>นามสกุล</label>
-								<input type='text' className='form-control' value={newRequestById.last_name} />
-							</div>
+			{!!newRequestById ? (
+				<div
+					className='modal fade'
+					id='popupEdit'
+					data-backdrop='static'
+					data-keyboard='false'
+					tabIndex={-1}
+					aria-labelledby='popupEditLabel'
+					aria-hidden='true'>
+					<div className='modal-dialog' style={{ maxWidth: "750px" }}>
+						<div className='modal-content'>
+							<div className='modal-header'>
+								<h5 className='modal-title' id='popupEditLabel'>
+									แก้ไขรายการใหม่
+								</h5>
 							</div>
 
-							<div className='row mb-4'>
-								<div className='col-6'>
-									<label className='form-label'>เลขที่บัตรประชาชน</label>
-									<input type='text' className='form-control' value={newRequestById.refference_id} />
-								</div>
-								<div className='col-6'>
-									<label className='form-label'>วัน/เดือน/ปี เกิด</label>
-									<input type='text' className='form-control' />
-								</div>
-							</div>
-							<div className='row mb-4'>
-							<label className='form-label'>ที่อยู่</label>
-									<textarea type='text' className='form-control' value={newRequestById.personal_type} />
-							</div>
+							<form className='justify-content-center align-items-center bg-light p-4 disabled'>
+								<fieldset disabled={isReadOnly}>
+									<div className='row mb-4'>
+										<div className='col-4'>
+											<label className='form-label'>เลขที่หนังสือ</label>
+											<input type='text' className='form-control' value={newRequestById.document_no} onChange={handleChange("document_no")} />
+										</div>
+										<div className='col-4'>
+											<label className='form-label'>วันที่หนังสือ</label>
+											<input type='text' className='form-control' value={newRequestById.document_date} onChange={handleChange("document_date")} />
+										</div>
+										<div className='col-4'>
+											<label className='form-label'>เลขที่บัญชีนายจ้าง</label>
+											<input
+												type='text'
+												className='form-control'
+												value={newRequestById.employer_account}
+												onChange={handleChange("employer_account")}
+											/>
+										</div>
+									</div>
+									<div className='row mb-4'>
+										<div className='col-6'>
+											<label className='form-label'>ประเภทบุคคล</label>
+											<select className='form-control' value={newRequestById.personal_type} onChange={handleChange("personal_type")}>
+												<option value={1}>บุคคลธรรมดา</option>
+												<option value={2}>นิติบุคคล</option>
+											</select>
+										</div>
 
+										<div className='col-6'>
+											<label className='form-label'>คำนำหน้าชื่อ</label>
+											<select className='form-control' onChange={handleChange("title_code")}>
+												<option>{newRequestById.title_name}</option>
+												{titleItem.map((item) => (
+													<option key={item.title_code} value={item.title_code}>
+														{item.title_name}
+													</option>
+												))}
+											</select>
+										</div>
+									</div>
+									<div className='row mb-4'>
+										<div className='col-6'>
+											<label className='form-label'>ชื่อ</label>
+											<input type='text' className='form-control' value={newRequestById.first_name} onChange={handleChange("first_name")} />
+										</div>
+										<div className='col-6'>
+											<label className='form-label'>นามสกุล</label>
+											<input type='text' className='form-control' value={newRequestById.last_name} onChange={handleChange("last_name")} />
+										</div>
+									</div>
+
+									<div className='row mb-4'>
+										<div className='col-6'>
+											<label className='form-label'>เลขที่บัตรประชาชน</label>
+											<input type='text' className='form-control' value={newRequestById.refference_id} onChange={handleChange("refference_id")} />
+										</div>
+										<div className='col-6'>
+											<label className='form-label'>วัน/เดือน/ปี เกิด</label>
+											<input type='text' className='form-control' value={newRequestById.birth_date} onChange={handleChange("birth_date")} />
+										</div>
+									</div>
+									<div className='row mb-4'>
+										<label className='form-label'>ที่อยู่</label>
+										<textarea type='text' className='form-control' value={newRequestById.address} onChange={handleChange("address")} />
+									</div>
+								</fieldset>
+							</form>
 							<div className='card p-3 mt-3'>
-							<div className='icheck-primary d-inline'>
-								<input type='checkbox' id='checkboxPrimary2' />
-								<label htmlFor='checkboxPrimary2'>ข้อมูลไม่สมบูรณ์</label>
+								<div className='icheck-primary d-inline'>
+									<input type='checkbox' id='checkForReject' onChange={onCheckboxChange} />
+									<label htmlFor='checkForReject'>ข้อมูลไม่สมบูรณ์</label>
+								</div>
+								<textarea
+									className='form-control'
+									rows={2}
+									placeholder='หมายเหตุ'
+									value={newRequestById.remark}
+									onChange={handleChange("remark")}></textarea>
 							</div>
-							<textarea className='form-control' rows={2} placeholder='หมายเหตุ' value={newRequestById.personal_type}></textarea>
-						</div>
-						</form>
 
-						<div className='modal-footer'>
-							<button type='button' className='btn btn-secondary' data-dismiss='modal'>
-								ยกเลิกแก้ไข
-							</button>
-							<button type='button' className='btn btn-success'>
-								ยืนยันแก้ไข
-							</button>
+							<div className='modal-footer'>
+								<button type='button' className='btn btn-secondary' data-dismiss='modal'>
+									ยกเลิกแก้ไข
+								</button>
+								<button type='button' className='btn btn-success' onClick={onSubmitEdit}>
+									ยืนยันแก้ไข
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			) : (
+				""
+			)}
 		</>
 	)
+}
+
+const EditByAdmin = () => {
+	const config = {
+		method: "post",
+		url: `${systemConfig.MasterData.getTitleUrl}changeRequestStatus`,
+		headers: systemConfig.MasterData.headersList,
+		data: {
+			new_request_id: 'id',
+			status_id: 4,
+			remark: 'userDetail.username',
+			user_name: "",
+			ip_address: "",
+		},
+	}
 }
