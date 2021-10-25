@@ -36,6 +36,7 @@ export default function GetNewRequest() {
 		company_name: null,
 		birth_date: null,
 		address: null,
+		status_id: null,
 		remark: null,
 		user_name: userDetail.username,
 	})
@@ -96,14 +97,14 @@ export default function GetNewRequest() {
 				submitEditData.company_name = res.data[0].company_name
 				submitEditData.birth_date = res.data[0].birth_date
 				submitEditData.address = res.data[0].address
+				submitEditData.status_id = res.data[0].status_id
 				submitEditData.remark = res.data[0].remark
+				setIsReject(res.data[0].status_id === 4 ? true : false)
 			})
 			.catch((err) => {
 				console.log(err)
 			})
-			.finally(() => {
-				console.log(submitEditData)
-			})
+			
 	}
 
 	const getTitle = () => {
@@ -130,8 +131,52 @@ export default function GetNewRequest() {
 		setIsReject(e.target.checked)
 	}
 	const onSubmitEdit = () => {
+		if (userDetail.userlevel_id === "3") {
+			editByUser()
+		} else {
+			editByAdmin()
+		}
+	}
+
+	const editByUser = () => {
 		console.log(submitEditData)
-		console.log(isReject)
+		const config = {
+			method: "post",
+			url: `${systemConfig.MasterData.getTitleUrl}editNewRequest`,
+			headers: systemConfig.MasterData.headersList,
+			data: submitEditData,
+		}
+		axios(config)
+			.then(function (response) {
+				console.log(response.data)
+				refreshPage()
+			})
+			.catch(function (error) {
+				console.log(error)
+			})
+	}
+
+	const editByAdmin = () => {
+		const config = {
+			method: "post",
+			url: `${systemConfig.MasterData.getTitleUrl}changeRequestStatus`,
+			headers: systemConfig.MasterData.headersList,
+			data: {
+				new_request_id: submitEditData.request_detail_id,
+				status_id: 4,
+				remark: submitEditData.remark,
+				user_name: userDetail.username,
+				ip_address: "",
+			},
+		}
+		axios(config)
+			.then(function (response) {
+				console.log(response.data)
+				refreshPage()
+			})
+			.catch(function (error) {
+				console.log(error)
+			})
 	}
 
 	return (
@@ -219,9 +264,8 @@ export default function GetNewRequest() {
 									<div className='row mb-4'>
 										<div className='col-6'>
 											<label className='form-label'>ประเภทบุคคล</label>
-											<select className='form-control' value={newRequestById.personal_type} onChange={handleChange("personal_type")}>
-												<option value={1}>บุคคลธรรมดา</option>
-												<option value={2}>นิติบุคคล</option>
+											<select className='form-control' disabled>
+												<option>{newRequestById.personal_type_name}</option>
 											</select>
 										</div>
 
@@ -266,15 +310,16 @@ export default function GetNewRequest() {
 							</form>
 							<div className='card p-3 mt-3'>
 								<div className='icheck-primary d-inline'>
-									<input type='checkbox' id='checkForReject' onChange={onCheckboxChange} />
+									<input type='checkbox' id='checkForReject' onChange={onCheckboxChange} checked={isReject} />
 									<label htmlFor='checkForReject'>ข้อมูลไม่สมบูรณ์</label>
 								</div>
 								<textarea
+									type='text'
 									className='form-control'
-									rows={2}
 									placeholder='หมายเหตุ'
 									value={newRequestById.remark}
-									onChange={handleChange("remark")}></textarea>
+									onChange={handleChange("remark")}
+								/>
 							</div>
 
 							<div className='modal-footer'>
@@ -295,17 +340,6 @@ export default function GetNewRequest() {
 	)
 }
 
-const EditByAdmin = () => {
-	const config = {
-		method: "post",
-		url: `${systemConfig.MasterData.getTitleUrl}changeRequestStatus`,
-		headers: systemConfig.MasterData.headersList,
-		data: {
-			new_request_id: 'id',
-			status_id: 4,
-			remark: 'userDetail.username',
-			user_name: "",
-			ip_address: "",
-		},
-	}
+function refreshPage() {
+	window.location.reload(false)
 }
