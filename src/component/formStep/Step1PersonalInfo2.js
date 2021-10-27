@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import systemConfig from "../../config.json"
 import axios from "axios"
 
-export default function PersonalInfo2({ handleChange }) {
+export default function PersonalInfo2({ handleInputChange }) {
 	const [titleItem, setTitleItems] = useState([])
 	const config = {
 		method: "get",

@@ -10,7 +10,6 @@ import { BrowserRouter as Router, Link } from "react-router-dom"
 
 export default function NewRequest() {
 	const [isAdmin, setIsAdmin] = useState(null)
-	const [isRemarkCheck, setIsRemarkCheck] = useState(false)
 	const [isPerson, setIsPerson] = useState(true)
 
 	const [userDetail, setUserDetail] = useState(() => {
@@ -59,7 +58,7 @@ export default function NewRequest() {
 		}
 	}
 
-	const handleChange = (name) => (e) => {
+	const handleInputChange = (name) => (e) => {
 		if (name === "birth_date" || name === "document_date") {
 			e = formatDate(e)
 			setNewRequestValue({ ...newRequestValue, [name]: e })
@@ -69,10 +68,6 @@ export default function NewRequest() {
 			}
 			setNewRequestValue({ ...newRequestValue, [name]: e.target.value })
 		}
-	}
-
-	const handleCheckBoxChange = (e) => {
-		setIsRemarkCheck(e.target.checked)
 	}
 
 	const postNewRequest = () => {
@@ -87,7 +82,7 @@ export default function NewRequest() {
 			.request(reqOptions)
 			.then((res) => {
 				console.log(res.data)
-				if (res.data.result === "Success") {
+				if (res.data.status === 204) {
 					confirmAlert({
 						title: "ผลการบันทึก",
 						message: "บันทึกสำเร็จ",
@@ -151,7 +146,7 @@ export default function NewRequest() {
 								type='text'
 								maxLength={20}
 								placeholder='เลขที่หนังสือ'
-								onChange={handleChange("document_no")}></input>
+								onChange={handleInputChange("document_no")}></input>
 						</div>
 						<div className='form-group ml-1'>
 							<input
@@ -159,11 +154,10 @@ export default function NewRequest() {
 								type='text'
 								maxLength={10}
 								placeholder='เลขบัญชีนายจ้าง'
-								onChange={handleChange("employer_account")}></input>
+								onChange={handleInputChange("employer_account")}></input>
 						</div>
 						<div className='form-group ml-1'>
-							<select className='form-control form-control-lg' onChange={handleChange("personal_type")}>
-								{/* <option className='text-bold'>เลือกประเภทบุคคล</option> */}
+							<select className='form-control form-control-lg' onChange={handleInputChange("personal_type")}>
 								<option value={1}>บุคคลธรรมดา</option>
 								<option value={2}>นิติบุคคล</option>
 							</select>
@@ -173,12 +167,12 @@ export default function NewRequest() {
 					<div className='card p-3 w-75 mt-3'>
 						{isPerson
 							? {
-									1: <PersonalInfo handleChange={handleChange} />,
-									2: <ContactInfo handleChange={handleChange} />,
+									1: <PersonalInfo handleInputChange={handleInputChange} />,
+									2: <ContactInfo handleInputChange={handleInputChange} />,
 							  }[step]
 							: {
-									1: <PersonalInfo2 handleChange={handleChange} />,
-									2: <ContactInfo handleChange={handleChange} />,
+									1: <PersonalInfo2 handleInputChange={handleInputChange} />,
+									2: <ContactInfo handleInputChange={handleInputChange} />,
 							  }[step]}
 						<div className='d-flex justify-content-around px-1'>
 							{step > 1 ? (
@@ -191,18 +185,6 @@ export default function NewRequest() {
 							</button>
 						</div>
 					</div>
-
-					{isAdmin ? (
-						<div className='card p-3 w-75 mt-3'>
-							<div className='icheck-primary d-inline'>
-								<input type='checkbox' id='checkboxPrimary2' onChange={handleCheckBoxChange} />
-								<label htmlFor='checkboxPrimary2'>ข้อมูลไม่สมบูรณ์</label>
-							</div>
-							{isRemarkCheck ? <textarea className='form-control' rows={2} placeholder='หมายเหตุ' onChange={handleChange("remark")}></textarea> : ""}
-						</div>
-					) : (
-						""
-					)}
 				</div>
 			</div>
 		</>

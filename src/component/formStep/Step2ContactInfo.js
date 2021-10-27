@@ -1,6 +1,6 @@
 import React from "react"
 
-const ContactInfo = ({ handleChange }) => {
+const ContactInfo = ({ handleInputChange }) => {
 	return (
 		<div className='container'>
 			<form>
@@ -11,7 +11,7 @@ const ContactInfo = ({ handleChange }) => {
 						type='text'
 						maxLength={100}
 						placeholder='ที่อยู่'
-						onChange={handleChange("address")}></textarea>
+						onChange={handleInputChange("address")}></textarea>
 				</div>
 				<div className='form-group'>
 					<input
@@ -19,7 +19,7 @@ const ContactInfo = ({ handleChange }) => {
 						type='text'
 						maxLength={5}
 						placeholder='รหัสไปรษณีย์'
-						onChange={handleChange("zipcode")}></input>
+						onChange={handleInputChange("zipcode")}></input>
 				</div>
 			</form>
 		</div>

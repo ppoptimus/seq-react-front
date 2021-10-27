@@ -15,25 +15,26 @@ export default function Login() {
 		}
 	})
 
-	const config = {
-		method: "post",
-		url: `${systemConfig.MasterData.getTitleUrl}ldapLogin`,
-		headers: systemConfig.MasterData.headersList,
-		data: {
-			user_name: userName,
-			pwd: "xxx",
-		},
-	}
-
+	
 	useEffect(() => {
 		localStorage.setItem("userDetail", JSON.stringify(userDetail))
 	}, [userDetail])
-
+	
 	const onSubmitLogin = (e) => {
+		
+		const config = {
+			method: "post",
+			url: `${systemConfig.MasterData.getTitleUrl}ldapLogin`,
+			headers: systemConfig.MasterData.headersList,
+			data: {
+				user_name: userName,
+				pwd: "xxx",
+			},
+		}
 	
 		axios(config)
 			.then(function (response) {
-
+				console.log(response.data)
 				setUserDetail(response.data)
 				refreshPage()
 			})

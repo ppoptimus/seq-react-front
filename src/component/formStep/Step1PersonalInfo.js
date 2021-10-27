@@ -4,7 +4,7 @@ import axios from "axios"
 import systemConfig from "../../config.json"
 import "react-datepicker/dist/react-datepicker.css"
 
-export default function PersonalInfo({ handleChange }) {
+export default function PersonalInfo({ handleInputChange }) {
 	const [birthDate, setBirthDate] = useState(null)
 
 	const months = [
@@ -44,14 +44,14 @@ export default function PersonalInfo({ handleChange }) {
 			<div className='form-row align-items-center'>
 
 				<div className='form-group'>
-					<select className='form-control form-control-lg' onChange={handleChange("is_foreigner")}>
+					<select className='form-control form-control-lg' onChange={handleInputChange("is_foreigner")}>
 					<option value={0}>กรุณาเลือก</option>
 						<option value={0}>บุคคลธรรมดาในประเทศ</option>
 						<option value={1}>บุคคลธรรมดาต่างประเทศ</option>
 					</select>
 				</div>
 				<div className='form-group ml-2'>
-					<select className='form-control form-control-lg' onChange={handleChange("title_code")}>
+					<select className='form-control form-control-lg' onChange={handleInputChange("title_code")}>
 						<option>คำนำหน้าชื่อ</option>
 						{titleItem.map((item) => (
 							<option key={item.title_code} value={item.title_code}>
@@ -62,17 +62,17 @@ export default function PersonalInfo({ handleChange }) {
 				</div>
 			</div>
 				<div className='form-group'>
-					<input className='form-control form-control-lg' maxLength={50} type='text' onChange={handleChange("first_name")} placeholder='ชื่อ' />
+					<input className='form-control form-control-lg' maxLength={50} type='text' onChange={handleInputChange("first_name")} placeholder='ชื่อ' />
 				</div>
 				<div className='form-group'>
-					<input className='form-control form-control-lg' maxLength={50} type='text' onChange={handleChange("last_name")} placeholder='นามสกุล' />
+					<input className='form-control form-control-lg' maxLength={50} type='text' onChange={handleInputChange("last_name")} placeholder='นามสกุล' />
 				</div>
 				<div className='form-group'>
 					<input
 						className='form-control form-control-lg'
 						maxLength={13}
 						type='text'
-						onChange={handleChange("refference_id")}
+						onChange={handleInputChange("refference_id")}
 						placeholder='เลขที่บัตรประชาชน'
 					/>
 				</div>
@@ -80,7 +80,7 @@ export default function PersonalInfo({ handleChange }) {
 					<DatePicker
 						className='form-control form-control-lg w-50'
 						onChange={(e) => setBirthDate(e)}
-						onSelect={(new Date(), handleChange("birth_date"))}
+						onSelect={(new Date(), handleInputChange("birth_date"))}
 						selected={birthDate}
 						dateFormat='dd/MM/yyyy'
 						locale='en-GB'

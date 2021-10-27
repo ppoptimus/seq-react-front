@@ -334,7 +334,7 @@ export default function GetNewRequest() {
 					</div>
 				</div>
 			) : (
-				""
+				<p>Loading...</p>
 			)}
 		</>
 	)
