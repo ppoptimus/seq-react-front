@@ -4,14 +4,14 @@ import systemConfig from "../config.json"
 
 export default function GetNewRequest() {
 	useEffect(() => {
-		getAllNewRequest(null)
+		getAllNewRequest()
 		setIsReadOnly(isAdmin ? "disabled" : "")
 	}, [])
 
 	const [isReject, setIsReject] = useState(false)
 	const [isAdmin, setIsAdmin] = useState(null)
 	const [isReadOnly, setIsReadOnly] = useState("")
-	const [userDetail, setUserDetail] = useState(() => {
+	const [userDetail] = useState(() => {
 		const userData = localStorage.getItem("userDetail")
 		if (userData) {
 			setIsAdmin(JSON.parse(userData).userlevel_id === "3" ? false : true)

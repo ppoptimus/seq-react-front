@@ -9,14 +9,12 @@ import ContactInfo from "./formStep/Step2ContactInfo"
 import { BrowserRouter as Router, Link } from "react-router-dom"
 
 export default function NewRequest() {
-	const [isAdmin, setIsAdmin] = useState(null)
+
 	const [isPerson, setIsPerson] = useState(true)
 
-	const [userDetail, setUserDetail] = useState(() => {
+	const [userDetail] = useState(() => {
 		const userData = localStorage.getItem("userDetail")
 		if (userData) {
-			setIsAdmin(JSON.parse(userData).userlevel_id === "3" ? false : true)
-
 			return JSON.parse(userData)
 		} else {
 			return null
@@ -81,8 +79,8 @@ export default function NewRequest() {
 		axios
 			.request(reqOptions)
 			.then((res) => {
-				console.log(res.data)
-				if (res.data.status === 204) {
+				console.log(res.status)
+				if (res.status === 204) {
 					confirmAlert({
 						title: "ผลการบันทึก",
 						message: "บันทึกสำเร็จ",

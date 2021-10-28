@@ -43,14 +43,14 @@ export default function Sidebar() {
               </li>
               <li className='nav-item'>
                 <Link to='/' className='nav-link'>
-                  <i className='nav-icon fas fa-paste' />
-                  <p>บันทึกเลขชุดเอกสาร</p>
+                  <i className='nav-icon fas fa-file-export' />
+                  <p>ส่งออกไฟล์</p>
                 </Link>
               </li>
               <li className='nav-item'>
                 <Link to='/' className='nav-link'>
-                  <i className='nav-icon fas fa-file-export' />
-                  <p>ส่งออกไฟล์</p>
+                  <i className='nav-icon fas fa-paste' />
+                  <p>บันทึกเลขชุดเอกสาร</p>
                 </Link>
               </li>
               <li className='nav-item'>

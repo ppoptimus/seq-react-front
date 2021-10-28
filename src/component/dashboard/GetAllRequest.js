@@ -35,18 +35,11 @@ export default function GetAllRequest(userDetail) {
     setNewRequestCount(res.data.length)
   }
 
-	useEffect(async() => {
-		// axios(config)
-		// 	.then(function (res) {
-		// 		setAllRequest(res.data)
-		// 		setAllRequestCount(res.data.length)
-		// 	})
-		// 	.catch(function (error) {
-		// 		console.log(error)
-		// 	})
-    await fetchData()
-    await fetchDataNewRequest();
+	useEffect(() => {
+    fetchData()
+    fetchDataNewRequest();
 	}, [])
+	
 	return (
 		<>
 			<div className='row'>

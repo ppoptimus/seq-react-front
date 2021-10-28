@@ -56,7 +56,7 @@ export default function Login() {
 							<div className='row justify-content-center my-auto'>
 								<div className='col-md-8 col-10 my-5'>
 									<div className='row justify-content-center px-3 mb-3'>
-										<img id='logo' src='dist/img/logo.png' />
+										<img id='logo' src='dist/img/logo.png' alt='sequester' />
 									</div>
 									<h3 className='mb-5 text-center heading'>SEQUESTER</h3>
 									<form>

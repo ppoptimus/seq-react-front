@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom"
 export default function Navbar() {
 	
 	let history = useHistory()
-	const [userDetail, setUserDetail] = useState(() => {
+	const [userDetail] = useState(() => {
 		const userData = localStorage.getItem("userDetail")
 		if (userData) {
 			return JSON.parse(userData)
@@ -24,7 +24,7 @@ export default function Navbar() {
   }
 
 	return (
-		<div>
+		<>
 			<nav className='main-header navbar navbar-expand navbar-white navbar-light'>
 				{/* Left navbar links */}
 				<ul className='navbar-nav'>
@@ -54,9 +54,9 @@ export default function Navbar() {
 					</li>
 					
 					<li className='nav-item dropdown'>
-						<a className='nav-link' data-toggle='dropdown' href='#'>
+						<span className='nav-link' data-toggle='dropdown'>
 							<i className='fas fa-user' />
-						</a>
+						</span>
 						<div className='dropdown-menu dropdown-menu-lg dropdown-menu-right p-2'>
 							<span className='dropdown-item dropdown-header'>ข้อมูลผู้ใช้งาน</span>
 							<div className='dropdown-divider' />
@@ -85,13 +85,13 @@ export default function Navbar() {
 								บัตรประชาชน : <b>{userDetail.personal_id}</b>
 							</span>
 							<div className='dropdown-divider' />
-							<button className='dropdown-item dropdown-footer bg-danger' role='button' type='submit' onClick={onLogoutClick}>
+							<button className='dropdown-item dropdown-footer bg-danger' type='submit' onClick={onLogoutClick}>
 								ออกจากระบบ
 							</button>
 						</div>
 					</li>
 				</ul>
 			</nav>
-		</div>
+		</>
 	)
 }

@@ -4,13 +4,13 @@ import axios from "axios"
 
 export default function PersonalInfo2({ handleInputChange }) {
 	const [titleItem, setTitleItems] = useState([])
-	const config = {
-		method: "get",
-		url: `${systemConfig.MasterData.getTitleUrl}getTitle/?type=2`,
-		headers: systemConfig.MasterData.headersList,
-	}
-
+	
 	useEffect(() => {
+		const config = {
+			method: "get",
+			url: `${systemConfig.MasterData.getTitleUrl}getTitle/?type=2`,
+			headers: systemConfig.MasterData.headersList,
+		}
 		axios(config)
 			.then(function (response) {
 				setTitleItems(response.data)
@@ -33,10 +33,7 @@ export default function PersonalInfo2({ handleInputChange }) {
 					</select>
 				</div>
 				<div className='form-group'>
-					<input className='form-control form-control-lg' type='text' placeholder='ชื่อ' />
-				</div>
-				<div className='form-group'>
-					<input className='form-control form-control-lg' type='text' placeholder='นามสกุล' />
+					<input className='form-control form-control-lg' type='text' placeholder='ชื่อสถานประกอบการ' onChange={handleInputChange("company_name")} />
 				</div>
 			</div>
 		</>

@@ -12,7 +12,7 @@ const SaveNewRequest = lazy(() => import("./component/SaveNewRequest"))
 const GetNewRequest = lazy(() => import("./component/GetNewRequest"))
 
 function App() {
-	const [userDetail, setUserDetail] = useState(() => {
+	const [userDetail] = useState(() => {
     const userData = localStorage.getItem('userDetail')
     if(userData) {
       return JSON.parse(userData);
@@ -22,7 +22,7 @@ function App() {
     }
   })
 	return (
-		<>
+		<div className='wrapper'>
 			<Router>
 				{userDetail ? (<Suspense fallback={<div>Loading...</div>}>
 					<Navbar />
@@ -34,12 +34,13 @@ function App() {
 							<Route exact path='/SaveNewRequest' component={SaveNewRequest} />
 							<Route exact path='/GetNewRequest' component={GetNewRequest} />
 						</Switch>
+						
 						<Footer />
 					</div>
 				</Suspense>) : (<Login/>)}
 				
 			</Router>
-		</>
+		</div>
 	)
 }
 

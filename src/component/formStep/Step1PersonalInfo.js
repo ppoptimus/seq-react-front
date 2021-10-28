@@ -8,27 +8,27 @@ export default function PersonalInfo({ handleInputChange }) {
 	const [birthDate, setBirthDate] = useState(null)
 
 	const months = [
-    "มกราคม",
-    "กุมภาพันธ์",
-    "มีนาคม",
-    "เมษายน",
-    "พฤษภาคม",
-    "มิถุนายน",
-    "กรกฎาคม",
-    "สิงหาคม",
-    "กันยายน",
-    "ตุลาคม",
-    "พฤศจิกายน",
-    "ธันวาคม",
-  ];
+		"มกราคม",
+		"กุมภาพันธ์",
+		"มีนาคม",
+		"เมษายน",
+		"พฤษภาคม",
+		"มิถุนายน",
+		"กรกฎาคม",
+		"สิงหาคม",
+		"กันยายน",
+		"ตุลาคม",
+		"พฤศจิกายน",
+		"ธันวาคม",
+	]
 	const [titleItem, setTitleItems] = useState([])
-	const config = {
-		method: "get",
-		url: `${systemConfig.MasterData.getTitleUrl}getTitle/?type=1`,
-		headers: systemConfig.MasterData.headersList,
-	}
 
 	useEffect(() => {
+		const config = {
+			method: "get",
+			url: `${systemConfig.MasterData.getTitleUrl}getTitle/?type=1`,
+			headers: systemConfig.MasterData.headersList,
+		}
 		axios(config)
 			.then(function (response) {
 				setTitleItems(response.data)
@@ -41,31 +41,36 @@ export default function PersonalInfo({ handleInputChange }) {
 	return (
 		<>
 			<div className='container align-items-center'>
-			<div className='form-row align-items-center'>
-
-				<div className='form-group'>
-					<select className='form-control form-control-lg' onChange={handleInputChange("is_foreigner")}>
-					<option value={0}>กรุณาเลือก</option>
-						<option value={0}>บุคคลธรรมดาในประเทศ</option>
-						<option value={1}>บุคคลธรรมดาต่างประเทศ</option>
-					</select>
+				<div className='form-row align-items-center'>
+					<div className='form-group'>
+						<select className='form-control form-control-lg' onChange={handleInputChange("is_foreigner")}>
+							<option value={0}>กรุณาเลือก</option>
+							<option value={0}>บุคคลธรรมดาในประเทศ</option>
+							<option value={1}>บุคคลธรรมดาต่างประเทศ</option>
+						</select>
+					</div>
+					<div className='form-group ml-2'>
+						<select className='form-control form-control-lg' onChange={handleInputChange("title_code")}>
+							<option>คำนำหน้าชื่อ</option>
+							{titleItem.map((item) => (
+								<option key={item.title_code} value={item.title_code}>
+									{item.title_name}
+								</option>
+							))}
+						</select>
+					</div>
 				</div>
-				<div className='form-group ml-2'>
-					<select className='form-control form-control-lg' onChange={handleInputChange("title_code")}>
-						<option>คำนำหน้าชื่อ</option>
-						{titleItem.map((item) => (
-							<option key={item.title_code} value={item.title_code}>
-								{item.title_name}
-							</option>
-						))}
-					</select>
-				</div>
-			</div>
 				<div className='form-group'>
 					<input className='form-control form-control-lg' maxLength={50} type='text' onChange={handleInputChange("first_name")} placeholder='ชื่อ' />
 				</div>
 				<div className='form-group'>
-					<input className='form-control form-control-lg' maxLength={50} type='text' onChange={handleInputChange("last_name")} placeholder='นามสกุล' />
+					<input
+						className='form-control form-control-lg'
+						maxLength={50}
+						type='text'
+						onChange={handleInputChange("last_name")}
+						placeholder='นามสกุล'
+					/>
 				</div>
 				<div className='form-group'>
 					<input
@@ -85,10 +90,10 @@ export default function PersonalInfo({ handleInputChange }) {
 						dateFormat='dd/MM/yyyy'
 						locale='en-GB'
 						placeholderText='วันเกิด'
-						dropdownMode="select"
+						dropdownMode='select'
 						peekNextMonth
-      showMonthDropdown = {months}
-      showYearDropdown
+						showMonthDropdown={months}
+						showYearDropdown
 					/>
 				</div>
 			</div>
