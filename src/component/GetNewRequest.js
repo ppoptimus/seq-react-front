@@ -3,13 +3,36 @@ import axios from "axios"
 import systemConfig from "../config.json"
 
 export default function GetNewRequest() {
+	const [isAdmin, setIsAdmin] = useState(null)
+	const getAllNewRequest = () => {
+		let reqOptions = {
+			url: `${systemConfig.MasterData.getTitleUrl}getNewRequest`,
+			method: "POST",
+			headers: systemConfig.MasterData.headersList,
+			data: {
+				request_detail_id: null,
+				department_code: userDetail.userlevel_id === "3" ? userDetail.department_code : null,
+				user_name: userDetail.username,
+				ip_address: "",
+			},
+		}
+
+		axios
+			.request(reqOptions)
+			.then((res) => {
+				setAllNewRequest(res.data)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
+
 	useEffect(() => {
 		getAllNewRequest()
 		setIsReadOnly(isAdmin ? "disabled" : "")
-	}, [])
+	}, [isAdmin])
 
 	const [isReject, setIsReject] = useState(false)
-	const [isAdmin, setIsAdmin] = useState(null)
 	const [isReadOnly, setIsReadOnly] = useState("")
 	const [userDetail] = useState(() => {
 		const userData = localStorage.getItem("userDetail")
@@ -46,28 +69,7 @@ export default function GetNewRequest() {
 		await getTitle()
 	}
 
-	const getAllNewRequest = () => {
-		let reqOptions = {
-			url: `${systemConfig.MasterData.getTitleUrl}getNewRequest`,
-			method: "POST",
-			headers: systemConfig.MasterData.headersList,
-			data: {
-				request_detail_id: null,
-				department_code: userDetail.userlevel_id === "3" ? userDetail.department_code : null,
-				user_name: userDetail.username,
-				ip_address: "",
-			},
-		}
-
-		axios
-			.request(reqOptions)
-			.then((res) => {
-				setAllNewRequest(res.data)
-			})
-			.catch((err) => {
-				console.log(err)
-			})
-	}
+	
 
 	const getNewRequestById = (id) => {
 		let reqOptions = {

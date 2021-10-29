@@ -1,15 +1,16 @@
 import React, { useState } from "react"
 import { confirmAlert } from "react-confirm-alert"
 import "react-confirm-alert/src/react-confirm-alert.css"
+import Swal from "sweetalert2"
 import axios from "axios"
 import systemConfig from "../config.json"
 import PersonalInfo from "./formStep/Step1PersonalInfo"
 import PersonalInfo2 from "./formStep/Step1PersonalInfo2"
 import ContactInfo from "./formStep/Step2ContactInfo"
-import { BrowserRouter as Router, Link } from "react-router-dom"
+import { useHistory  } from "react-router-dom"
 
 export default function NewRequest() {
-
+	let history = useHistory();
 	const [isPerson, setIsPerson] = useState(true)
 
 	const [userDetail] = useState(() => {
@@ -81,38 +82,33 @@ export default function NewRequest() {
 			.then((res) => {
 				console.log(res.status)
 				if (res.status === 204) {
-					confirmAlert({
-						title: "ผลการบันทึก",
-						message: "บันทึกสำเร็จ",
-						buttons: [
-							{
-								label: (
-									<Router>
-										<Link to='/GetNewRequest'>ตกลง</Link>
-									</Router>
-								),
-								onClick: () => refreshPage(),
-							},
-						],
+					Swal.fire({
+						title: "บันทึกสำเร็จ",
+						icon: "success",
+						confirmButtonColor: "#3085d6",
+						confirmButtonText: "ตกลง",
+					}).then((result) => {
+						if (result.isConfirmed) {
+							history.push('/GetNewRequest')
+						}
 					})
 				}
 
 				if (res.data.result === "exists") {
-					confirmAlert({
+					Swal.fire({
 						title: "ผลการบันทึก",
-						message: "รายการนี้เคยมีการบันทึกไปแล้ว คุณต้องการบันทึกซ้ำหรือไม่",
-						buttons: [
-							{
-								label: "บันทึกซ้ำ",
-								onClick: () => {
-									newRequestValue.is_confirm = 1
-									postNewRequest()
-								},
-							},
-							{
-								label: "ไม่บันทึก",
-							},
-						],
+						text: "รายการนี้เคยมีการบันทึกไปแล้ว คุณต้องการบันทึกซ้ำหรือไม่",
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'ตกลง',
+						cancelButtonText: 'ไม่บันทึก'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							newRequestValue.is_confirm = 1
+							postNewRequest()
+						}
 					})
 				}
 			})
@@ -220,8 +216,4 @@ const getShowDateFormat = () => {
 	]
 
 	return date + " " + monthNames[month] + " " + year
-}
-
-function refreshPage() {
-	window.location.reload(false)
 }
