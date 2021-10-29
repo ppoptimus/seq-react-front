@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
+import Swal from "sweetalert2"
 import systemConfig from "../config.json"
 
 export default function GetNewRequest() {
@@ -68,8 +69,6 @@ export default function GetNewRequest() {
 		await getNewRequestById(id)
 		await getTitle()
 	}
-
-	
 
 	const getNewRequestById = (id) => {
 		let reqOptions = {
@@ -141,7 +140,6 @@ export default function GetNewRequest() {
 	}
 
 	const editByUser = () => {
-		console.log(submitEditData)
 		const config = {
 			method: "post",
 			url: `${systemConfig.MasterData.getTitleUrl}editNewRequest`,
@@ -151,10 +149,25 @@ export default function GetNewRequest() {
 		axios(config)
 			.then(function (response) {
 				console.log(response.data)
-				refreshPage()
+				Swal.fire({
+					title: "แก้ไขข้อมูลสำเร็จ",
+					icon: "success",
+					confirmButtonColor: "#119516",
+					confirmButtonText: "ตกลง",
+				}).then((result) => {
+					if (result.isConfirmed) {
+						refreshPage()
+					}
+				})
+				
 			})
 			.catch(function (error) {
 				console.log(error)
+				Swal.fire({
+					icon: 'error',
+					title: 'ผลการบันทึก',
+					text: "บันทึกไม่สำเร็จ \n" + error,
+				})
 			})
 	}
 
@@ -174,10 +187,24 @@ export default function GetNewRequest() {
 		axios(config)
 			.then(function (response) {
 				console.log(response.data)
-				refreshPage()
+				Swal.fire({
+					title: "แก้ไขข้อมูลสำเร็จ",
+					icon: "success",
+					confirmButtonColor: "#119516",
+					confirmButtonText: "ตกลง",
+				}).then((result) => {
+					if (result.isConfirmed) {
+						refreshPage()
+					}
+				})
 			})
 			.catch(function (error) {
 				console.log(error)
+				Swal.fire({
+					icon: 'error',
+					title: 'ผลการบันทึก',
+					text: "บันทึกไม่สำเร็จ \n" + error,
+				})
 			})
 	}
 
@@ -203,7 +230,7 @@ export default function GetNewRequest() {
 					{allNewRequest.map((i) => (
 						<tr key={i.id}>
 							<td>
-								<button className='btn-sm btn-warning' data-toggle='modal' data-target='#popupEdit' onClick={() => onGetFormEdit(i.id)}>
+								<button className='btn btn-warning shadow-sm' data-toggle='modal' data-target='#popupEdit' onClick={() => onGetFormEdit(i.id)}>
 									<i className='fas fa-edit'></i>
 								</button>
 							</td>

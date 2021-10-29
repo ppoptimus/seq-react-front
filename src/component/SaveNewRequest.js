@@ -1,6 +1,4 @@
 import React, { useState } from "react"
-import { confirmAlert } from "react-confirm-alert"
-import "react-confirm-alert/src/react-confirm-alert.css"
 import Swal from "sweetalert2"
 import axios from "axios"
 import systemConfig from "../config.json"
@@ -85,7 +83,7 @@ export default function NewRequest() {
 					Swal.fire({
 						title: "บันทึกสำเร็จ",
 						icon: "success",
-						confirmButtonColor: "#3085d6",
+						confirmButtonColor: "#119516",
 						confirmButtonText: "ตกลง",
 					}).then((result) => {
 						if (result.isConfirmed) {
@@ -100,7 +98,7 @@ export default function NewRequest() {
 						text: "รายการนี้เคยมีการบันทึกไปแล้ว คุณต้องการบันทึกซ้ำหรือไม่",
 						icon: 'warning',
 						showCancelButton: true,
-						confirmButtonColor: '#3085d6',
+						confirmButtonColor: '#119516',
 						cancelButtonColor: '#d33',
 						confirmButtonText: 'ตกลง',
 						cancelButtonText: 'ไม่บันทึก'
@@ -114,14 +112,10 @@ export default function NewRequest() {
 			})
 			.catch((err) => {
 				console.log(err)
-				confirmAlert({
-					title: "ผลการบันทึก",
-					message: "บันทึกไม่สำเร็จ \n" + err,
-					buttons: [
-						{
-							label: "Ok",
-						},
-					],
+				Swal.fire({
+					icon: 'error',
+					title: 'ผลการบันทึก',
+					text: "บันทึกไม่สำเร็จ \n" + err,
 				})
 			})
 	}

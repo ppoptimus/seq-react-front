@@ -10,6 +10,7 @@ const Dashboard = lazy(() => import("./component/dashboard/Dashboard"))
 const UploadFile = lazy(() => import("./component/UploadFile"))
 const SaveNewRequest = lazy(() => import("./component/SaveNewRequest"))
 const GetNewRequest = lazy(() => import("./component/GetNewRequest"))
+const ExportManual = lazy(() => import("./component/ExportManual"))
 
 function App() {
 	const [userDetail] = useState(() => {
@@ -33,6 +34,7 @@ function App() {
 							<Route exact path='/UploadFile' component={UploadFile} />
 							<Route exact path='/SaveNewRequest' component={SaveNewRequest} />
 							<Route exact path='/GetNewRequest' component={GetNewRequest} />
+							<Route exact path='/ExportManual' component={ExportManual} />
 						</Switch>
 						
 						<Footer />

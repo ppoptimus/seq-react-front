@@ -42,7 +42,7 @@ export default function Sidebar() {
                 </Link>
               </li>
               <li className='nav-item'>
-                <Link to='/' className='nav-link'>
+                <Link to='/ExportManual' className='nav-link'>
                   <i className='nav-icon fas fa-file-export' />
                   <p>ส่งออกไฟล์</p>
                 </Link>
