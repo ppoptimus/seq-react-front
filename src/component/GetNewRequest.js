@@ -363,7 +363,7 @@ export default function GetNewRequest() {
 					</div>
 				</div>
 			) : (
-				<p>Loading...</p>
+				<p className='btn-shine'>Loading...</p>
 			)}
 		</>
 	)

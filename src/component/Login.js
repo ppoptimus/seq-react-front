@@ -59,7 +59,7 @@ export default function Login() {
 										<img id='logo' src='dist/img/logo.png' alt='sequester' />
 									</div>
 									<h3 className='mb-5 text-center heading'>SEQUESTER</h3>
-									<form>
+									<form onSubmit={onSubmitLogin}>
 										<div className='form-group'>
 											<input
 												type='text'
@@ -81,7 +81,7 @@ export default function Login() {
 											/>
 										</div>
 										<div className='row justify-content-center my-3 px-3'>
-											<button className='btn-block btn-color' type='button' onClick={onSubmitLogin}>
+											<button className='btn-block btn-color' type='submit' onClick={onSubmitLogin}>
 												เข้าระบบ
 											</button>
 										</div>
