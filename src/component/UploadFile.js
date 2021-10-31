@@ -12,7 +12,7 @@ export default function UploadFile() {
 	const uploadFile = async (e) => {
 		const data = new FormData()
 		data.append("file", selectedFile)
-		axios
+		await axios
 			.post("http://localhost:3000/api/uploadAttachFile", data, {})
 			.then((res) => {
 				setFilePath(`http://localhost:3000/api/downloadAttachFile/?file_name=${res.data.file_name}`)

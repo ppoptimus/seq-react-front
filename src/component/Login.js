@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import "../component/css/Login.css"
+import "../css/Login.css"
 import systemConfig from "../config.json"
 import axios from "axios"
 
