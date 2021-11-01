@@ -1,17 +1,18 @@
 import React, {useState} from "react"
 import { Suspense, lazy } from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
-import Login from "./component/Login"
+import Login from "./Login"
 
 const Navbar = lazy(() => import("./menu/Navbar"))
 const Sidebar = lazy(() => import("./menu/Sidebar"))
 const Footer = lazy(() => import("./menu/Footer"))
 const Dashboard = lazy(() => import("./component/dashboard/Dashboard"))
-const UploadFile = lazy(() => import("./component/UploadFile"))
-const SaveNewRequest = lazy(() => import("./component/SaveNewRequest"))
-const GetNewRequest = lazy(() => import("./component/GetNewRequest"))
-const ExportManual = lazy(() => import("./component/ExportManual"))
-const ImportFile = lazy(() => import("./component/ImportFile"))
+const UploadFile = lazy(() => import("./component/transaction/UploadFile"))
+const SaveNewRequest = lazy(() => import("./component/transaction/SaveNewRequest"))
+const GetNewRequest = lazy(() => import("./component/transaction/GetNewRequest"))
+const ExportManual = lazy(() => import("./component/transaction/ExportManual"))
+const ImportFile = lazy(() => import("./component/transaction/ImportFile"))
+const ExportHistory = lazy(() => import("./component/transaction/ExportHistory"))
 
 function App() {
 	const [userDetail] = useState(() => {
@@ -31,14 +32,15 @@ function App() {
 					<Sidebar />
 					<div className='content-wrapper p-3'>
 						<Switch>
-							<Route exact path='/' component={Dashboard} userDetail = {userDetail} />
-							<Route exact path='/UploadFile' component={UploadFile} />
-							<Route exact path='/SaveNewRequest' component={SaveNewRequest} />
-							<Route exact path='/GetNewRequest' component={GetNewRequest} />
-							<Route exact path='/ExportManual' component={ExportManual} />
-							<Route exact path='/Import' component={ImportFile} />
+							<Route exact path='/' component={Dashboard} />
+							<Route path='/UploadFile' component={UploadFile} />
+							<Route path='/SaveNewRequest' component={SaveNewRequest} />
+							<Route path='/GetNewRequest' component={GetNewRequest} />
+							<Route path='/ExportManual' component={ExportManual} />
+							<Route path='/ExportHistory' component={ExportHistory} />
+							<Route path='/Import' component={ImportFile} />
 						</Switch>
-						<UploadFile/>
+						{/* <UploadFile/> */}
 						<Footer />
 					</div>
 				</Suspense>) : (<Login/>)}

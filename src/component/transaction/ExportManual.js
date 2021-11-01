@@ -10,11 +10,11 @@ export default function ExportManual() {
       <div className='card flex-column'>
         <div className='card-header'>ส่งออกไฟล์เพื่อขอตรวจสอบ</div>
         <div className='card-body'>
-          {requestCode ? (
+          {!requestCode ? (
             <>
               <div className='form-group row'>
                 <label className='col-sm-3 col-form-label text-right' htmlFor='request_code'>
-                  เลขชุดหนังสือ
+                  ชุดหนังสือ
                 </label>
                 <input type='text' className='form-control form-control-lg col-sm-2' id='request_code' readOnly />
               </div>
@@ -53,28 +53,7 @@ export default function ExportManual() {
         </div>
       </div>
 
-      <div className='card flex-column text-center'>
-        <div className='card-body'>
-          <div className='form-group row justify-content-center align-items-center'>
-            <label className='col-form-label col-2 text-right' htmlFor='request_code'>
-              เลขชุดหนังสือ
-            </label>
-            <input type='text' className='form-control form-control-lg col-2' id='request_code' />
-          </div>
-          <div className='form-group row justify-content-center align-items-center'>
-            <label className='col-form-label col-2 text-right' htmlFor='request_code'>
-              เลขที่ชุดหนังสือ
-            </label>
-            <input type='text' className='form-control form-control-lg col-2' id='request_code' />
-          </div>
-          <div className='form-group row justify-content-center align-items-center'>
-            <label className='col-form-label col-2 text-right' htmlFor='request_code'>
-              วันที่หนังสือ
-            </label>
-            <input type='date' className='form-control form-control-lg col-2 text-md' required pattern='dd/MM/yyyy' onChange={(e) => console.log(e.target.value)} />
-          </div>
-        </div>
-      </div>
+      
     </>
   )
 }

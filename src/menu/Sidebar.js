@@ -35,17 +35,29 @@ export default function Sidebar() {
               <li className='nav-item'>
                 <Link to='/NewRequest' className='nav-link'>
                   <i className='nav-icon fas fa-search' />
-                  <p>
-                    ค้นหารายการ
-                    
-                  </p>
+                  <p>ค้นหารายการ</p>
                 </Link>
               </li>
               <li className='nav-item'>
-                <Link to='/ExportManual' className='nav-link'>
+                <span className='nav-link'>
                   <i className='nav-icon fas fa-file-export' />
                   <p>ส่งออกไฟล์</p>
-                </Link>
+                  <i className='fas fa-angle-left right' />
+                </span>
+                <ul className='nav nav-treeview ml-4'>
+                <li className='nav-item'>
+                    <Link to='/ExportManual' className='nav-link'>
+                      <i className='fas fa-random nav-icon' />
+                      <p>สร้างชุดหนังสือ</p>
+                    </Link>
+                  </li>
+                  <li className='nav-item'>
+                    <Link to='/ExportHistory' className='nav-link'>
+                      <i className='fas fa-history nav-icon' />
+                      <p>ประวัติการส่งออกไฟล์</p>
+                    </Link>
+                  </li>
+                </ul>
               </li>
               <li className='nav-item'>
                 <Link to='/' className='nav-link'>
@@ -61,6 +73,7 @@ export default function Sidebar() {
               </li>
               <li className='nav-item'>
                 <span className='nav-link'>
+                <i className='fas fa-user-edit nav-icon' />
                   <p>
                     ข้อมูลหลัก
                     <i className='fas fa-angle-left right' />

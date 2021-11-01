@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
-import "../css/Login.css"
-import systemConfig from "../config.json"
+import "./css/Login.css"
+import systemConfig from "./config.json"
 import axios from "axios"
 
 export default function Login() {

@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 import Swal from "sweetalert2"
 import axios from "axios"
-import systemConfig from "../config.json"
-import PersonalInfo from "./formStep/Step1PersonalInfo"
-import PersonalInfo2 from "./formStep/Step1PersonalInfo2"
-import ContactInfo from "./formStep/Step2ContactInfo"
+import systemConfig from "../../config.json"
+import PersonalInfo from "../formStep/Step1PersonalInfo"
+import PersonalInfo2 from "../formStep/Step1PersonalInfo2"
+import ContactInfo from "../formStep/Step2ContactInfo"
 import { useHistory  } from "react-router-dom"
 
 export default function NewRequest() {
