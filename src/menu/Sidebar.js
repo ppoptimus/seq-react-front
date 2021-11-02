@@ -39,7 +39,7 @@ export default function Sidebar() {
                 </Link>
               </li>
               <li className='nav-item'>
-                <span className='nav-link'>
+                <span className='nav-link' style={{cursor:'context-menu'}}>
                   <i className='nav-icon fas fa-file-export' />
                   <p>ส่งออกไฟล์</p>
                   <i className='fas fa-angle-left right' />
@@ -72,7 +72,7 @@ export default function Sidebar() {
                 </Link>
               </li>
               <li className='nav-item'>
-                <span className='nav-link'>
+                <span className='nav-link' style={{cursor:'context-menu'}}>
                 <i className='fas fa-user-edit nav-icon' />
                   <p>
                     ข้อมูลหลัก

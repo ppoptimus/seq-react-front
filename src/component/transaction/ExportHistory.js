@@ -14,32 +14,31 @@ export default function ExportHistory() {
 	console.log(data)
 	return (
 		<>
-			<div className='container'>
-				<div className='card'>
-					<div className='card-header bg-purple'>
-						<h3 className='card-title'>ประวัติการส่งออกไฟล์เพื่อขอตรวจสอบบัญชีเงินฝาก</h3>
-						<div className='card-tools'>
-							<button
-								type='button'
-								className='btn btn-tool'
-								data-card-widget='card-refresh'
-								data-source='widgets.html'
-								data-source-selector='#card-refresh-content'>
-								<i className='fas fa-sync-alt' />
-							</button>
-						</div>
+			<div className='card'>
+				<div className='card-header bg-purple'>
+					<h3 className='card-title'>ประวัติการส่งออกไฟล์เพื่อขอตรวจสอบบัญชีเงินฝาก</h3>
+					<div className='card-tools'>
+						<button
+							type='button'
+							className='btn btn-tool'
+							data-card-widget='card-refresh'
+							data-source='widgets.html'
+							data-source-selector='#card-refresh-content'>
+							<i className='fas fa-sync-alt' />
+						</button>
 					</div>
-					<div className='card-body flex-column text-center'>
-						<div className='form-group text-center align-item-center'>
-							<label className='col-form-label col2' htmlFor='requestCode'>
-								ชุดหนังสือ
-							</label>
-							<input className='form-control-lg col-5 mx-2' id='requestCode'></input>
-							<button className='btn-lg btn-secondary shadow-none'>ค้นหา</button>
-						</div>
+				</div>
+				<div className='card-body flex-column text-center'>
+					<div className='form-group text-center align-item-center'>
+						<label className='col-form-label col2' htmlFor='requestCode'>
+							ชุดหนังสือ
+						</label>
+						<input className='form-control-lg col-5 mx-2' id='requestCode'></input>
+						<button className='btn-lg btn-secondary shadow-none'>ค้นหา</button>
 					</div>
 				</div>
 			</div>
+
 			<div className='card'>
 				<div className='card-body'>
 					<table className='table'>
@@ -77,47 +76,60 @@ export default function ExportHistory() {
 				</div>
 			</div>
 			<div
-				className='modal fade'
+				className='modal fade shadow-lg'
 				id='popupEdit'
-				// data-backdrop='static'
+				data-backdrop='static'
 				data-keyboard='false'
 				tabIndex={-1}
 				aria-labelledby='popupEditLabel'
 				aria-hidden='true'>
 				<div className='modal-dialog' style={{ maxWidth: "500px" }}>
-					<div className='modal-content py-4'>
-						<div className='form-group row justify-content-center align-items-center'>
-							<label className='col-form-label col-3 text-right' htmlFor='request_code'>
-								ชุดหนังสือ
-							</label>
-							<input type='text' className='form-control form-control-lg col-5' id='request_code' />
-						</div>
-						<div className='form-group row justify-content-center align-items-center'>
-							<label className='col-form-label col-3 text-right' htmlFor='request_code'>
-								วันที่ประมวลผล
-							</label>
-							<input type='text' className='form-control form-control-lg col-5 text-md' />
-						</div>
-						<div className='form-group row justify-content-center align-items-center'>
-							<label className='col-form-label col-3 text-right' htmlFor='request_code'>
-								เลขที่หนังสือ
-							</label>
-							<input type='text' className='form-control form-control-lg col-5' id='request_code' />
-						</div>
-						<div className='form-group row justify-content-center align-items-center'>
-							<label className='col-form-label col-3 text-right' htmlFor='request_code'>
-								วันที่ประมวลผล
-							</label>
-							<input
-								type='date'
-								className='form-control form-control-lg col-5 text-md'
-								required
-								pattern='dd/MM/yyyy'
-								onChange={(e) => console.log(e.target.value)}
-							/>
-						</div>
-						<div className='form-group'>
+					<div className='modal-content'>
+						<div className='modal-body'>
+							<div className='form-group row justify-content-center align-items-center'>
+								<label className='col-form-label col-3 text-right' htmlFor='request_code'>
+									ชุดหนังสือ
+								</label>
+								<input type='text' className='form-control form-control-lg col-5' id='request_code' />
+							</div>
+							<div className='form-group row justify-content-center align-items-center'>
+								<label className='col-form-label col-3 text-right' htmlFor='request_code'>
+									วันที่ประมวลผล
+								</label>
+								<input type='text' className='form-control form-control-lg col-5 text-md' />
+							</div>
+							<div className='form-group row justify-content-center align-items-center'>
+								<label className='col-form-label col-3 text-right' htmlFor='request_code'>
+									เลขที่หนังสือ
+								</label>
+								<input type='text' className='form-control form-control-lg col-5' id='request_code' />
+							</div>
+							<div className='form-group row justify-content-center align-items-center'>
+								<label className='col-form-label col-3 text-right' htmlFor='request_code'>
+									วันที่ประมวลผล
+								</label>
+								<input
+									type='date'
+									className='form-control form-control-lg col-5 text-md'
+									required
+									pattern='dd/MM/yyyy'
+									onChange={(e) => console.log(e.target.value)}
+								/>
+							</div>
+
 							<label className='form-control form-control'>xxxx</label>
+						</div>
+						<div className='modal-footer'>
+							<div className='form-group'>
+								<div>
+									<button type='button' className='btn btn-primary'>
+										Save changes
+									</button>
+									<button type='button' className='btn btn-secondary' data-dismiss='modal'>
+										Close
+									</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

@@ -1,75 +1,108 @@
-import React, { useEffect, useState } from 'react'
-import Swal from 'sweetalert2'
+import React, { useEffect, useState } from "react"
+import Swal from "sweetalert2"
+import systemConfig from "../../config.json"
+import axios from "axios"
 
 export default function ExportManual() {
-  const [requestCode, setRequestCode] = useState(null)
-  useEffect(() => {})
+	const [totalCount, settotalCount] = useState(0)
+	const [data, setData] = useState([])
+	useEffect(() => {
+		const config = {
+			method: "get",
+			url: `${systemConfig.MasterData.getTitleUrl}getWaitingGenerate`,
+			headers: systemConfig.MasterData.headersList,
+		}
 
-  return (
-    <>
-      <div className='card flex-column'>
-        <div className='card-header'>ส่งออกไฟล์เพื่อขอตรวจสอบ</div>
-        <div className='card-body'>
-          {!requestCode ? (
-            <>
-              <div className='form-group row'>
-                <label className='col-sm-3 col-form-label text-right' htmlFor='request_code'>
-                  ชุดหนังสือ
-                </label>
-                <input type='text' className='form-control form-control-lg col-sm-2' id='request_code' readOnly />
-              </div>
+		axios(config)
+			.then(function (res) {
+				setData(res.data)
+				settotalCount(res.data.total_count)
+			})
+			.catch(function (error) {
+				console.log(error)
+			})
+	}, [data])
 
-              <div className='form-group row'>
-                <label className='col-sm-3 col-form-label text-right' htmlFor='request_code'>
-                  ทำการส่งออกครั้งละไม่น้อยกว่า
-                </label>
-                <input type='text' className='form-control form-control-lg col-sm-2' id='request_code' readOnly />
-                <label className='col-form-label ml-1'>รายการ</label>
+	const onSubmitGenerate = () => {
+		const config = {
+			method: "get",
+			url: `${systemConfig.MasterData.getTitleUrl}autoGenerateCode`,
+			headers: systemConfig.MasterData.headersList,
+		}
 
-                <label className='col-sm-2 col-form-label text-right' htmlFor='request_code'>
-                  และไม่เกิน
-                </label>
-                <input type='text' className='form-control form-control-lg col-sm-2' id='request_code' readOnly />
-                <label className='col-form-label ml-1'>รายการ</label>
-              </div>
-
-              <div className='form-group row'>
-                <label className='col-sm-3 col-form-label text-right' htmlFor='request_code'>
-                  มีข้อมูลทั้งสิ้น
-                </label>
-                <input type='text' className='form-control form-control-lg col-sm-2' id='request_code' readOnly />
-              </div>
-            </>
-          ) : (
-            <div className='text-center'>
-              <p>ไม่มีรายการใหม่</p>
-            </div>
-          )}
-        </div>
-        <div className='card-footer text-center'>
-          <button className='btn btn-primary' onClick={onSubmit}>
-            ตกลง
-          </button>
-        </div>
-      </div>
-
-      
-    </>
-  )
+		axios(config)
+			.then(function (res) {
+				console.log(res)
+				onSubmited("success")
+			})
+			.catch(function (err) {
+				onSubmited(err)
+				console.log(err)
+			})
+	}
+	return (
+		<>
+			<div className='card flex-column'>
+				<div className='card-header bg-purple'>ส่งออกไฟล์เพื่อขอตรวจสอบ</div>
+				{totalCount ? (
+					<>
+						<div className='card-body'>
+							<div className='form-group row'>
+								<label className='col-form-label col-2 text-right' htmlFor='request_code'>
+									ชุดหนังสือ
+								</label>
+								<input type='text' className='form-control form-control-lg col-2' value={data.request_code} id='request_code' readOnly />
+							</div>
+							<div className='form-group row'>
+								<label className='col-form-label col-2 text-right' htmlFor='total_count'>
+									จำนวน
+								</label>
+								<input type='text' className='form-control form-control-lg col-2' value={data.total_count} id='total_count' readOnly />
+								<label className='col-form-label col-2' htmlFor='total_count'>
+									รายการ
+								</label>
+							</div>
+						</div>
+						<div className='card-footer'>
+							<button className='btn btn-primary px-4' onClick={onSubmitGenerate}>
+								สร้าง
+							</button>
+						</div>
+					</>
+				) : (
+					<div className='container py-3'>ไม่มีรายการใหม่</div>
+				)}
+			</div>
+		</>
+	)
 }
-const onSubmit = () => {
-  Swal.fire({
-    title: 'Generate เลขชุดหนังสือสำเร็จ',
-    icon: 'success',
-    confirmButtonColor: '#119516',
-    confirmButtonText: 'ตกลง',
-  }).then((result) => {
-    if (result.isConfirmed) {
-      refreshPage()
-    }
-  })
+const onSubmited = (result) => {
+	if (result === "success") {
+		Swal.fire({
+			title: "สร้างเลขชุดหนังสือสำเร็จ",
+			icon: "success",
+			confirmButtonColor: "#119516",
+			confirmButtonText: "ตกลง",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				refreshPage()
+			}
+		})
+	} else {
+		Swal.fire({
+			title: "สร้างเลขชุดหนังสือไม่สำเร็จ!!",
+			text: result,
+			icon: "error",
+			confirmButtonColor: "#9c1e1e",
+			confirmButtonText: "ตกลง",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				refreshPage()
+			}
+		})
+	}
 }
 
 const refreshPage = () => {
-  window.location.reload(false)
+	window.location.reload(false)
 }
