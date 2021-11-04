@@ -273,18 +273,18 @@ export default function GetNewRequest() {
 									<div className='row mb-4'>
 										<div className='col-4'>
 											<label className='form-label'>เลขที่หนังสือ</label>
-											<input type='text' className='form-control' value={newRequestById.document_no} onChange={handleChange("document_no")} />
+											<input type='text' className='form-control' value={(newRequestById.document_no)?newRequestById.document_no:''} onChange={handleChange("document_no")} />
 										</div>
 										<div className='col-4'>
 											<label className='form-label'>วันที่หนังสือ</label>
-											<input type='text' className='form-control' value={newRequestById.document_date} onChange={handleChange("document_date")} />
+											<input type='text' className='form-control' value={(newRequestById.document_date)?newRequestById.document_date:''} onChange={handleChange("document_date")} />
 										</div>
 										<div className='col-4'>
 											<label className='form-label'>เลขที่บัญชีนายจ้าง</label>
 											<input
 												type='text'
 												className='form-control'
-												value={newRequestById.employer_account}
+												value={(newRequestById.employer_account)?newRequestById.employer_account:''}
 												onChange={handleChange("employer_account")}
 											/>
 										</div>
@@ -312,27 +312,27 @@ export default function GetNewRequest() {
 									<div className='row mb-4'>
 										<div className='col-6'>
 											<label className='form-label'>ชื่อ</label>
-											<input type='text' className='form-control' value={newRequestById.first_name} onChange={handleChange("first_name")} />
+											<input type='text' className='form-control' value={(newRequestById.first_name)?newRequestById.first_name:''} onChange={handleChange("first_name")} />
 										</div>
 										<div className='col-6'>
 											<label className='form-label'>นามสกุล</label>
-											<input type='text' className='form-control' value={newRequestById.last_name} onChange={handleChange("last_name")} />
+											<input type='text' className='form-control' value={(newRequestById.last_name)?newRequestById.last_name:''} onChange={handleChange("last_name")} />
 										</div>
 									</div>
 
 									<div className='row mb-4'>
 										<div className='col-6'>
 											<label className='form-label'>เลขที่บัตรประชาชน</label>
-											<input type='text' className='form-control' value={newRequestById.refference_id} onChange={handleChange("refference_id")} />
+											<input type='text' className='form-control' value={(newRequestById.refference_id)?newRequestById.refference_id:''} onChange={handleChange("refference_id")} />
 										</div>
 										<div className='col-6'>
 											<label className='form-label'>วัน/เดือน/ปี เกิด</label>
-											<input type='text' className='form-control' value={newRequestById.birth_date} onChange={handleChange("birth_date")} />
+											<input type='text' className='form-control' value={(newRequestById.birth_date)?newRequestById.birth_date:''} onChange={handleChange("birth_date")} />
 										</div>
 									</div>
 									<div className='row mb-4'>
 										<label className='form-label'>ที่อยู่</label>
-										<textarea type='text' className='form-control' value={newRequestById.address} onChange={handleChange("address")} />
+										<textarea type='text' className='form-control' value={(newRequestById.address)?newRequestById.address:''} onChange={handleChange("address")} />
 									</div>
 								</fieldset>
 							</form>
@@ -345,7 +345,7 @@ export default function GetNewRequest() {
 									type='text'
 									className='form-control'
 									placeholder='หมายเหตุ'
-									value={newRequestById.remark}
+									value={(newRequestById.remark)?newRequestById.remark:''}
 									onChange={handleChange("remark")}
 								/>
 							</div>

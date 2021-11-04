@@ -15,37 +15,34 @@ export default function Login() {
 		}
 	})
 
-	
 	useEffect(() => {
 		localStorage.setItem("userDetail", JSON.stringify(userDetail))
 	}, [userDetail])
 	
-	const onSubmitLogin = (e) => {
-		
+	const onSubmitLogin = () => {
 		const config = {
 			method: "post",
 			url: `${systemConfig.MasterData.getTitleUrl}ldapLogin`,
 			headers: systemConfig.MasterData.headersList,
 			data: {
 				user_name: userName,
-				pwd: "xxx",
+				pwd: password,
 			},
 		}
 	
 		axios(config)
 			.then(function (response) {
-				console.log(response.data)
 				setUserDetail(response.data)
-				refreshPage()
+				// refreshPage()
 			})
 			.catch(function (error) {
 				console.log(error)
 			})
 	}
 
-	function refreshPage() {
-    window.location.reload(false);
-  }
+	// function refreshPage() {
+  //   window.location.reload(false);
+  // }
 
 	return (
 		<div className='body vh-100'>

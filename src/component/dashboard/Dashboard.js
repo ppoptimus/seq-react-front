@@ -1,11 +1,11 @@
 import React from "react"
 import GetAllRequest from "./GetAllRequest"
 
-export default function Dashboard(userDetail) {
+export default function Dashboard() {
 	return (
 		<div>
 			
-					<GetAllRequest userDetail={userDetail} />
+					<GetAllRequest />
 			
 		</div>
 	)

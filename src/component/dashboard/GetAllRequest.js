@@ -2,11 +2,18 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import systemConfig from '../../config.json'
 
-export default function GetAllRequest(userDetail) {
+export default function GetAllRequest() {
   const [allRequest, setAllRequest] = useState([])
   const [allRequestCount, setAllRequestCount] = useState(0)
   const [newRequestCount, setNewRequestCount] = useState(0)
-
+  const [userDetail] = useState(() => {
+		const userData = localStorage.getItem("userDetail")
+		if (userData) {
+			return JSON.parse(userData)
+		} else {
+			return null
+		}
+	})
   const fetchData = async () => {
     const config = {
       method: 'get',
@@ -84,7 +91,7 @@ export default function GetAllRequest(userDetail) {
             </span>
             <div className='info-box-content'>
               <span className='info-box-text'>จำนวนทำรายการแล้ว</span>
-              <span className='info-box-number h4'>{allRequestCount}</span>
+              <span className='info-box-number h4'>{(allRequestCount)?allRequestCount:''}</span>
             </div>
           </div>
 
@@ -94,7 +101,7 @@ export default function GetAllRequest(userDetail) {
             </span>
             <div className='info-box-content'>
               <span className='info-box-text'>จำนวนรายการใหม่</span>
-              <span className='info-box-number h4'>{newRequestCount}</span>
+              <span className='info-box-number h4'>{(newRequestCount)?newRequestCount:''}</span>
             </div>
           </div>
         </div>

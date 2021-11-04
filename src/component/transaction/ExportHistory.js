@@ -1,5 +1,6 @@
-import { useState } from "react"
-import GetExportHistory from "../../api/getExporttHistory"
+import { useEffect, useState } from "react"
+import systemConfig from "../../config.json"
+import axios from "axios"
 
 export default function ExportHistory() {
 	const [userDetail] = useState(() => {
@@ -10,8 +11,40 @@ export default function ExportHistory() {
 			return null
 		}
 	})
-	const data = GetExportHistory(null, userDetail.username)
-	console.log(data)
+	const [data, setData] = useState([])
+	const [bindData, setBindData] = useState([])
+	useEffect(() => {
+		const config = {
+			method: "post",
+			url: `${systemConfig.MasterData.getTitleUrl}getExporttHistory`,
+			headers: systemConfig.MasterData.headersList,
+			data: {
+				request_code: null,
+				user_name: userDetail.username,
+				ip_address: "",
+			},
+		}
+		let isMounted = true
+		axios(config)
+			.then(function (response) {
+				if (isMounted) {
+					setData(response.data)
+				}
+			})
+			.catch(function (error) {
+				console.log(error)
+			})
+		return () => {
+			isMounted = false
+		}
+	}, [userDetail])
+
+	const onClickRow = (i) => {
+		setBindData(i)
+	}
+	const onHandleChange = () => {
+		console.log(bindData)
+	}
 	return (
 		<>
 			<div className='card'>
@@ -30,11 +63,9 @@ export default function ExportHistory() {
 				</div>
 				<div className='card-body flex-column text-center'>
 					<div className='form-group text-center align-item-center'>
-						<label className='col-form-label col2' htmlFor='requestCode'>
-							ชุดหนังสือ
-						</label>
-						<input className='form-control-lg col-5 mx-2' id='requestCode'></input>
-						<button className='btn-lg btn-secondary shadow-none'>ค้นหา</button>
+						<label className='col-form-label col2'>ชุดหนังสือ</label>
+						<input className='form-control-lg col-4 mx-2'></input>
+						<button className='btn-lg btn-primary'>ค้นหา</button>
 					</div>
 				</div>
 			</div>
@@ -56,7 +87,7 @@ export default function ExportHistory() {
 								? data.map((i) => (
 										<tr key={i.request_code}>
 											<td className='text-primary'>
-												<span style={{ cursor: "pointer" }} data-toggle='modal' data-target='#popupEdit'>
+												<span style={{ cursor: "pointer" }} data-toggle='modal' data-target='#popupEdit' onClick={() => onClickRow(i)}>
 													{i.request_code}
 												</span>
 											</td>
@@ -75,65 +106,78 @@ export default function ExportHistory() {
 					</table>
 				</div>
 			</div>
-			<div
-				className='modal fade shadow-lg'
-				id='popupEdit'
-				data-backdrop='static'
-				data-keyboard='false'
-				tabIndex={-1}
-				aria-labelledby='popupEditLabel'
-				aria-hidden='true'>
-				<div className='modal-dialog' style={{ maxWidth: "500px" }}>
-					<div className='modal-content'>
-						<div className='modal-body'>
-							<div className='form-group row justify-content-center align-items-center'>
-								<label className='col-form-label col-3 text-right' htmlFor='request_code'>
-									ชุดหนังสือ
-								</label>
-								<input type='text' className='form-control form-control-lg col-5' id='request_code' />
-							</div>
-							<div className='form-group row justify-content-center align-items-center'>
-								<label className='col-form-label col-3 text-right' htmlFor='request_code'>
-									วันที่ประมวลผล
-								</label>
-								<input type='text' className='form-control form-control-lg col-5 text-md' />
-							</div>
-							<div className='form-group row justify-content-center align-items-center'>
-								<label className='col-form-label col-3 text-right' htmlFor='request_code'>
-									เลขที่หนังสือ
-								</label>
-								<input type='text' className='form-control form-control-lg col-5' id='request_code' />
-							</div>
-							<div className='form-group row justify-content-center align-items-center'>
-								<label className='col-form-label col-3 text-right' htmlFor='request_code'>
-									วันที่ประมวลผล
-								</label>
-								<input
-									type='date'
-									className='form-control form-control-lg col-5 text-md'
-									required
-									pattern='dd/MM/yyyy'
-									onChange={(e) => console.log(e.target.value)}
-								/>
-							</div>
+			{data.map((i) => (
+				<div
+					className='modal fade shadow-lg'
+					id='popupEdit'
+					data-backdrop='static'
+					data-keyboard='false'
+					tabIndex={-1}
+					aria-labelledby='popupEditLabel'
+					aria-hidden='true'
+					key={i.request_code}>
+					<div className='modal-dialog w-auto' style={{ maxWidth: "570px" }}>
+						<div className='modal-content'>
+							<div className='modal-body pt-5'>
+								<div className='form-group row justify-content-center align-items-center'>
+									<label className='col-form-label col-4 text-right'>ชุดหนังสือ</label>
+									<input
+										readOnly
+										type='text'
+										className='form-control form-control-lg col-5'
+										value={bindData.request_code ? bindData.request_code : ""}
+										onChange={onHandleChange}
+									/>
+								</div>
+								<div className='form-group row justify-content-center align-items-center'>
+									<label className='col-form-label col-4 text-right'>วันที่ประมวลผล</label>
+									<input
+										readOnly
+										type='text'
+										className='form-control form-control-lg col-5'
+										value={bindData.export_date ? bindData.export_date : ""}
+										onChange={onHandleChange}
+									/>
+								</div>
+								<div className='form-group row justify-content-center align-items-center'>
+									<label className='col-form-label col-4 text-right'>เลขที่หนังสือ</label>
+									<input type='text' className='form-control form-control-lg col-5' value='รง0625/ว.0' onChange={onHandleChange} />
+								</div>
+								<div className='form-group row justify-content-center align-items-center'>
+									<label className='col-form-label col-4 text-right'>วันที่หนังสือ</label>
+									<input
+										type='date'
+										className='form-control form-control-lg col-5 text-md'
+										required
+										pattern='dd/MM/yyyy'
+										onChange={(e) => console.log(e.target.value)}
+									/>
+								</div>
 
-							<label className='form-control form-control'>xxxx</label>
-						</div>
-						<div className='modal-footer'>
-							<div className='form-group'>
-								<div>
-									<button type='button' className='btn btn-primary'>
-										Save changes
+								<button className='btn bg-gradient-white my-2'>
+									สามารถดาวน์โหลดไฟล์ได้ที่นี่ {"  "}
+									<i className='fas fa-download text-fuchsia' />
+								</button>
+								<button className='btn bg-gradient-white'>
+								ทำการส่งออกไฟล์เรียบร้อย สามารถดาวน์โหลดไฟล์ เพื่อส่งธนาคารได้ที่นี่ {"  "}
+									<i className='fas fa-download text-fuchsia' />
+								</button>
+							</div>
+							
+							<div className='modal-footer'>
+								<div className='form-group'>
+									<button type='button' className='btn btn-success mr-3 px-4'>
+										บันทึก
 									</button>
 									<button type='button' className='btn btn-secondary' data-dismiss='modal'>
-										Close
+										ย้อนกลับ
 									</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			))}
 		</>
 	)
 }

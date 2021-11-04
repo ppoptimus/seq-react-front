@@ -12,15 +12,18 @@ export default function ExportManual() {
 			url: `${systemConfig.MasterData.getTitleUrl}getWaitingGenerate`,
 			headers: systemConfig.MasterData.headersList,
 		}
-
+		let isMounted = true;
 		axios(config)
 			.then(function (res) {
-				setData(res.data)
-				settotalCount(res.data.total_count)
+				if (isMounted) {
+					setData(res.data)
+					settotalCount(res.data.total_count)
+				}
 			})
 			.catch(function (error) {
 				console.log(error)
 			})
+			return () => { isMounted = false };
 	}, [data])
 
 	const onSubmitGenerate = () => {

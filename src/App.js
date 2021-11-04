@@ -6,7 +6,7 @@ import Login from "./Login"
 const Navbar = lazy(() => import("./menu/Navbar"))
 const Sidebar = lazy(() => import("./menu/Sidebar"))
 const Footer = lazy(() => import("./menu/Footer"))
-const Dashboard = lazy(() => import("./component/dashboard/Dashboard"))
+const Dashboard = lazy(() => import("./component/dashboard/GetAllRequest"))
 const UploadFile = lazy(() => import("./component/transaction/UploadFile"))
 const SaveNewRequest = lazy(() => import("./component/transaction/SaveNewRequest"))
 const GetNewRequest = lazy(() => import("./component/transaction/GetNewRequest"))
