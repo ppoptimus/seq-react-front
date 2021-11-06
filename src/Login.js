@@ -32,17 +32,18 @@ export default function Login() {
 	
 		axios(config)
 			.then(function (response) {
-				setUserDetail(response.data)
-				// refreshPage()
+				if (response.status === 200) {
+					setUserDetail(response.data)
+				}
+				else {
+					
+					setUserDetail(null)
+				}
 			})
 			.catch(function (error) {
 				console.log(error)
 			})
 	}
-
-	// function refreshPage() {
-  //   window.location.reload(false);
-  // }
 
 	return (
 		<div className='body vh-100'>
