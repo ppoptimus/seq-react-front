@@ -4,6 +4,14 @@ import systemConfig from "../../config.json"
 import axios from "axios"
 
 export default function ExportManual() {
+	const [userDetail] = useState(() => {
+		const userData = localStorage.getItem("userDetail")
+		if (userData) {
+			return JSON.parse(userData)
+		} else {
+			return null
+		}
+	})
 	const [totalCount, settotalCount] = useState(0)
 	const [data, setData] = useState([])
 	useEffect(() => {
@@ -12,7 +20,7 @@ export default function ExportManual() {
 			url: `${systemConfig.MasterData.getTitleUrl}getWaitingGenerate`,
 			headers: systemConfig.MasterData.headersList,
 		}
-		let isMounted = true;
+		let isMounted = true
 		axios(config)
 			.then(function (res) {
 				if (isMounted) {
@@ -23,7 +31,9 @@ export default function ExportManual() {
 			.catch(function (error) {
 				console.log(error)
 			})
-			return () => { isMounted = false };
+		return () => {
+			isMounted = false
+		}
 	}, [data])
 
 	const onSubmitGenerate = () => {
@@ -39,10 +49,11 @@ export default function ExportManual() {
 				onSubmited("success")
 			})
 			.catch(function (err) {
-				onSubmited(err)
 				console.log(err)
+				onSubmited(err)
 			})
 	}
+
 	return (
 		<>
 			<div className='card flex-column'>
