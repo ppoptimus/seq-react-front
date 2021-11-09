@@ -14,25 +14,14 @@ export default function ExportHistory() {
 			return null
 		}
 	})
-	const [showDate, setShowDate] = useState(() => {
+	const [showDate] = useState(() => {
 		const today = new Date().toLocaleString("en-GB")
 		return today.substr(0, 10)
 	})
-	const months = [
-		"มกราคม",
-		"กุมภาพันธ์",
-		"มีนาคม",
-		"เมษายน",
-		"พฤษภาคม",
-		"มิถุนายน",
-		"กรกฎาคม",
-		"สิงหาคม",
-		"กันยายน",
-		"ตุลาคม",
-		"พฤศจิกายน",
-		"ธันวาคม",
-	]
-	const [data, setData] = useState([])
+	// const months = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม",]
+	const [exportHistory, setExportHistory] = useState([])
+	const [exportHistoryDetail, setExportHistoryDetail] = useState([])
+	const [detailCount, setDetailCount] = useState(0)
 	const [isDocumentSet, setIsDocumentSet] = useState(false)
 	const [bindData, setBindData] = useState([])
 	const [downloadUrl, setDownloadUrl] = useState("")
@@ -40,7 +29,7 @@ export default function ExportHistory() {
 	useEffect(() => {
 		const config = {
 			method: "post",
-			url: `${systemConfig.MasterData.getTitleUrl}getExporttHistory`,
+			url: `${systemConfig.MasterData.getTitleUrl}getExportHistory`,
 			headers: systemConfig.MasterData.headersList,
 			data: {
 				request_code: null,
@@ -52,7 +41,7 @@ export default function ExportHistory() {
 		axios(config)
 			.then(function (response) {
 				if (isMounted) {
-					setData(response.data)
+					setExportHistory(response.data)
 				}
 			})
 			.catch(function (error) {
@@ -67,7 +56,7 @@ export default function ExportHistory() {
 		setIsDocumentSet(i.document_set_no ? true : false)
 		setBindData(i)
 		setDownloadUrl(`${systemConfig.MasterData.getTitleUrl}download/?request_code=${i.request_code}`)
-		// generateFile(i.request_code)
+		generateFile(i.request_code)
 	}
 	const onHandleChange = (name) => (e) => {
 		if (name === "document_set_date") {
@@ -77,8 +66,16 @@ export default function ExportHistory() {
 			setBindData({ ...bindData, [name]: e.target.value })
 		}
 	}
-
 	const onSaveDocumentSet = () => {
+		if (bindData.document_set_no === null) {
+			console.log(bindData.document_set_no)
+			Swal.fire({
+				title: "กรุณาใส่เลขที่หนังสือ",
+				icon: "warning",
+				confirmButtonColor: "#d6810c",
+				confirmButtonText: "ตกลง",
+			})
+		}
 		const config = {
 			method: "post",
 			url: `${systemConfig.MasterData.getTitleUrl}saveDocumentSet`,
@@ -100,7 +97,6 @@ export default function ExportHistory() {
 				onSubmited("error")
 			})
 	}
-
 	const generateFile = (request_code) => {
 		const config = {
 			method: "post",
@@ -121,8 +117,28 @@ export default function ExportHistory() {
 				console.log(err)
 			})
 	}
+	const getExportHistoryDetail = (e) => {
+		const config = {
+			method: "post",
+			url: `${systemConfig.MasterData.getTitleUrl}getExportHistoryDetail`,
+			headers: systemConfig.MasterData.headersList,
+			data: {
+				request_code: e,
+				user_name: userDetail.user_name,
+				ip_address: "",
+			},
+		}
+		axios(config)
+			.then(function (res) {
+				console.log(res.data)
+				setDetailCount(res.data.length)
+				setExportHistoryDetail(res.data)
+			})
+			.catch(function (err) {
+				console.log(err)
+			})
+	}
 
-	console.log("doc= " + bindData.document_set_no, " date= " + bindData.document_set_date)
 	return (
 		<>
 			<div className='card'>
@@ -161,11 +177,15 @@ export default function ExportHistory() {
 							</tr>
 						</thead>
 						<tbody>
-							{data
-								? data.map((i) => (
+							{exportHistory
+								? exportHistory.map((i) => (
 										<tr key={i.request_code}>
 											<td className='text-primary'>
-												<span style={{ cursor: "pointer" }} data-toggle='modal' data-target='#popupEdit' onClick={() => onClickRow(i)}>
+												<span
+													style={{ cursor: "pointer" }}
+													data-toggle='modal'
+													data-target='#popupEdit'
+													onClick={() => onClickRow(i)}>
 													{i.request_code}
 												</span>
 											</td>
@@ -173,7 +193,11 @@ export default function ExportHistory() {
 											<td>{i.document_set_date}</td>
 											<td>{i.export_date}</td>
 											<td>
-												<button className='btn btn-info shadow-sm'>
+												<button
+													className='btn btn-info shadow-sm'
+													data-toggle='modal'
+													data-target='#historyDetail'
+													onClick={() => getExportHistoryDetail(i.request_code)}>
 													<i className='fas fa-list'></i>
 												</button>
 											</td>
@@ -184,7 +208,7 @@ export default function ExportHistory() {
 					</table>
 				</div>
 			</div>
-			{data.map((i) => (
+			{exportHistory.map((i) => (
 				<div
 					className='modal fade shadow-lg'
 					id='popupEdit'
@@ -226,8 +250,6 @@ export default function ExportHistory() {
 								</div>
 								<div className='form-group row justify-content-center align-items-center flex-nowrap'>
 									<label className='col-form-label col-5 text-right'>วันที่หนังสือ</label>
-									{/* <input type='date' className='form-control form-control-lg col-6' onChange={onHandleChange("document_set_date")} /> */}
-
 									<DatePicker
 										className='form-control form-control-lg col-7'
 										onChange={onHandleChange("document_set_date")}
@@ -240,12 +262,16 @@ export default function ExportHistory() {
 									/>
 								</div>
 
-								<a href={downloadUrl} target='_blank' rel='noreferrer'>
-									<button className='btn bg-gradient-white my-2'>
-										สามารถดาวน์โหลดไฟล์ได้ที่นี่ {"  "}
-										<i className='fas fa-download text-fuchsia' />
-									</button>
-								</a>
+								{!isDocumentSet ? (
+									<a href={downloadUrl} target='_blank' rel='noreferrer'>
+										<button className='btn bg-gradient-white my-2'>
+											สามารถดาวน์โหลดไฟล์ได้ที่นี่ {"  "}
+											<i className='fas fa-download text-fuchsia' />
+										</button>
+									</a>
+								) : (
+									""
+								)}
 								{isDocumentSet ? (
 									<button className='btn bg-gradient-white'>
 										ทำการส่งออกไฟล์เรียบร้อย สามารถดาวน์โหลดไฟล์ เพื่อส่งธนาคารได้ที่นี่ {"  "}
@@ -270,6 +296,50 @@ export default function ExportHistory() {
 					</div>
 				</div>
 			))}
+
+			{exportHistoryDetail ? (
+				<div
+					className='modal fade'
+					id='historyDetail'
+					tabIndex={-1}
+					role='dialog'
+					aria-labelledby='historyDetailLabal'
+					aria-hidden='true'>
+					<div className='modal-dialog' style={{ maxWidth:'1350px' }} role='document'>
+						<div className='modal-content'>
+							<span>{detailCount}</span>
+							<div className='modal-body'>
+								<table className='table'>
+									<thead className='table-primary'>
+										<tr>
+											<th>เลขที่บัญชีนายจ้าง</th>
+											<th>ประเภทธุรกิจ</th>
+											<th>ชื่อ - สกุล</th>
+											<th>เลขป.ช.ช./เลขทะเบียนพาณิชย์</th>
+											<th>ที่อยู่</th>
+											<th>วันเกิด</th>
+										</tr>
+									</thead>
+									<tbody>
+										{exportHistoryDetail.map((i) => (
+											<tr key={i.request_detail_id}>
+												<td>{i.employer_account}</td>
+												<td>{i.title_name}</td>
+												<td>{i.fullname}</td>
+												<td>{i.refference_id}</td>
+												<td>{i.address}</td>
+												<td>{i.birth_date}</td>
+											</tr>
+										))}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			) : (
+				""
+			)}
 		</>
 	)
 }
