@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import "./css/Login.css"
 import systemConfig from "./config.json"
 import axios from "axios"
+import Swal from "sweetalert2"
 
 export default function Login() {
 	const [userName, setUserName] = useState("")
@@ -18,37 +19,55 @@ export default function Login() {
 	useEffect(() => {
 		localStorage.setItem("userDetail", JSON.stringify(userDetail))
 	}, [userDetail])
-	
+
 	const onSubmitLogin = () => {
-		const config = {
-			method: "post",
-			url: `${systemConfig.MasterData.getTitleUrl}ldapLogin`,
-			headers: systemConfig.MasterData.headersList,
-			data: {
-				user_name: userName,
-				pwd: password,
-			},
-		}
-	
-		axios(config)
-			.then(function (response) {
-				if (response.status === 200) {
-					setUserDetail(response.data)
-				}
-				else {
+		if (userName) {
+			const config = {
+				method: "post",
+				url: `${systemConfig.MasterData.getTitleUrl}ldapLogin`,
+				headers: systemConfig.MasterData.headersList,
+				data: {
+					user_name: userName,
+					pwd: password,
+				},
+			}
+
+			axios(config)
+				.then(function (res) {
 					
-					setUserDetail(null)
-				}
-			})
-			.catch(function (error) {
-				console.log(error)
-			})
+					if (res.status === 200) {
+						if (res.data.result === 1) {
+							setUserDetail(res.data)
+						} else {
+							Swal.fire({
+								title: "เข้าระบบไม่สำเร็จ!!",
+								text: res.data.resultMessage,
+								icon: "warning",
+								confirmButtonColor: "#da8d0c",
+								confirmButtonText: "ตกลง",
+							})
+						}
+					} else {
+						Swal.fire({
+							title: "เข้าระบบไม่สำเร็จ!!",
+							text: res.data.resultMessage,
+							icon: "error",
+							confirmButtonColor: "#9c1e1e",
+							confirmButtonText: "ตกลง",
+						})
+						setUserDetail(null)
+					}
+				})
+				.catch(function (error) {
+					console.log(error)
+				})
+		}
 	}
 
 	return (
 		<div className='body vh-100'>
 			<div className='container px-4 py-5 mx-auto'>
-				<div className=' card0' style={{ background: "center"}}>
+				<div className=' card0' style={{ background: "center" }}>
 					<div className='d-flex flex-lg-row flex-column-reverse'>
 						<div className='card card1'>
 							<div className='row justify-content-center my-auto'>
@@ -91,9 +110,10 @@ export default function Login() {
 							<div className='my-auto mx-md-5 px-md-5 right'>
 								<h3 className='text-white'>ข่าวประชาสัมพันธ์</h3>
 								<p className='text-white'>
-									โดยที่ถึงแม้สถานการณ์การแพร่ระบาดของโรคติดเชื้อไวรัสโคโรนา ๒๐๑๙ ในประเทศไทย จะปรากฏแนวโน้มที่ดีขึ้นแล้วก็ตาม
-									แต่สถานการณ์การแพร่ระบาดของโรคดังกล่าวในต่างประเทศ ก็ยังปรากฏมีอยู่ในปัจจุบัน ดังนั้น
-									เพื่อมิให้ส่งผลกระทบต่อสุขภาพของบุคลากรของศาลปกครอง และสำนักงานศาลปกครอง ซึ่งจะส่งผลต่อการบริหารราชการศาลปกครองและสำนักงานศาลปกครอง
+									โดยที่ถึงแม้สถานการณ์การแพร่ระบาดของโรคติดเชื้อไวรัสโคโรนา ๒๐๑๙ ในประเทศไทย
+									จะปรากฏแนวโน้มที่ดีขึ้นแล้วก็ตาม แต่สถานการณ์การแพร่ระบาดของโรคดังกล่าวในต่างประเทศ
+									ก็ยังปรากฏมีอยู่ในปัจจุบัน ดังนั้น เพื่อมิให้ส่งผลกระทบต่อสุขภาพของบุคลากรของศาลปกครอง
+									และสำนักงานศาลปกครอง ซึ่งจะส่งผลต่อการบริหารราชการศาลปกครองและสำนักงานศาลปกครอง
 									อันอาจก่อให้เกิดความเสียหายแก่ราชการในที่สุด
 								</p>
 							</div>

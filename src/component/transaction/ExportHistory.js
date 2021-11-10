@@ -39,9 +39,9 @@ export default function ExportHistory() {
 		}
 		let isMounted = true
 		axios(config)
-			.then(function (response) {
+			.then(function (res) {
 				if (isMounted) {
-					setExportHistory(response.data)
+					setExportHistory(res.data)
 				}
 			})
 			.catch(function (error) {
@@ -68,34 +68,40 @@ export default function ExportHistory() {
 	}
 	const onSaveDocumentSet = () => {
 		if (bindData.document_set_no === null) {
-			console.log(bindData.document_set_no)
 			Swal.fire({
 				title: "กรุณาใส่เลขที่หนังสือ",
 				icon: "warning",
 				confirmButtonColor: "#d6810c",
 				confirmButtonText: "ตกลง",
 			})
-		}
-		const config = {
-			method: "post",
-			url: `${systemConfig.MasterData.getTitleUrl}saveDocumentSet`,
-			headers: systemConfig.MasterData.headersList,
-			data: {
-				request_code: bindData.request_code,
-				document_set_no: bindData.document_set_no,
-				document_set_date: bindData.document_set_date,
-				user_name: userDetail.user_name,
-			},
-		}
-		axios(config)
-			.then(function (res) {
-				console.log(res)
-				onSubmited("success")
+		} else if (bindData.document_set_date === null) {
+			Swal.fire({
+				title: "กรุณาใส่วันที่หนังสือ",
+				icon: "warning",
+				confirmButtonColor: "#d6810c",
+				confirmButtonText: "ตกลง",
 			})
-			.catch(function (err) {
-				console.log(err)
-				onSubmited("error")
-			})
+		} else {
+			const config = {
+				method: "post",
+				url: `${systemConfig.MasterData.getTitleUrl}saveDocumentSet`,
+				headers: systemConfig.MasterData.headersList,
+				data: {
+					request_code: bindData.request_code,
+					document_set_no: bindData.document_set_no,
+					document_set_date: bindData.document_set_date,
+					user_name: userDetail.user_name,
+				},
+			}
+			axios(config)
+				.then(function (res) {
+					onSubmited("success")
+				})
+				.catch(function (err) {
+					console.log(err)
+					onSubmited("error")
+				})
+		}
 	}
 	const generateFile = (request_code) => {
 		const config = {
@@ -111,7 +117,7 @@ export default function ExportHistory() {
 		}
 		axios(config)
 			.then(function (res) {
-				console.log(res)
+				// console.log(res)
 			})
 			.catch(function (err) {
 				console.log(err)
@@ -130,7 +136,7 @@ export default function ExportHistory() {
 		}
 		axios(config)
 			.then(function (res) {
-				console.log(res.data)
+				// console.log(res.data)
 				setDetailCount(res.data.length)
 				setExportHistoryDetail(res.data)
 			})
@@ -233,21 +239,28 @@ export default function ExportHistory() {
 								</div>
 								<div className='form-group row justify-content-center align-items-center'>
 									<label className='col-form-label col-4 text-right'>วันที่ประมวลผล</label>
-									<input readOnly type='text' className='form-control form-control-lg col-6' value={showDate} />
+									<input
+										readOnly
+										type='text'
+										className='form-control form-control-lg col-6'
+										value={bindData.export_date ? bindData.export_date.substr(0, 10) : showDate }
+									/>
 								</div>
+
 								<div className='form-group row justify-content-center align-items-center'>
-									<label className='col-form-label col-4 text-right' htmlFor='document_set_no'>
+									<label className='col-form-label col-4 text-right' htmlFor='document_set_no1'>
 										เลขที่หนังสือ
 									</label>
 									<input
-										id='document_set_no'
+										id='document_set_no1'
 										name='document_set_no'
 										type='text'
 										className='form-control form-control-lg col-6'
-										defaultValue='รง0625/ว.0'
+										value={bindData.document_set_no ? bindData.document_set_no : "รง0625/ว.0"}
 										onChange={onHandleChange("document_set_no")}
 									/>
 								</div>
+
 								<div className='form-group row justify-content-center align-items-center flex-nowrap'>
 									<label className='col-form-label col-5 text-right'>วันที่หนังสือ</label>
 									<DatePicker
@@ -255,7 +268,7 @@ export default function ExportHistory() {
 										onChange={onHandleChange("document_set_date")}
 										dateFormat='dd/MM/yyyy'
 										locale='en-GB'
-										placeholderText={showDate}
+										// placeholderText={showDate}
 										value={bindData.document_set_date}
 										dropdownMode='select'
 										peekNextMonth
@@ -305,9 +318,9 @@ export default function ExportHistory() {
 					role='dialog'
 					aria-labelledby='historyDetailLabal'
 					aria-hidden='true'>
-					<div className='modal-dialog' style={{ maxWidth:'1350px' }} role='document'>
+					<div className='modal-dialog' style={{ maxWidth: "1350px" }} role='document'>
 						<div className='modal-content'>
-							<span>{detailCount}</span>
+							<div className='text-secondary modal-header'>จำนวนทั้งหมด {detailCount} รายการ</div>
 							<div className='modal-body'>
 								<table className='table'>
 									<thead className='table-primary'>
@@ -373,7 +386,6 @@ const onSubmited = (result) => {
 const refreshPage = () => {
 	window.location.reload(false)
 }
-
 const formatDate = (e) => {
 	e = new Date(e)
 	let dd = String(e.getDate()).padStart(2, "0")
