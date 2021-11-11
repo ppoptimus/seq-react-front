@@ -25,6 +25,8 @@ export default function ExportHistory() {
 	const [isDocumentSet, setIsDocumentSet] = useState(false)
 	const [bindData, setBindData] = useState([])
 	const [downloadUrl, setDownloadUrl] = useState("")
+	const [searchInput, setSearchInput] = useState("")
+	const [filteredResults, setFilteredResults] = useState([])
 
 	useEffect(() => {
 		const config = {
@@ -52,6 +54,20 @@ export default function ExportHistory() {
 		}
 	}, [userDetail])
 
+	const searchItems = (i) => {
+		setSearchInput(i)
+		
+	}
+	const onSearch = () => {
+		if (searchInput !== "") {
+			const filteredData = exportHistory.filter((item) => {
+				return Object.values(item).join("").toLowerCase().includes(searchInput.toLowerCase())
+			})
+			setFilteredResults(filteredData)
+		} else {
+			setFilteredResults(exportHistory)
+		}
+	}
 	const onClickRow = (i) => {
 		setIsDocumentSet(i.document_set_no ? true : false)
 		setBindData(i)
@@ -161,13 +177,15 @@ export default function ExportHistory() {
 						</button>
 					</div>
 				</div>
+
 				<div className='card-body flex-column text-center'>
 					<div className='form-group text-center align-item-center'>
 						<label className='col-form-label col2'>ชุดหนังสือ</label>
-						<input className='form-control-lg col-4 mx-2'></input>
-						<button className='btn-lg btn-primary'>ค้นหา</button>
+						<input className='form-control-lg col-4 mx-2' onChange={(e) => searchItems(e.target.value)}></input>
+						<button className='btn-lg btn-primary' type='button' onClick={onSearch}>ค้นหา</button>
 					</div>
 				</div>
+				
 			</div>
 
 			<div className='card'>
@@ -183,8 +201,10 @@ export default function ExportHistory() {
 							</tr>
 						</thead>
 						<tbody>
-							{exportHistory
-								? exportHistory.map((i) => (
+							{exportHistory ? (
+								//---ถ้าพิมพ์ในช่อง search เกิน 1 digit ให้ map table กับ data เฉพาะที่อยู่ใน filteredResults--//
+								searchInput.length > 1 ? (
+									filteredResults.map((i) => (
 										<tr key={i.request_code}>
 											<td className='text-primary'>
 												<span
@@ -209,11 +229,39 @@ export default function ExportHistory() {
 											</td>
 										</tr>
 								  ))
-								: ""}
+								): (
+									exportHistory.map((i) => (
+										<tr key={i.request_code}>
+											<td className='text-primary'>
+												<span
+													style={{ cursor: "pointer" }}
+													data-toggle='modal'
+													data-target='#popupEdit'
+													onClick={() => onClickRow(i)}>
+													{i.request_code}
+												</span>
+											</td>
+											<td>{i.document_set_no}</td>
+											<td>{i.document_set_date}</td>
+											<td>{i.export_date}</td>
+											<td>
+												<button
+													className='btn btn-info shadow-sm'
+													data-toggle='modal'
+													data-target='#historyDetail'
+													onClick={() => getExportHistoryDetail(i.request_code)}>
+													<i className='fas fa-list'></i>
+												</button>
+											</td>
+										</tr>
+								  ))
+								)
+							):''}
 						</tbody>
 					</table>
 				</div>
 			</div>
+
 			{exportHistory.map((i) => (
 				<div
 					className='modal fade shadow-lg'
