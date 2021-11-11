@@ -59,12 +59,7 @@ export default function Sidebar() {
                   </li>
                 </ul>
               </li>
-              <li className='nav-item'>
-                <Link to='/' className='nav-link'>
-                  <i className='nav-icon fas fa-paste' />
-                  <p>บันทึกเลขชุดเอกสาร</p>
-                </Link>
-              </li>
+              
               <li className='nav-item'>
                 <Link to='/Import' className='nav-link'>
                   <i className='nav-icon fas fa-cloud-upload-alt' />

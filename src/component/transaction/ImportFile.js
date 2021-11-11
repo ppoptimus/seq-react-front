@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import XLSX from 'xlsx'
-import Swal from 'sweetalert2'
+import { useState } from "react"
+import XLSX from "xlsx"
+import Swal from "sweetalert2"
 import axios from "axios"
 import systemConfig from "../../config.json"
 
 export default function ImportFile() {
 	const [userDetail] = useState(() => {
-		const userData = localStorage.getItem('userDetail')
+		const userData = localStorage.getItem("userDetail")
 		if (userData) {
 			return JSON.parse(userData)
 		} else {
@@ -15,7 +15,7 @@ export default function ImportFile() {
 	})
 	const [selectedFile, setSelectedFile] = useState([])
 	let [importObject, setimportObject] = useState([])
-	let [dataset, setDataset] = useState([])
+	let [dataset] = useState([])
 
 	const onReadExcelFile = (file) => {
 		const promise = new Promise((resolve, reject) => {
@@ -25,11 +25,35 @@ export default function ImportFile() {
 			fileReader.onload = (e) => {
 				const bufferArray = e.target.result
 
-				const wb = XLSX.read(bufferArray, { type: 'buffer' })
+				const wb = XLSX.read(bufferArray, { type: "buffer" })
 				const wsname = wb.SheetNames[0]
 
 				const ws = wb.Sheets[wsname]
-				const data = XLSX.utils.sheet_to_json(ws)
+
+				const data = XLSX.utils.sheet_to_json(ws, {
+					header: [
+						"request_code",
+						"document_set_no",
+						"document_set_date",
+						"employer_account",
+						"title_name",
+						"first_name",
+						"last_name",
+						"refference_id",
+						"bank_code",
+						"branch_code",
+						"status_code",
+						"branch_name",
+						"account_type_code",
+						"account_no",
+						"account_name",
+						"xxx",
+						"balance",
+						"investigate_date",
+						"remark",
+					],
+				})
+
 				resolve(data)
 			}
 			fileReader.onerror = (err) => {
@@ -38,21 +62,20 @@ export default function ImportFile() {
 		})
 		promise.then((data) => {
 			Swal.fire({
-				position: 'center',
-				icon: 'success',
-				title: 'นำเข้าไฟล์ สำเร็จ',
+				position: "center",
+				icon: "success",
+				title: "นำเข้าไฟล์ สำเร็จ",
 				showConfirmButton: false,
-				timer: 3000,
+				timer: 2000,
 			})
-			console.log(data)
-			setSelectedFile(data)
+			// console.log(data)
 		})
 	}
 
 	const onInputTextFile = (e) => {
 		try {
 			const ext = e.target.files[0].type
-			if (!!ext && (ext === 'text/plain' || ext === 'text/csv')) {
+			if (!!ext && (ext === "text/plain" || ext === "text/csv")) {
 				ReadTextFile(e)
 			} else {
 				refreshPage()
@@ -67,13 +90,12 @@ export default function ImportFile() {
 		reader.onload = (e) => {
 			const text = e.target.result
 			try {
-				const arr = text.toString().replace(/\r\n/g, '\n').split('\n')
+				const arr = text.toString().replace(/\r\n/g, "\n").split("\n")
 				setimportObject({
 					request_code: arr[0].substr(0, 5),
 					document_set: arr[0].substr(5, 20).trim(),
 					bank_code: arr[0].substr(185, 3),
-					user_name: userDetail.user_name,
-					dataset:[{}]
+					user_name: userDetail.username,
 				})
 
 				for (let i = 0; i < arr.length - 1; i++) {
@@ -93,7 +115,6 @@ export default function ImportFile() {
 					let investigate_date = arr[i].substr(383, 30)
 					let remark = arr[i].substr(413, 50)
 
-
 					dataset.push({
 						document_date: document_date,
 						employee_account: employee_account,
@@ -111,42 +132,42 @@ export default function ImportFile() {
 						investigate_date: investigate_date,
 						remark: remark.trim(),
 					})
-					
 				}
 			} catch (err) {
 				console.log(err)
 				Swal.fire({
-					title: 'นำเข้าไฟล์ไม่สำเร็จ!!',
+					title: "นำเข้าไฟล์ไม่สำเร็จ!!",
 					text: err,
-					icon: 'error',
-					confirmButtonColor: '#d33',
-					confirmButtonText: 'ตกลง',
+					icon: "error",
+					confirmButtonColor: "#d33",
+					confirmButtonText: "ตกลง",
 				}).then((result) => {
 					if (result.isConfirmed) {
 						refreshPage()
 					}
 				})
-			} finally {}
+			} finally {
+			}
 		}
-		reader.readAsText(e.target.files[0], 'TIS-620')
+		reader.readAsText(e.target.files[0], "TIS-620")
 	}
 	const test = () => {
-		importObject.dataset.push({...dataset})
-		console.log(dataset)
+		const result = { dataset, ...importObject }
+		console.log(result)
 		// const config = {
 		// 	method: "post",
 		// 	url: `${systemConfig.MasterData.getTitleUrl}importbank`,
 		// 	headers: systemConfig.MasterData.headersList,
-		// 	data: importObject,
+		// 	data: result,
 		// }
-
 		// axios(config)
 		// 	.then(function (res) {
 		// 		console.log(res)
-				
+		// 		onSubmited('success')
 		// 	})
 		// 	.catch(function (err) {
 		// 		console.log(err)
+		// 		onSubmited(err)
 		// 	})
 	}
 	return (
@@ -165,7 +186,13 @@ export default function ImportFile() {
 					</label>
 				</div>
 				<div className='custom-file col-5'>
-					<input type='file' className='custom-file-input' id='exampleInputFile' accept='.csv, .txt, text/plain' onChange={(e) => onInputTextFile(e)} />
+					<input
+						type='file'
+						className='custom-file-input'
+						id='exampleInputFile'
+						accept='.csv, .txt, text/plain'
+						onChange={(e) => onInputTextFile(e)}
+					/>
 					<label className='custom-file-label' htmlFor='exampleInputFile'>
 						อัพโหลด Text File
 					</label>
@@ -174,6 +201,32 @@ export default function ImportFile() {
 			<button onClick={test}>test</button>
 		</>
 	)
+}
+const onSubmited = (result) => {
+	if (result === "success") {
+		Swal.fire({
+			title: "นำเข้าข้อมูลสำเร็จ",
+			icon: "success",
+			confirmButtonColor: "#119516",
+			confirmButtonText: "ตกลง",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				refreshPage()
+			}
+		})
+	} else {
+		Swal.fire({
+			title: "นำเข้าข้อมูล ไม่สำเร็จ!!",
+			text: result,
+			icon: "error",
+			confirmButtonColor: "#9c1e1e",
+			confirmButtonText: "ตกลง",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				refreshPage()
+			}
+		})
+	}
 }
 const refreshPage = () => {
 	window.location.reload(false)

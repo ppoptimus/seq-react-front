@@ -18,7 +18,6 @@ export default function ExportHistory() {
 		const today = new Date().toLocaleString("en-GB")
 		return today.substr(0, 10)
 	})
-	// const months = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม",]
 	const [exportHistory, setExportHistory] = useState([])
 	const [exportHistoryDetail, setExportHistoryDetail] = useState([])
 	const [detailCount, setDetailCount] = useState(0)
@@ -54,11 +53,10 @@ export default function ExportHistory() {
 		}
 	}, [userDetail])
 
-	const searchItems = (i) => {
+	const onInputTextSearch = (i) => {
 		setSearchInput(i)
-		
 	}
-	const onSearch = () => {
+	const onClickSearch = () => {
 		if (searchInput !== "") {
 			const filteredData = exportHistory.filter((item) => {
 				return Object.values(item).join("").toLowerCase().includes(searchInput.toLowerCase())
@@ -82,7 +80,7 @@ export default function ExportHistory() {
 			setBindData({ ...bindData, [name]: e.target.value })
 		}
 	}
-	const onSaveDocumentSet = () => {
+	const onClickSaveDocumentSet = () => {
 		if (bindData.document_set_no === null) {
 			Swal.fire({
 				title: "กรุณาใส่เลขที่หนังสือ",
@@ -181,8 +179,8 @@ export default function ExportHistory() {
 				<div className='card-body flex-column text-center'>
 					<div className='form-group text-center align-item-center'>
 						<label className='col-form-label col2'>ชุดหนังสือ</label>
-						<input className='form-control-lg col-4 mx-2' onChange={(e) => searchItems(e.target.value)}></input>
-						<button className='btn-lg btn-primary' type='button' onClick={onSearch}>ค้นหา</button>
+						<input className='form-control-lg col-4 mx-2' onChange={(e) => onInputTextSearch(e.target.value)}></input>
+						<button className='btn-lg btn-primary' type='button' onClick={onClickSearch}>ค้นหา</button>
 					</div>
 				</div>
 				
@@ -347,7 +345,7 @@ export default function ExportHistory() {
 
 							<div className='modal-footer'>
 								<div className='form-group'>
-									<button type='button' className='btn btn-success mr-3 px-4' onClick={onSaveDocumentSet}>
+									<button type='button' className='btn btn-success mr-3 px-4' onClick={onClickSaveDocumentSet}>
 										บันทึก
 									</button>
 									<button type='button' className='btn btn-secondary' data-dismiss='modal'>
