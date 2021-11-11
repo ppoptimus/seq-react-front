@@ -243,7 +243,7 @@ export default function ExportHistory() {
 										readOnly
 										type='text'
 										className='form-control form-control-lg col-6'
-										value={bindData.export_date ? bindData.export_date.substr(0, 10) : showDate }
+										value={bindData.export_date ? bindData.export_date.substr(0, 10) : showDate}
 									/>
 								</div>
 
@@ -286,10 +286,12 @@ export default function ExportHistory() {
 									""
 								)}
 								{isDocumentSet ? (
-									<button className='btn bg-gradient-white'>
-										ทำการส่งออกไฟล์เรียบร้อย สามารถดาวน์โหลดไฟล์ เพื่อส่งธนาคารได้ที่นี่ {"  "}
-										<i className='fas fa-download text-fuchsia' />
-									</button>
+									<a href={downloadUrl} target='_blank' rel='noreferrer'>
+										<button className='btn bg-gradient-white'>
+											ทำการส่งออกไฟล์เรียบร้อย สามารถดาวน์โหลดไฟล์ เพื่อส่งธนาคารได้ที่นี่ {"  "}
+											<i className='fas fa-download text-fuchsia' />
+										</button>
+									</a>
 								) : (
 									""
 								)}
