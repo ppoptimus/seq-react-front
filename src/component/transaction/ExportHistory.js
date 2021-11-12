@@ -4,16 +4,10 @@ import axios from "axios"
 import Swal from "sweetalert2"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
+import UserDetail from '../../UserDetail'
 
 export default function ExportHistory() {
-	const [userDetail] = useState(() => {
-		const userData = localStorage.getItem("userDetail")
-		if (userData) {
-			return JSON.parse(userData)
-		} else {
-			return null
-		}
-	})
+	const [userDetail] = useState(UserDetail)
 	const [showDate] = useState(() => {
 		const today = new Date().toLocaleString("en-GB")
 		return today.substr(0, 10)

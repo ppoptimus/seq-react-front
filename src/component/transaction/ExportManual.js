@@ -1,22 +1,14 @@
-import React, { useEffect, useState } from "react"
-import Swal from "sweetalert2"
-import systemConfig from "../../config.json"
-import axios from "axios"
+import React, { useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
+import systemConfig from '../../config.json'
+import axios from 'axios'
 
 export default function ExportManual() {
-	const [userDetail] = useState(() => {
-		const userData = localStorage.getItem("userDetail")
-		if (userData) {
-			return JSON.parse(userData)
-		} else {
-			return null
-		}
-	})
 	const [totalCount, settotalCount] = useState(0)
 	const [data, setData] = useState([])
 	useEffect(() => {
 		const config = {
-			method: "get",
+			method: 'get',
 			url: `${systemConfig.MasterData.getTitleUrl}getWaitingGenerate`,
 			headers: systemConfig.MasterData.headersList,
 		}
@@ -38,7 +30,7 @@ export default function ExportManual() {
 
 	const onSubmitGenerate = () => {
 		const config = {
-			method: "get",
+			method: 'get',
 			url: `${systemConfig.MasterData.getTitleUrl}autoGenerateCode`,
 			headers: systemConfig.MasterData.headersList,
 		}
@@ -46,7 +38,7 @@ export default function ExportManual() {
 		axios(config)
 			.then(function (res) {
 				console.log(res)
-				onSubmited("success")
+				onSubmited('success')
 			})
 			.catch(function (err) {
 				console.log(err)
@@ -91,12 +83,12 @@ export default function ExportManual() {
 	)
 }
 const onSubmited = (result) => {
-	if (result === "success") {
+	if (result === 'success') {
 		Swal.fire({
-			title: "สร้างเลขชุดหนังสือสำเร็จ",
-			icon: "success",
-			confirmButtonColor: "#119516",
-			confirmButtonText: "ตกลง",
+			title: 'สร้างเลขชุดหนังสือสำเร็จ',
+			icon: 'success',
+			confirmButtonColor: '#119516',
+			confirmButtonText: 'ตกลง',
 		}).then((result) => {
 			if (result.isConfirmed) {
 				refreshPage()
@@ -104,11 +96,11 @@ const onSubmited = (result) => {
 		})
 	} else {
 		Swal.fire({
-			title: "สร้างเลขชุดหนังสือไม่สำเร็จ!!",
+			title: 'สร้างเลขชุดหนังสือไม่สำเร็จ!!',
 			text: result,
-			icon: "error",
-			confirmButtonColor: "#9c1e1e",
-			confirmButtonText: "ตกลง",
+			icon: 'error',
+			confirmButtonColor: '#9c1e1e',
+			confirmButtonText: 'ตกลง',
 		}).then((result) => {
 			if (result.isConfirmed) {
 				refreshPage()

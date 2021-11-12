@@ -1,27 +1,20 @@
-import React, { useState } from "react"
-import { Link, useHistory } from "react-router-dom"
+import React, { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import UserDetail from '../UserDetail'
 
 export default function Navbar() {
-	
 	let history = useHistory()
-	const [userDetail] = useState(() => {
-		const userData = localStorage.getItem("userDetail")
-		if (userData) {
-			return JSON.parse(userData)
-		} else {
-			return null
-		}
-	})
-	
-  const onLogoutClick = (e) => {
-    localStorage.removeItem('userDetail')
-		history.push('/')
-    refreshPage()
-  }
+	const [userDetail] = useState(UserDetail)
 
-  function refreshPage() {
-    window.location.reload(false);
-  }
+	const onLogoutClick = (e) => {
+		localStorage.removeItem('userDetail')
+		history.push('/')
+		refreshPage()
+	}
+
+	function refreshPage() {
+		window.location.reload(false)
+	}
 
 	return (
 		<>
@@ -40,8 +33,7 @@ export default function Navbar() {
 					</li>
 					<li className='nav-item d-none d-sm-inline-block'>
 						<Link to='/GetNewRequest' className='nav-link'>
-							ตรวจสอบรายการใหม่ {' '}
-							<span className='right badge badge-danger'>New</span>
+							ตรวจสอบรายการใหม่ <span className='right badge badge-danger'>New</span>
 						</Link>
 					</li>
 				</ul>
@@ -52,7 +44,7 @@ export default function Navbar() {
 							<i className='fas fa-expand-arrows-alt' />
 						</span>
 					</li>
-					
+
 					<li className='nav-item dropdown'>
 						<span className='nav-link' data-toggle='dropdown'>
 							<i className='fas fa-user' />
@@ -74,12 +66,15 @@ export default function Navbar() {
 								<i className='fas fa-shield-alt mr-2' />
 								ระดับการเข้าถึง : <b>{userDetail.user_level_name}</b>
 							</span>
-              <div className='dropdown-divider' />
+							<div className='dropdown-divider' />
 							<span className='dropdown-item'>
 								<i className='fas fa-clipboard mr-2' />
-								ชื่อ-สกุล : <b>{userDetail.first_name} {userDetail.last_name}</b>
+								ชื่อ-สกุล :{' '}
+								<b>
+									{userDetail.first_name} {userDetail.last_name}
+								</b>
 							</span>
-              <div className='dropdown-divider' />
+							<div className='dropdown-divider' />
 							<span className='dropdown-item'>
 								<i className='fas fa-id-badge mr-2' />
 								บัตรประชาชน : <b>{userDetail.personal_id}</b>

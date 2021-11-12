@@ -1,24 +1,18 @@
 import React, { useState } from "react"
+import { useHistory  } from "react-router-dom"
 import Swal from "sweetalert2"
 import axios from "axios"
 import systemConfig from "../../config.json"
 import PersonalInfo from "../formStep/Step1PersonalInfo"
 import PersonalInfo2 from "../formStep/Step1PersonalInfo2"
 import ContactInfo from "../formStep/Step2ContactInfo"
-import { useHistory  } from "react-router-dom"
+import UserDetail from '../../UserDetail'
 
 export default function NewRequest() {
 	let history = useHistory();
 	const [isPerson, setIsPerson] = useState(true)
 
-	const [userDetail] = useState(() => {
-		const userData = localStorage.getItem("userDetail")
-		if (userData) {
-			return JSON.parse(userData)
-		} else {
-			return null
-		}
-	})
+	const [userDetail] = useState(UserDetail)
 
 	const [newRequestValue, setNewRequestValue] = useState({
 		document_no: null,
