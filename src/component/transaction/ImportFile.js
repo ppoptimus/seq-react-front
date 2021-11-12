@@ -25,16 +25,14 @@ export default function ImportFile() {
 			fileReader.onload = (e) => {
 				const bufferArray = e.target.result
 
-				const wb = XLSX.read(bufferArray, { type: "buffer" })
+				const wb = XLSX.read(bufferArray, { type: "binary" })
 				const wsname = wb.SheetNames[0]
-
 				const ws = wb.Sheets[wsname]
-
 				const data = XLSX.utils.sheet_to_json(ws, {
 					header: [
 						"request_code",
 						"document_set_no",
-						"document_set_date",
+						"document_date",
 						"employer_account",
 						"title_name",
 						"first_name",
@@ -47,13 +45,33 @@ export default function ImportFile() {
 						"account_type_code",
 						"account_no",
 						"account_name",
-						"xxx",
+						"rating",
 						"balance",
 						"investigate_date",
 						"remark",
 					],
 				})
-
+				for (const item of data) {
+					// item.investigate_date = ws.R1.w
+					dataset.push({
+						document_date: item.document_date,
+						employer_account: item.employer_account,
+						title_name: (item.title_name)?item.title_name.trim():null,
+						first_name: (item.first_name)?item.first_name.trim():null,
+						last_name: (item.last_name)?item.last_name.trim():null,
+						refference_id: (item.refference_id)?item.refference_id.trim():null,
+						branch_code: (item.branch_code)?item.branch_code:null,
+						status_code: item.status_code,
+						branch_name: (item.branch_name)?item.branch_name.trim():null,
+						account_type_code: (item.account_type_code)?item.account_type_code.trim():null,
+						account_no: (item.account_no)?item.account_no.trim():null,
+						account_name: (item.account_name)?item.account_name.trim():null,
+						balance: (item.balance)?item.balance:null,
+						investigate_date: ws.R1.w,
+						remark: (item.remark)?item.remark.trim():null,
+					})
+					// console.log(item.branch_name)
+				}
 				resolve(data)
 			}
 			fileReader.onerror = (err) => {
@@ -68,7 +86,6 @@ export default function ImportFile() {
 				showConfirmButton: false,
 				timer: 2000,
 			})
-			// console.log(data)
 		})
 	}
 
@@ -100,9 +117,9 @@ export default function ImportFile() {
 
 				for (let i = 0; i < arr.length - 1; i++) {
 					let document_date = arr[i].substr(25, 10)
-					let employee_account = arr[i].substr(35, 10)
+					let employer_account = arr[i].substr(35, 10)
 					let title_name = arr[i].substr(45, 20)
-					let fisrt_name = arr[i].substr(65, 50)
+					let first_name = arr[i].substr(65, 50)
 					let last_name = arr[i].substr(115, 50)
 					let refference_id = arr[i].substr(165, 20)
 					let branch_code = arr[i].substr(188, 4)
@@ -117,9 +134,9 @@ export default function ImportFile() {
 
 					dataset.push({
 						document_date: document_date,
-						employee_account: employee_account,
+						employer_account: employer_account,
 						title_name: title_name.trim(),
-						fisrt_name: fisrt_name.trim(),
+						first_name: first_name.trim(),
 						last_name: last_name.trim(),
 						refference_id: refference_id.trim(),
 						branch_code: branch_code,
@@ -152,8 +169,8 @@ export default function ImportFile() {
 		reader.readAsText(e.target.files[0], "TIS-620")
 	}
 	const test = () => {
-		const result = { dataset, ...importObject }
-		console.log(result)
+		// const result = { dataset, ...importObject }
+		console.log(dataset)
 		// const config = {
 		// 	method: "post",
 		// 	url: `${systemConfig.MasterData.getTitleUrl}importbank`,

@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, { useState } from "react"
 import { Suspense, lazy } from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import Login from "./Login"
@@ -16,35 +16,42 @@ const ExportHistory = lazy(() => import("./component/transaction/ExportHistory")
 
 function App() {
 	const [userDetail] = useState(() => {
-    const userData = localStorage.getItem('userDetail')
-    if(userData) {
-      return JSON.parse(userData);
-    }
-    else{
-      return null;
-    }
-  })
+		const userData = localStorage.getItem("userDetail")
+		if (userData) {
+			return JSON.parse(userData)
+		} else {
+			return null
+		}
+	})
 	return (
 		<div className='wrapper'>
 			<Router>
-				{userDetail ? (<Suspense fallback={<div>Loading...</div>}>
-					<Navbar />
-					<Sidebar />
-					<div className='content-wrapper p-3'>
-						<Switch>
-							<Route exact path='/' component={Dashboard} />
-							<Route path='/UploadFile' component={UploadFile} />
-							<Route path='/SaveNewRequest' component={SaveNewRequest} />
-							<Route path='/GetNewRequest' component={GetNewRequest} />
-							<Route path='/ExportManual' component={ExportManual} />
-							<Route path='/ExportHistory' component={ExportHistory} />
-							<Route path='/Import' component={ImportFile} />
-						</Switch>
-						{/* <UploadFile/> */}
-						<Footer />
-					</div>
-				</Suspense>) : (<Login/>)}
-				
+				{userDetail ? (
+					<Suspense
+						fallback={
+							<div className='spinner-border text-primary' role='status'>
+								<span className='sr-only'>Loading...</span>
+							</div>
+						}>
+						<Navbar />
+						<Sidebar />
+						<div className='content-wrapper p-3'>
+							<Switch>
+								<Route exact path='/' component={Dashboard} />
+								<Route path='/UploadFile' component={UploadFile} />
+								<Route path='/SaveNewRequest' component={SaveNewRequest} />
+								<Route path='/GetNewRequest' component={GetNewRequest} />
+								<Route path='/ExportManual' component={ExportManual} />
+								<Route path='/ExportHistory' component={ExportHistory} />
+								<Route path='/Import' component={ImportFile} />
+							</Switch>
+							{/* <UploadFile/> */}
+							<Footer />
+						</div>
+					</Suspense>
+				) : (
+					<Login />
+				)}
 			</Router>
 		</div>
 	)
