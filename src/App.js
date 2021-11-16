@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Suspense, lazy } from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import Login from "./Login"
+import UserDetail from './UserDetail'
 
 const Navbar = lazy(() => import("./menu/Navbar"))
 const Sidebar = lazy(() => import("./menu/Sidebar"))
@@ -15,21 +16,14 @@ const ImportFile = lazy(() => import("./component/transaction/ImportFile"))
 const ExportHistory = lazy(() => import("./component/transaction/ExportHistory"))
 
 function App() {
-	const [userDetail] = useState(() => {
-		const userData = localStorage.getItem("userDetail")
-		if (userData) {
-			return JSON.parse(userData)
-		} else {
-			return null
-		}
-	})
+	const [userDetail] = useState(UserDetail)
 	return (
 		<div className='wrapper'>
 			<Router>
 				{userDetail ? (
 					<Suspense
 						fallback={
-							<div className='spinner-border text-primary' role='status'>
+							<div className='spinner-border text-purple text-lg' role='banner'>
 								<span className='sr-only'>Loading...</span>
 							</div>
 						}>
@@ -46,6 +40,7 @@ function App() {
 								<Route path='/Import' component={ImportFile} />
 							</Switch>
 							{/* <UploadFile/> */}
+						
 							<Footer />
 						</div>
 					</Suspense>

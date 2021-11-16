@@ -3,18 +3,12 @@ import "./css/Login.css"
 import systemConfig from "./config.json"
 import axios from "axios"
 import Swal from "sweetalert2"
+import UserDetail from './UserDetail'
 
 export default function Login() {
 	const [userName, setUserName] = useState("")
 	const [password, setPassword] = useState("")
-	const [userDetail, setUserDetail] = useState(() => {
-		const userData = localStorage.getItem("userDetail")
-		if (userData) {
-			return JSON.parse(userData)
-		} else {
-			return null
-		}
-	})
+	const [userDetail, setUserDetail] = useState(UserDetail)
 
 	useEffect(() => {
 		localStorage.setItem("userDetail", JSON.stringify(userDetail))
@@ -34,7 +28,13 @@ export default function Login() {
 
 			axios(config)
 				.then(function (res) {
-					
+					if(!res){
+						return(
+							<div className='spinner-border text-purple text-lg' role='banner'>
+								<span className='sr-only'>Loading...</span>
+							</div>
+						)
+					}
 					if (res.status === 200) {
 						if (res.data.result === 1) {
 							setUserDetail(res.data)
@@ -60,6 +60,13 @@ export default function Login() {
 				})
 				.catch(function (error) {
 					console.log(error)
+					Swal.fire({
+						title: "เข้าระบบไม่สำเร็จ!!",
+						text: error,
+						icon: "error",
+						confirmButtonColor: "#9c1e1e",
+						confirmButtonText: "ตกลง",
+					})
 				})
 		}
 	}

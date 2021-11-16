@@ -3,16 +3,10 @@ import XLSX from "xlsx"
 import Swal from "sweetalert2"
 import axios from "axios"
 import systemConfig from "../../config.json"
+import UserDetail from '../../UserDetail'
 
 export default function ImportFile() {
-	const [userDetail] = useState(() => {
-		const userData = localStorage.getItem("userDetail")
-		if (userData) {
-			return JSON.parse(userData)
-		} else {
-			return null
-		}
-	})
+	const [userDetail] = useState(UserDetail)
 	const [selectedFile, setSelectedFile] = useState([])
 	let [importObject, setimportObject] = useState([])
 	let [dataset] = useState([])
