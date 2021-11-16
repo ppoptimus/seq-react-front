@@ -49,28 +49,35 @@ export default function ImportFile() {
 						"balance",
 						"investigate_date",
 						"remark",
-					],
+					],skipHeader: true, origin: "A2"
 				})
+				console.log(ws.A1.v.substr(0,1))
+				setimportObject({
+					request_code: ws.A2.w,
+					document_set: ws.B2.w.trim(),
+					bank_code: ws.I2.w,
+					user_name: userDetail.username,
+				})
+
+				console.log(data.length)
 				for (const item of data) {
-					// item.investigate_date = ws.R1.w
 					dataset.push({
 						document_date: item.document_date,
 						employer_account: item.employer_account,
-						title_name: (item.title_name)?item.title_name.trim():null,
-						first_name: (item.first_name)?item.first_name.trim():null,
-						last_name: (item.last_name)?item.last_name.trim():null,
-						refference_id: (item.refference_id)?item.refference_id.trim():null,
-						branch_code: (item.branch_code)?item.branch_code:null,
+						title_name: item.title_name ? item.title_name.trim() : null,
+						first_name: item.first_name ? item.first_name.trim() : null,
+						last_name: item.last_name ? item.last_name.trim() : null,
+						refference_id: item.refference_id ? item.refference_id.trim() : null,
+						branch_code: item.branch_code ? item.branch_code : null,
 						status_code: item.status_code,
-						branch_name: (item.branch_name)?item.branch_name.trim():null,
-						account_type_code: (item.account_type_code)?item.account_type_code.trim():null,
-						account_no: (item.account_no)?item.account_no.trim():null,
-						account_name: (item.account_name)?item.account_name.trim():null,
-						balance: (item.balance)?item.balance:null,
+						branch_name: item.branch_name ? item.branch_name.trim() : null,
+						account_type_code: item.account_type_code ? item.account_type_code.trim() : null,
+						account_no: item.account_no ? item.account_no.trim() : null,
+						account_name: item.account_name ? item.account_name.trim() : null,
+						balance: item.balance ? item.balance : null,
 						investigate_date: ws.R1.w,
-						remark: (item.remark)?item.remark.trim():null,
+						remark: item.remark ? item.remark.trim() : null,
 					})
-					// console.log(item.branch_name)
 				}
 				resolve(data)
 			}
@@ -78,15 +85,7 @@ export default function ImportFile() {
 				reject(err)
 			}
 		})
-		promise.then((data) => {
-			Swal.fire({
-				position: "center",
-				icon: "success",
-				title: "นำเข้าไฟล์ สำเร็จ",
-				showConfirmButton: false,
-				timer: 2000,
-			})
-		})
+		promise.then(() => {})
 	}
 
 	const onInputTextFile = (e) => {
@@ -163,29 +162,31 @@ export default function ImportFile() {
 						refreshPage()
 					}
 				})
-			} finally {
 			}
 		}
 		reader.readAsText(e.target.files[0], "TIS-620")
 	}
-	const test = () => {
-		// const result = { dataset, ...importObject }
-		console.log(dataset)
-		// const config = {
-		// 	method: "post",
-		// 	url: `${systemConfig.MasterData.getTitleUrl}importbank`,
-		// 	headers: systemConfig.MasterData.headersList,
-		// 	data: result,
-		// }
-		// axios(config)
-		// 	.then(function (res) {
-		// 		console.log(res)
-		// 		onSubmited('success')
-		// 	})
-		// 	.catch(function (err) {
-		// 		console.log(err)
-		// 		onSubmited(err)
-		// 	})
+
+	const onUpload = () => {
+		const result = { dataset, ...importObject }
+		const config = {
+			method: "post",
+			url: `${systemConfig.MasterData.getTitleUrl}importbank`,
+			headers: systemConfig.MasterData.headersList,
+			data: result,
+		}
+		axios(config)
+			.then(function (res) {
+				if (res.status === 208) {
+					onSubmited(208)
+				} else {
+					onSubmited(200)
+				}
+			})
+			.catch(function (err) {
+				console.log(err)
+				onSubmited(err)
+			})
 	}
 	return (
 		<>
@@ -215,12 +216,18 @@ export default function ImportFile() {
 					</label>
 				</div>
 			</div>
-			<button onClick={test}>test</button>
+			<hr/>
+			<div className='container text-center m-3'>
+				<button className='btn-lg btn-primary' onClick={onUpload}>
+					นำเข้าไฟล์
+				</button>
+			</div>
 		</>
 	)
 }
-const onSubmited = (result) => {
-	if (result === "success") {
+const onSubmited = (param) => {
+	console.log(param)
+	if (param === 200) {
 		Swal.fire({
 			title: "นำเข้าข้อมูลสำเร็จ",
 			icon: "success",
@@ -231,10 +238,22 @@ const onSubmited = (result) => {
 				refreshPage()
 			}
 		})
+	} else if (param === 208) {
+		Swal.fire({
+			title: "นำเข้าข้อมูล ไม่สำเร็จ!!",
+			text: "เลขชุดหนังสือนี้มีการนำเข้าข้อมูลไปแล้ว",
+			icon: "warning",
+			confirmButtonColor: "#9c1e1e",
+			confirmButtonText: "ตกลง",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				refreshPage()
+			}
+		})
 	} else {
 		Swal.fire({
 			title: "นำเข้าข้อมูล ไม่สำเร็จ!!",
-			text: result,
+			text: param,
 			icon: "error",
 			confirmButtonColor: "#9c1e1e",
 			confirmButtonText: "ตกลง",
