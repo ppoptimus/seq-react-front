@@ -3,7 +3,7 @@ import XLSX from "xlsx"
 import Swal from "sweetalert2"
 import axios from "axios"
 import systemConfig from "../../config.json"
-import UserDetail from '../../UserDetail'
+import UserDetail from "../../UserDetail"
 
 export default function ImportFile() {
 	const [userDetail] = useState(UserDetail)
@@ -22,6 +22,12 @@ export default function ImportFile() {
 				const wb = XLSX.read(bufferArray, { type: "binary" })
 				const wsname = wb.SheetNames[0]
 				const ws = wb.Sheets[wsname]
+				
+				if (ws.A1.w.length > 5) {
+					let range = XLSX.utils.decode_range(ws["!ref"])
+					range.s.r = 1
+					ws["!ref"] = XLSX.utils.encode_range(range)
+				}
 				const data = XLSX.utils.sheet_to_json(ws, {
 					header: [
 						"request_code",
@@ -43,9 +49,9 @@ export default function ImportFile() {
 						"balance",
 						"investigate_date",
 						"remark",
-					],skipHeader: true, origin: "A2"
+					],
 				})
-				console.log(ws.A1.v.substr(0,1))
+
 				setimportObject({
 					request_code: ws.A2.w,
 					document_set: ws.B2.w.trim(),
@@ -53,27 +59,28 @@ export default function ImportFile() {
 					user_name: userDetail.username,
 				})
 
-				console.log(data.length)
 				for (const item of data) {
+					
 					dataset.push({
 						document_date: item.document_date,
-						employer_account: item.employer_account,
+						employer_account: item.employer_account.toString(),
 						title_name: item.title_name ? item.title_name.trim() : null,
 						first_name: item.first_name ? item.first_name.trim() : null,
 						last_name: item.last_name ? item.last_name.trim() : null,
-						refference_id: item.refference_id ? item.refference_id.trim() : null,
+						refference_id: (item.refference_id === undefined) ? null : item.refference_id.toString().trim(),
 						branch_code: item.branch_code ? item.branch_code : null,
 						status_code: item.status_code,
-						branch_name: item.branch_name ? item.branch_name.trim() : null,
-						account_type_code: item.account_type_code ? item.account_type_code.trim() : null,
-						account_no: item.account_no ? item.account_no.trim() : null,
-						account_name: item.account_name ? item.account_name.trim() : null,
-						balance: item.balance ? item.balance : null,
-						investigate_date: ws.R1.w,
-						remark: item.remark ? item.remark.trim() : null,
+						branch_name: (item.branch_name === undefined) ? null : item.branch_name.toString().trim(),
+						account_type_code: (item.account_type_code === undefined) ? null : item.account_type_code,
+						account_no: (item.account_no === undefined) ? null : item.account_no.toString().trim(),
+						account_name: (item.account_name === undefined) ? null : item.account_name.toString().trim(),
+						balance: (item.balance === undefined) ? null : item.balance,
+						investigate_date: ws.R2.w,
+						remark: (item.remark === undefined) ? null : item.remark.toString().trim(),
 					})
 				}
 				resolve(data)
+				// console.log(data)
 			}
 			fileReader.onerror = (err) => {
 				reject(err)
@@ -210,7 +217,7 @@ export default function ImportFile() {
 					</label>
 				</div>
 			</div>
-			<hr/>
+			<hr />
 			<div className='container text-center m-3'>
 				<button className='btn-lg btn-primary' onClick={onUpload}>
 					นำเข้าไฟล์

@@ -26,9 +26,9 @@ export default function UploadFile() {
 	return (
 		<div>
 			<div>
-				<input type='file' name='file' onChange={onSelectFile} />
+				<input type='file' name='file' id='exampleInputFile' onChange={onSelectFile} />
 				<button onClick={uploadFile}>Upload</button>
-				<a href={filePath} target='_blank' rel="noopener noreferrer">
+				<a href={filePath} target='_blank' rel='noopener noreferrer'>
 					<button>Download</button>
 				</a>
 			</div>
