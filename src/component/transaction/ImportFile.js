@@ -12,15 +12,17 @@ export default function ImportFile() {
 	let [dataset] = useState([])
 
 	const onSelectFile = (file) => {
-		if (file.target.files[0].type === "text/plain" || file.target.files[0].type === "text/csv") {
-			ReadTextFile(file)
-		} else if (
-			file.target.files[0].type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-			file.target.files[0].type === "application/vnd.ms-excel"
-		) {
-			onReadExcelFile(file.target.files[0])
-		} else {
-			console.log("err")
+		if (!!file) {
+			if (file.target.files[0].type === "text/plain" || file.target.files[0].type === "text/csv") {
+				ReadTextFile(file)
+			} else if (
+				file.target.files[0].type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+				file.target.files[0].type === "application/vnd.ms-excel"
+			) {
+				onReadExcelFile(file.target.files[0])
+			} else {
+				console.log("err")
+			}
 		}
 	}
 	const onReadExcelFile = (file) => {
@@ -116,7 +118,6 @@ export default function ImportFile() {
 					bank_code: arr[0].substr(185, 3),
 					user_name: userDetail.username,
 				})
-			console.log(arr[0].substr(185, 3))
 				for (let i = 0; i < arr.length - 1; i++) {
 					let document_date = arr[i].substr(25, 10)
 					let employer_account = arr[i].substr(35, 10)
@@ -125,15 +126,15 @@ export default function ImportFile() {
 					let last_name = arr[i].substr(115, 50).trim()
 					let refference_id = arr[i].substr(165, 20)
 
-					let branch_code = (!arr[0].substr(185, 3)==='006') ? arr[i].substr(188, 4) : arr[i].substr(188, 6).trim()
-					let status_code = (!arr[0].substr(185, 3)==='006') ? arr[i].substr(192, 1) : arr[i].substr(194, 1)
-					let branch_name = (!arr[0].substr(185, 3)==='006') ? arr[i].substr(193, 50) : arr[i].substr(195, 50).trim()
-					let account_type_code = (!arr[0].substr(185, 3)==='006') ? arr[i].substr(243, 2) : arr[i].substr(245, 2).trim()
-					let account_no = (!arr[0].substr(185, 3)==='006') ? arr[i].substr(245, 20) : arr[i].substr(247, 20).trim()
-					let account_name = (!arr[0].substr(185, 3)==='006') ? arr[i].substr(265, 100) : arr[i].substr(267, 100).trim()
-					let balance = (!arr[0].substr(185, 3)==='006') ? arr[i].substr(366, 17) : arr[i].substr(368, 17).trim()
-					let investigate_date = (!arr[0].substr(185, 3)==='006') ? arr[i].substr(382, 30) : arr[i].substr(384, 30).trim()
-					let remark = (!arr[0].substr(185, 3)==='006') ? arr[i].substr(413, 50) : arr[i].substr(415, 50).trim()
+					let branch_code = arr[0].substr(185, 3) === "006" ? arr[i].substr(188, 6).trim() : arr[i].substr(188, 4).trim()
+					let status_code = arr[0].substr(185, 3) === "006" ? arr[i].substr(194, 1) : arr[i].substr(192, 1)
+					let branch_name = arr[0].substr(185, 3) === "006" ? arr[i].substr(195, 50).trim() : arr[i].substr(193, 50).trim()
+					let account_type_code = arr[0].substr(185, 3) === "006" ? arr[i].substr(245, 2).trim() : arr[i].substr(243, 2).trim()
+					let account_no = arr[0].substr(185, 3) === "006" ? arr[i].substr(247, 20).trim() : arr[i].substr(245, 20).trim()
+					let account_name = arr[0].substr(185, 3) === "006" ? arr[i].substr(267, 100).trim() : arr[i].substr(265, 100).trim()
+					let balance = arr[0].substr(185, 3) === "006" ? arr[i].substr(368, 16).trim() : arr[i].substr(366, 17).trim()
+					let investigate_date = arr[0].substr(185, 3) === "006" ? arr[i].substr(384, 30).trim() : arr[i].substr(383, 30).trim()
+					let remark = arr[0].substr(185, 3) === "006" ? arr[i].substr(414, 50).trim() : arr[i].substr(413, 50).trim()
 
 					dataset.push({
 						document_date: document_date,
@@ -193,6 +194,11 @@ export default function ImportFile() {
 				onSubmited(err)
 			})
 	}
+
+	const test = () => {
+		console.log(importObject)
+		console.log(dataset)
+	}
 	return (
 		<>
 			<div className='row flex justify-content-around'>
@@ -202,7 +208,7 @@ export default function ImportFile() {
 						className='custom-file-input'
 						id='exampleInputFile'
 						accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, .txt, text/plain'
-						onChange={(e) => onSelectFile(e)}
+						onChange={onSelectFile}
 					/>
 					<label className='custom-file-label' htmlFor='exampleInputFile'>
 						ไฟล์ข้อมูลจากธนาคาร
@@ -223,7 +229,7 @@ export default function ImportFile() {
 			</div>
 			<hr />
 			<div className='container text-center m-3'>
-				<button className='btn-lg btn-primary' onClick={onUpload}>
+				<button className='btn-lg btn-primary' onClick={test}>
 					นำเข้าไฟล์
 				</button>
 			</div>
