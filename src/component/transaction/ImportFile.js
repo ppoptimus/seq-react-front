@@ -7,25 +7,40 @@ import UserDetail from "../../UserDetail"
 
 export default function ImportFile() {
 	const [userDetail] = useState(UserDetail)
-	const [selectedFile, setSelectedFile] = useState([])
+	const [displayFileName, setDisplayFileName] = useState("ไฟล์ข้อมูลจากธนาคาร")
+	const [displayAttachName, setDisplayAttachName] = useState("อัพโหลดไฟล์แนบ")
+	const [isShowInputAttach, setIsShowInputAttach] = useState(false)
+	const [isShowUploadBtn, setIsShowUploadBtn] = useState(false)
+	const [attachFileName, setAttachFileName] = useState("")
+
 	let [importObject, setimportObject] = useState([])
 	let [dataset] = useState([])
+	let [attachFile, setAttachFile] = useState()
 
-	const onSelectFile = (file) => {
+	const onSelectImportFile = (file) => {
 		if (!!file) {
+			setIsShowInputAttach(true)
+			setIsShowUploadBtn(true)
+			setDisplayFileName(file.target.files[0].name)
 			if (file.target.files[0].type === "text/plain" || file.target.files[0].type === "text/csv") {
-				ReadTextFile(file)
+				readTextFile(file)
 			} else if (
 				file.target.files[0].type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
 				file.target.files[0].type === "application/vnd.ms-excel"
 			) {
-				onReadExcelFile(file.target.files[0])
+				readExcelFile(file.target.files[0])
 			} else {
-				console.log("err")
+				console.log("err select file")
 			}
 		}
 	}
-	const onReadExcelFile = (file) => {
+	const onSelectAttachFile = (file) => {
+		if (!!file) {
+			setDisplayAttachName(file.target.files[0].name)
+			setAttachFile(file.target.files[0])
+		}
+	}
+	const readExcelFile = (file) => {
 		const promise = new Promise((resolve, reject) => {
 			const fileReader = new FileReader()
 			fileReader.readAsArrayBuffer(file)
@@ -72,6 +87,7 @@ export default function ImportFile() {
 						bank_code: ws.I2.w,
 						user_name: userDetail.username,
 					})
+					setAttachFileName(`${ws.A2.w}${ws.I2.w}`)
 
 					for (const item of data) {
 						dataset.push({
@@ -81,13 +97,13 @@ export default function ImportFile() {
 							first_name: item.first_name ? item.first_name.trim() : null,
 							last_name: item.last_name ? item.last_name.trim() : null,
 							refference_id: item.refference_id === undefined ? null : item.refference_id.toString().trim(),
-							branch_code: item.branch_code ? item.branch_code : null,
+							branch_code: item.branch_code ? item.branch_code.toString().trim() : null,
 							status_code: item.status_code,
 							branch_name: item.branch_name === undefined ? null : item.branch_name.toString().trim(),
-							account_type_code: item.account_type_code === undefined ? null : item.account_type_code,
+							account_type_code: item.account_type_code === undefined ? null : item.account_type_code.toString().trim(),
 							account_no: item.account_no === undefined ? null : item.account_no.toString().trim(),
 							account_name: item.account_name === undefined ? null : item.account_name.toString().trim(),
-							balance: item.balance === undefined ? null : item.balance,
+							balance: item.balance === undefined ? 0 : item.balance,
 							investigate_date: ws.R2.w,
 							remark: item.remark === undefined ? null : item.remark.toString().trim(),
 						})
@@ -103,14 +119,12 @@ export default function ImportFile() {
 		})
 		promise.then(() => {})
 	}
-
-	const ReadTextFile = (e) => {
+	const readTextFile = (e) => {
 		const reader = new FileReader()
 		reader.onload = (e) => {
 			const text = e.target.result
 			try {
 				const arr = text.toString().replace(/\r\n/g, "\n").split("\n")
-				// console.log(["1", "2", "3", "4"].includes(arr[0].substr(192, 1)))
 
 				setimportObject({
 					request_code: arr[0].substr(0, 5),
@@ -171,9 +185,7 @@ export default function ImportFile() {
 		}
 		reader.readAsText(e.target.files[0], "TIS-620")
 	}
-
 	const onUpload = () => {
-		console.log(dataset)
 		const result = { dataset, ...importObject }
 		const config = {
 			method: "post",
@@ -186,7 +198,8 @@ export default function ImportFile() {
 				if (res.status === 208) {
 					onSubmited(208)
 				} else {
-					onSubmited(200)
+					uploadAttachFile()
+					
 				}
 			})
 			.catch(function (err) {
@@ -194,45 +207,63 @@ export default function ImportFile() {
 				onSubmited(err)
 			})
 	}
-
+	const uploadAttachFile = async () => {
+		if (attachFile) {
+			const data = new FormData()
+			data.append("file", attachFile, attachFileName +'.'+attachFile.name.split('.').pop())
+			await axios
+				.post(`${systemConfig.MasterData.getTitleUrl}uploadAttachFile`, data, {})
+				.then((res) => {
+					console.log(res.data.file_name)
+					onSubmited(200)
+				})
+				.catch((err) => {
+					onSubmited(err)
+				})
+		} else {
+			console.log('have not file')
+		}
+	}
 	const test = () => {
-		console.log(importObject)
-		console.log(dataset)
+		console.log(attachFileName)
+		uploadAttachFile()
 	}
 	return (
 		<>
-			<div className='row flex justify-content-around'>
+			<div className='row flex justify-content-between px-5'>
 				<div className='custom-file col-5'>
 					<input
 						type='file'
 						className='custom-file-input'
 						id='exampleInputFile'
 						accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, .txt, text/plain'
-						onChange={onSelectFile}
+						onChange={onSelectImportFile}
 					/>
 					<label className='custom-file-label' htmlFor='exampleInputFile'>
-						ไฟล์ข้อมูลจากธนาคาร
+						{displayFileName}
 					</label>
 				</div>
-				<div className='custom-file col-5'>
-					<input
-						type='file'
-						className='custom-file-input'
-						id='exampleInputFile'
-						accept='.csv, .txt, text/plain'
-						onChange={(e) => onSelectFile(e)}
-					/>
-					<label className='custom-file-label' htmlFor='exampleInputFile'>
-						อัพโหลดไฟล์แนบ
-					</label>
-				</div>
+				{isShowInputAttach ? (
+					<div className='custom-file col-5'>
+						<input type='file' className='custom-file-input' id='exampleInputFile' onChange={onSelectAttachFile} />
+						<label className='custom-file-label' htmlFor='exampleInputFile'>
+							{displayAttachName}
+						</label>
+					</div>
+				) : (
+					""
+				)}
 			</div>
 			<hr />
-			<div className='container text-center m-3'>
-				<button className='btn-lg btn-primary' onClick={test}>
-					นำเข้าไฟล์
-				</button>
-			</div>
+			{isShowUploadBtn ? (
+				<div className='container text-center m-3'>
+					<button className='btn-lg btn-primary' onClick={onUpload}>
+						นำเข้าไฟล์
+					</button>
+				</div>
+			) : (
+				""
+			)}
 		</>
 	)
 }
