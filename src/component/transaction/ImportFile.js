@@ -224,10 +224,7 @@ export default function ImportFile() {
 			console.log('have not file')
 		}
 	}
-	const test = () => {
-		console.log(attachFileName)
-		uploadAttachFile()
-	}
+	
 	return (
 		<>
 			<div className='row flex justify-content-between px-5'>

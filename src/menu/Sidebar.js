@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 export default function Sidebar() {
 	const [isAdmin, setIsAdmin] = useState(null)
-	const [userDetail] = useState(() => {
+	useState(() => {
 		const userData = localStorage.getItem("userDetail")
 		if (userData) {
 			setIsAdmin(JSON.parse(userData).userlevel_id === "3" ? false : true)
@@ -85,16 +85,12 @@ export default function Sidebar() {
 												</Link>
 											</li>
 											<li className='nav-item'>
-												<Link to='/ExportHistory' className='nav-link'>
+												<Link to='/ImportHistory' className='nav-link'>
 													<i className='nav-icon fas fa-history' />
 													<p>ประวัติการนำเข้าไฟล์</p>
 												</Link>
 											</li>
 										</ul>
-										{/* <Link to='/Import' className='nav-link'>
-                  <i className='nav-icon fas fa-cloud-upload-alt' />
-                  <p>นำเข้าไฟล์</p>
-                </Link> */}
 									</li>
 									<li className='nav-item'>
 										<span className='nav-link' style={{ cursor: "context-menu" }}>

@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import UserDetail from '../UserDetail'
 
 export default function Navbar() {
-	let history = useHistory()
 	const [userDetail] = useState(UserDetail)
 
-	const onLogoutClick = (e) => {
+	const onLogoutClick = () => {
 		localStorage.removeItem('userDetail')
-		history.push('/')
 		refreshPage()
 	}
 
