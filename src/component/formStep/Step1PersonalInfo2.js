@@ -34,6 +34,15 @@ export default function PersonalInfo2({ handleInputChange }) {
 					</select>
 				</div>
 				<div className='form-group'>
+					<input
+						className='form-control form-control-lg'
+						maxLength={13}
+						type='text'
+						onChange={handleInputChange("refference_id")}
+						placeholder='เลขทะเบียนพานิชย์'
+					/>
+				</div>
+				<div className='form-group'>
 					<input className='form-control form-control-lg' type='text' placeholder='ชื่อสถานประกอบการ' onChange={handleInputChange("company_name")} />
 				</div>
 			</div>

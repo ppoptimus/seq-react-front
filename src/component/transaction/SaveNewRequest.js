@@ -50,6 +50,7 @@ export default function NewRequest() {
 	}
 
 	const handleInputChange = (name) => (e) => {
+		console.log(name)
 		if (name === "birth_date" || name === "document_date") {
 			e = formatDate(e)
 			setNewRequestValue({ ...newRequestValue, [name]: e })
