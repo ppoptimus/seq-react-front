@@ -24,7 +24,8 @@ export default function PersonalInfo2({ handleInputChange }) {
 		<>
 			<div className='container align-items-center'>
 				<div className='form-group'>
-					<select className='form-control form-control-lg'>
+					<select className='form-control form-control-lg' onChange={handleInputChange("title_code")}>
+					<option>ประเภทธุรกิจ</option>
 						{titleItem.map((item) => (
 							<option key={item.title_code} value={item.title_code}>
 								{item.title_name}
