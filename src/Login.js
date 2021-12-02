@@ -72,10 +72,10 @@ export default function Login() {
 	}
 
 	return (
-		<div className='body vh-100'>
-			<div className='container px-4 py-5 mx-auto'>
-				<div className=' card0' style={{ background: "center" }}>
-					<div className='d-flex flex-lg-row flex-column-reverse'>
+		<div className='body vh-100 flex'>
+			<div className='container px-4 py-5 align-items-center'>
+				<div style={{ background: "center" }}>
+					<div className='d-flex flex-lg-row flex-column-reverse shadow-lg'>
 						<div className='card card1'>
 							<div className='row justify-content-center my-auto'>
 								<div className='col-md-8 col-10 my-5'>
