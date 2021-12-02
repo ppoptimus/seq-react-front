@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
 import systemConfig from "../../config.json"
 import axios from "axios"
-import Swal from "sweetalert2"
 import UserDetail from "../../UserDetail"
 
 export default function ImportHistory() {
 	const [userDetail] = useState(UserDetail)
 	const [importHistory, setImportHistory] = useState([])
+	const [importHistoryDetail, setImportHistoryDetail] = useState([])
+	const [requestCode, getRequestCode] = useState(null)
 
 	useEffect(
 		() => {
@@ -38,34 +39,36 @@ export default function ImportHistory() {
 	)
 
 	const onClickRow = (e) => {
-		console.log(e)
 		getImportDetail(e)
 	}
 
 	const getImportDetail = (request_code) => {
+		getRequestCode(request_code)
 		const config = {
 			method: "post",
 			url: `${systemConfig.MasterData.getTitleUrl}getImportHistoryDetail`,
 			headers: systemConfig.MasterData.headersList,
 			data: {
-				request_code : request_code,
+				request_code: request_code,
 				user_name: userDetail.username,
 				ip_address: "",
 			},
 		}
 		axios(config)
-		.then((res) => {
-			console.log(res.data)
-		})
-		.catch((error) => {
-			console.log(error)
-		})
+			.then((res) => {
+				setImportHistoryDetail(res.data)
+				console.log(res.data)
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}
+
 	return (
 		<div>
 			<div className='card'>
 				<div className='card-body'>
-					<table className='table text-center'>
+					<table className='table text-center table-hover'>
 						<thead>
 							<tr>
 								<th>เลขที่ชุด</th>
@@ -77,16 +80,19 @@ export default function ImportHistory() {
 						<tbody>
 							{importHistory
 								? importHistory.map((i) => (
-										<tr key={i.request_code}>
+										<tr
+											key={i.request_code}
+											style={{ cursor: "context-menu" }}
+											>
 											<td>{i.request_code}</td>
 											<td>{i.document_set}</td>
 											<td>{i.import_date}</td>
 											<td>
 												<button
 													className='btn btn-info shadow-sm'
+													onClick={() => onClickRow(i.request_code)}
 													data-toggle='modal'
-													data-target='#historyDetail'
-													onClick={() => onClickRow(i.request_code)}>
+													data-target='#exampleModal'>
 													<i className='fas fa-list'></i>
 												</button>
 											</td>
@@ -97,6 +103,27 @@ export default function ImportHistory() {
 					</table>
 				</div>
 			</div>
+			{requestCode ? (
+				<div className='modal fade' id='exampleModal' tabIndex={-1} role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+					<div className='modal-dialog' role='document'>
+						<div className='modal-content'>
+							<div className='modal-header'>{requestCode}</div>
+							<div className='modal-body'>
+								{importHistoryDetail
+									? importHistoryDetail.map((i) => (
+											<div key={i.bank_code}>
+												{i.bank_code} | {i.bank_name}
+											</div>
+									  ))
+									: ""}
+							</div>
+							<div className='modal-footer'>footer</div>
+						</div>
+					</div>
+				</div>
+			) : (
+				""
+			)}
 		</div>
 	)
 }

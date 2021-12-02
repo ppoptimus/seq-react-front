@@ -10,7 +10,11 @@ export default function ExportHistory() {
 	const [userDetail] = useState(UserDetail)
 	const [showDate] = useState(() => {
 		const today = new Date().toLocaleString("en-GB")
-		return today.substr(0, 10)
+		const day = today.substr(0,2)
+		const month = today.substr(3,2)
+		const year = parseInt(today.substr(6,4)) + 543
+		const fullDate = `${day}/${month}/${year}`
+		return fullDate
 	})
 	const [exportHistory, setExportHistory] = useState([])
 	const [exportHistoryDetail, setExportHistoryDetail] = useState([])
@@ -432,7 +436,7 @@ const formatDate = (e) => {
 	e = new Date(e)
 	let dd = String(e.getDate()).padStart(2, "0")
 	let mm = String(e.getMonth() + 1).padStart(2, "0")
-	let yyyy = e.getFullYear()
+	let yyyy = e.getFullYear() + 543
 	e = dd + "/" + mm + "/" + yyyy
 
 	return e
