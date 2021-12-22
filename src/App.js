@@ -1,11 +1,13 @@
 import React, { useState } from "react"
 import { Suspense, lazy } from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import Waiting from "./component/options/Waiting"
 import Login from "./Login"
 import UserDetail from './UserDetail'
 
 const Navbar = lazy(() => import("./menu/Navbar"))
 const Sidebar = lazy(() => import("./menu/Sidebar"))
+const Sidebar2 = lazy(() => import("./menu/SideBar2"))
 const Footer = lazy(() => import("./menu/Footer"))
 const Dashboard = lazy(() => import("./component/dashboard/GetAllRequest"))
 const SaveNewRequest = lazy(() => import("./component/transaction/SaveNewRequest"))
@@ -23,12 +25,13 @@ function App() {
 				{userDetail ? (
 					<Suspense
 						fallback={
-							<div className='spinner-border text-purple text-lg' role='banner'>
-								<span className='sr-only'>Loading...</span>
-							</div>
+							// <div className='spinner-border text-purple text-lg' role='banner'>
+							// 	<span className='sr-only'>Loading...</span>
+							// </div>
+							<Waiting/>
 						}>
 						<Navbar />
-						<Sidebar />
+						<Sidebar2 />
 						<div className='content-wrapper p-3'>
 							<Switch>
 								<Route exact path='/' component={Dashboard} />

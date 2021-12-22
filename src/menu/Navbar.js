@@ -16,39 +16,30 @@ export default function Navbar() {
 
 	return (
 		<>
+			
 			<nav className='main-header navbar navbar-expand navbar-white navbar-light'>
 				{/* Left navbar links */}
-				<ul className='navbar-nav'>
+				<ul className='navbar-nav text-lg'>
 					<li className='nav-item'>
-						<span className='nav-link' data-widget='pushmenu' role='button'>
+						<span className='nav-link' data-widget='pushmenu' data-bs-toggle="tooltip" data-bs-placement="left" title="เปิด/ปิด เมนู">
 							<i className='fas fa-bars' />
 						</span>
 					</li>
-					<li className='nav-item d-none d-sm-inline-block'>
-						<Link to='/SaveNewRequest' className='nav-link'>
-							บันทึกรายการใหม่
-						</Link>
-					</li>
-					<li className='nav-item d-none d-sm-inline-block'>
-						<Link to='/GetNewRequest' className='nav-link'>
-							ตรวจสอบรายการใหม่ <span className='right badge badge-danger'>New</span>
-						</Link>
-					</li>
 				</ul>
 				{/* Right navbar links */}
-				<ul className='navbar-nav ml-auto'>
+				<ul className='navbar-nav ml-auto text-lg'>
 					<li className='nav-item'>
-						<span className='nav-link' data-widget='fullscreen' role='button'>
+						<span className='nav-link' data-widget='fullscreen' role='button' data-bs-toggle="tooltip" data-bs-placement="left" title="ขยายเต็มจอ">
 							<i className='fas fa-expand-arrows-alt' />
 						</span>
 					</li>
 
 					<li className='nav-item dropdown'>
-						<span className='nav-link' data-toggle='dropdown'>
+						<span className='nav-link' data-toggle='dropdown' role='button' data-bs-toggle="tooltip" data-bs-placement="left" title="ข้อมูลผู้ใช้งาน">
 							<i className='fas fa-user' />
 						</span>
 						<div className='dropdown-menu dropdown-menu-lg dropdown-menu-right p-2'>
-							<span className='dropdown-item dropdown-header'>ข้อมูลผู้ใช้งาน</span>
+							<span className='dropdown-item dropdown-header text-md'>ข้อมูลผู้ใช้งาน</span>
 							<div className='dropdown-divider' />
 							<span className='dropdown-item'>
 								<i className='fas fa-user mr-2' />
@@ -69,7 +60,7 @@ export default function Navbar() {
 								<i className='fas fa-clipboard mr-2' />
 								ชื่อ-สกุล :{' '}
 								<b>
-									{userDetail.first_name} {userDetail.last_name}
+								{userDetail.first_name} {userDetail.last_name}
 								</b>
 							</span>
 							<div className='dropdown-divider' />
@@ -77,11 +68,14 @@ export default function Navbar() {
 								<i className='fas fa-id-badge mr-2' />
 								บัตรประชาชน : <b>{userDetail.personal_id}</b>
 							</span>
-							<div className='dropdown-divider' />
-							<button className='dropdown-item dropdown-footer bg-danger' type='submit' onClick={onLogoutClick}>
-								ออกจากระบบ
-							</button>
+							
 						</div>
+					</li>
+
+          <li className='nav-item'>
+						<span className='nav-link' role='button' data-bs-toggle="tooltip" data-bs-placement="left" title="ออกจากระบบ" onClick={onLogoutClick}>
+							<i className='fas fa-sign-out-alt' />
+						</span>
 					</li>
 				</ul>
 			</nav>
