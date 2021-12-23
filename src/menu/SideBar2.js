@@ -25,7 +25,7 @@ export default function SideBar2() {
 					<nav className='mt-2'>
 						<ul className='nav nav-pills nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>
 							<li className='nav-item'>
-								<span className='nav-link' style={{ cursor: "context-menu" }}>
+								<span className="nav-link" style={{ cursor: "context-menu" }}>
 									<i className='nav-icon fas fa-university' />
 									<p>ธนาคาร</p>
 									<i className='fas fa-angle-left right' />
@@ -46,7 +46,7 @@ export default function SideBar2() {
 									<li className='nav-item'>
 										<NavLink to='/ExportManual' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 											<i className='fas fa-random nav-icon' />
-											<p>ประมวลผล</p>
+											<p>ประมวลผล/ส่งออก</p>
 										</NavLink>
 									</li>
 									<li className='nav-item'>
@@ -58,7 +58,7 @@ export default function SideBar2() {
 									<li className='nav-item'>
 										<NavLink to='/NewRequest' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 											<i className='fas fa-search nav-icon' />
-											<p>ค้นหารายหาร</p>
+											<p>ค้นหารายการ</p>
 										</NavLink>
 									</li>
 								</ul>
@@ -73,32 +73,32 @@ export default function SideBar2() {
 										</span>
 										<ul className='nav nav-treeview ml-4'>
 											<li className='nav-item'>
-												<NavLink to='/ExportManual' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
+												<NavLink to='/MasterBank' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 													<i className='fas fa-edit nav-icon' />
 													<p>ข้อมูลธนาคาร</p>
 												</NavLink>
 											</li>
 
 											<li className='nav-item'>
-												<NavLink to='/ExportManual' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
+												<NavLink to='/MasterDepartment' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 													<i className='fas fa-tasks nav-icon' />
 													<p>ข้อมูลหน่วยงาน</p>
 												</NavLink>
 											</li>
 											<li className='nav-item'>
-												<NavLink to='/ExportHistory' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
+												<NavLink to='/MasterUser' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 													<i className='fas fa-user-edit nav-icon' />
 													<p>ข้อมูลผู้ใช้</p>
 												</NavLink>
 											</li>
 											<li className='nav-item'>
-												<NavLink to='/ExportHistory' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
+												<NavLink to='/ConfigRequest' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 													<i className='fas fa-tools nav-icon' />
-													<p>ตั้งค่า Config</p>
+													<p>ตั้งค่าจำนวนส่งออก</p>
 												</NavLink>
 											</li>
 											<li className='nav-item'>
-												<NavLink to='/ExportHistory' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
+												<NavLink to='/ConfigNews' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 													<i className='fas fa-info-circle nav-icon' />
 													<p>ข่าวสาร</p>
 												</NavLink>

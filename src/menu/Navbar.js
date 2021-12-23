@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import UserDetail from '../UserDetail'
 
 export default function Navbar() {

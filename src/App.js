@@ -17,6 +17,12 @@ const ExportHistory = lazy(() => import("./component/transaction/ExportHistory")
 const ImportFile = lazy(() => import("./component/transaction/ImportFile"))
 const ImportHistory = lazy(() => import("./component/transaction/ImportHistory"))
 
+const MasterBank = lazy(() => import("./component/configData/MasterBank"))
+const MasterDepartment = lazy(() => import("./component/configData/MasterDepartment"))
+const MasterUser = lazy(() => import("./component/configData/MasterUser"))
+const ConfigRequest = lazy(() => import("./component/configData/ConfigRequest"))
+const ConfigNews = lazy(() => import("./component/configData/ConfigNews"))
+
 function App() {
 	const [userDetail] = useState(UserDetail)
 	return (
@@ -41,6 +47,12 @@ function App() {
 								<Route path='/ExportHistory' component={ExportHistory} />
 								<Route path='/Import' component={ImportFile} />
 								<Route path='/ImportHistory' component={ImportHistory} />
+
+								<Route path='/MasterBank' component={MasterBank} />
+								<Route path='/MasterDepartment' component={MasterDepartment} />
+								<Route path='/MasterUser' component={MasterUser} />
+								<Route path='/ConfigRequest' component={ConfigRequest} />
+								<Route path='/ConfigNews' component={ConfigNews} />
 							</Switch>
 						
 							<Footer />
