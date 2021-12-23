@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, lazy } from 'react'
 import Swal from 'sweetalert2'
 import systemConfig from '../../config.json'
 import axios from 'axios'
+
+const ExportHistory = lazy(() => import("./ExportHistory"))
 
 export default function ExportManual() {
 	const [totalCount, settotalCount] = useState(0)
@@ -79,6 +81,7 @@ export default function ExportManual() {
 					<div className='container py-3'>ไม่มีรายการใหม่</div>
 				)}
 			</div>
+			<ExportHistory/>
 		</>
 	)
 }

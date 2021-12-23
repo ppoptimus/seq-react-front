@@ -67,6 +67,19 @@ export default function ImportHistory() {
 	return (
 		<div>
 			<div className='card'>
+			<div className='card-header bg-purple'>
+					<h3 className='card-title'>ประวัติการนำเข้าผลตรวจสอบบัญชีเงินฝากธนาคาร</h3>
+					<div className='card-tools'>
+						<button
+							type='button'
+							className='btn btn-tool'
+							data-card-widget='card-refresh'
+							data-source='widgets.html'
+							data-source-selector='#card-refresh-content'>
+							<i className='fas fa-sync-alt' />
+						</button>
+					</div>
+				</div>
 				<div className='card-body'>
 					<table className='table text-center table-hover'>
 						<thead>

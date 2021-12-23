@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, lazy } from "react"
 import XLSX from "xlsx"
 import Swal from "sweetalert2"
 import axios from "axios"
@@ -16,6 +16,8 @@ export default function ImportFile() {
 	let [importObject, setimportObject] = useState([])
 	let [dataset] = useState([])
 	let [attachFile, setAttachFile] = useState()
+
+	const ImportHistory = lazy(() => import("./ImportHistory"))
 
 	const onSelectImportFile = (file) => {
 		if (!!file) {
@@ -261,6 +263,8 @@ export default function ImportFile() {
 			) : (
 				""
 			)}
+
+			<ImportHistory/>
 		</>
 	)
 }
