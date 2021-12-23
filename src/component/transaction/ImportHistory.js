@@ -67,7 +67,7 @@ export default function ImportHistory() {
 	return (
 		<div>
 			<div className='card'>
-			<div className='card-header bg-purple'>
+			<div className='card-header bg-teal'>
 					<h3 className='card-title'>ประวัติการนำเข้าผลตรวจสอบบัญชีเงินฝากธนาคาร</h3>
 					<div className='card-tools'>
 						<button
@@ -102,7 +102,7 @@ export default function ImportHistory() {
 											<td>{i.import_date}</td>
 											<td>
 												<button
-													className='btn btn-info shadow-sm'
+													className='btn btn-teal shadow-sm'
 													onClick={() => onClickRow(i.request_code)}
 													data-toggle='modal'
 													data-target='#exampleModal'>

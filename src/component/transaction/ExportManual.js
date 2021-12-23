@@ -51,7 +51,7 @@ export default function ExportManual() {
 	return (
 		<>
 			<div className='card flex-column'>
-				<div className='card-header bg-purple'>ส่งออกไฟล์เพื่อขอตรวจสอบ</div>
+				<div className='card-header bg-teal'>ส่งออกไฟล์เพื่อขอตรวจสอบ</div>
 				{totalCount ? (
 					<>
 						<div className='card-body'>

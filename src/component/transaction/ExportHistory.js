@@ -160,7 +160,7 @@ export default function ExportHistory() {
 	return (
 		<>
 			<div className='card'>
-				<div className='card-header bg-purple'>
+				<div className='card-header bg-teal'>
 					<h3 className='card-title'>ประวัติการส่งออกไฟล์เพื่อขอตรวจสอบบัญชีเงินฝาก</h3>
 					<div className='card-tools'>
 						<button
@@ -216,7 +216,7 @@ export default function ExportHistory() {
 											<td>{i.export_date}</td>
 											<td>
 												<button
-													className='btn btn-info shadow-sm'
+													className='btn btn-teal shadow-sm'
 													data-toggle='modal'
 													data-target='#historyDetail'
 													onClick={() => getExportHistoryDetail(i.request_code)}>
@@ -242,7 +242,7 @@ export default function ExportHistory() {
 											<td>{i.export_date}</td>
 											<td>
 												<button
-													className='btn btn-info shadow-sm'
+													className='btn btn-teal shadow-sm'
 													data-toggle='modal'
 													data-target='#historyDetail'
 													onClick={() => getExportHistoryDetail(i.request_code)}>

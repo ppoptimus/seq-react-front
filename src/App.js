@@ -38,7 +38,7 @@ function App() {
 						}>
 						<Navbar />
 						<Sidebar2 />
-						<div className='content-wrapper p-3'>
+						<div className='content-wrapper p-3 mt-5'>
 							<Switch>
 								<Route exact path='/' component={Dashboard} />
 								<Route path='/SaveNewRequest' component={SaveNewRequest} />

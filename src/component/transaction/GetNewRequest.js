@@ -210,7 +210,7 @@ export default function GetNewRequest() {
 	return (
 		<>
 			<table className='table table-hover'>
-				<thead className='bg-purple'>
+				<thead className='bg-teal'>
 					<tr>
 						<th scope='col'></th>
 						<th scope='col'>เลขหนังสือ</th>
