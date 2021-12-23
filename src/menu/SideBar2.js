@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 
 export default function SideBar2() {
 	const [isAdmin, setIsAdmin] = useState(null)
@@ -32,34 +32,34 @@ export default function SideBar2() {
 								</span>
 								<ul className='nav nav-treeview ml-4'>
 									<li className='nav-item'>
-										<Link to='/SaveNewRequest' className='nav-link'>
+										<NavLink to='/SaveNewRequest' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 											<i className='fas fa-plus nav-icon' />
 											<p>บันทึกรายการใหม่</p>
-										</Link>
+										</NavLink>
 									</li>
 									<li className='nav-item'>
-										<Link to='/GetNewRequest' className='nav-link'>
-										<i className='fas fa-list-ol nav-icon' />
-										 <p>ตรวจสอบรายการใหม่</p>
-										</Link>
+										<NavLink to='/GetNewRequest' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
+											<i className='fas fa-list-ol nav-icon' />
+											<p>ตรวจสอบรายการใหม่</p>
+										</NavLink>
 									</li>
 									<li className='nav-item'>
-										<Link to='/ExportManual' className='nav-link'>
+										<NavLink to='/ExportManual' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 											<i className='fas fa-random nav-icon' />
 											<p>ประมวลผล</p>
-										</Link>
+										</NavLink>
 									</li>
 									<li className='nav-item'>
-										<Link to='/Import' className='nav-link'>
+										<NavLink to='/Import' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 											<i className='fas fa-cloud-upload-alt nav-icon' />
 											<p>นำเข้าข้อมูล</p>
-										</Link>
+										</NavLink>
 									</li>
 									<li className='nav-item'>
-										<Link to='/NewRequest' className='nav-link'>
+										<NavLink to='/NewRequest' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 											<i className='fas fa-search nav-icon' />
 											<p>ค้นหารายหาร</p>
-										</Link>
+										</NavLink>
 									</li>
 								</ul>
 							</li>
@@ -73,35 +73,35 @@ export default function SideBar2() {
 										</span>
 										<ul className='nav nav-treeview ml-4'>
 											<li className='nav-item'>
-												<Link to='/ExportManual' className='nav-link'>
+												<NavLink to='/ExportManual' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 													<i className='fas fa-edit nav-icon' />
 													<p>ข้อมูลธนาคาร</p>
-												</Link>
+												</NavLink>
 											</li>
 
 											<li className='nav-item'>
-												<Link to='/ExportManual' className='nav-link'>
+												<NavLink to='/ExportManual' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 													<i className='fas fa-tasks nav-icon' />
 													<p>ข้อมูลหน่วยงาน</p>
-												</Link>
+												</NavLink>
 											</li>
 											<li className='nav-item'>
-												<Link to='/ExportHistory' className='nav-link'>
+												<NavLink to='/ExportHistory' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 													<i className='fas fa-user-edit nav-icon' />
 													<p>ข้อมูลผู้ใช้</p>
-												</Link>
+												</NavLink>
 											</li>
 											<li className='nav-item'>
-												<Link to='/ExportHistory' className='nav-link'>
+												<NavLink to='/ExportHistory' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 													<i className='fas fa-tools nav-icon' />
 													<p>ตั้งค่า Config</p>
-												</Link>
+												</NavLink>
 											</li>
 											<li className='nav-item'>
-												<Link to='/ExportHistory' className='nav-link'>
+												<NavLink to='/ExportHistory' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 													<i className='fas fa-info-circle nav-icon' />
 													<p>ข่าวสาร</p>
-												</Link>
+												</NavLink>
 											</li>
 										</ul>
 									</li>
