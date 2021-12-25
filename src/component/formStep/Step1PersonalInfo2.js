@@ -22,8 +22,8 @@ export default function PersonalInfo2({ handleInputChange }) {
 
 	return (
 		<>
-			<div className='container align-items-center'>
-				<div className='form-group'>
+			<div className='form-row'>
+				<div className='form-group mr-2'>
 					<select className='form-control form-control-lg' onChange={handleInputChange("title_code")}>
 					<option>ประเภทธุรกิจ</option>
 						{titleItem.map((item) => (
@@ -33,17 +33,17 @@ export default function PersonalInfo2({ handleInputChange }) {
 						))}
 					</select>
 				</div>
-				<div className='form-group'>
+				<div className='form-group mr-1'>
 					<input
 						className='form-control form-control-lg'
-						maxLength={13}
 						type='text'
+						maxLength={13}
 						onChange={handleInputChange("refference_id")}
 						placeholder='เลขทะเบียนพานิชย์'
 					/>
 				</div>
-				<div className='form-group'>
-					<input className='form-control form-control-lg' type='text' placeholder='ชื่อสถานประกอบการ' onChange={handleInputChange("company_name")} />
+				<div className='form-group col-6'>
+					<input className='form-control form-control-lg' type='text' maxLength={255} placeholder='ชื่อสถานประกอบการ' onChange={handleInputChange("company_name")} />
 				</div>
 			</div>
 		</>
