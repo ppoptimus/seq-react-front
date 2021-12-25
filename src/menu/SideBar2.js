@@ -14,11 +14,11 @@ export default function SideBar2() {
 	})
 	return (
 		<>
-			<aside className='main-sidebar sidebar-light-blue elevation-5 vh-100 text-md' style={{position:"fixed"}}>
+			<aside className='main-sidebar sidebar-teal elevation-5 vh-100 text-md' style={{position:"fixed"}}>
 				{/* Brand Logo Click to Homepage */}
 				<Link to='/' className='brand-link'>
 					<img src='dist/img/logo.png' alt='sequester' className='brand-image img-circle elevation-3' style={{ opacity: ".8" }} />
-					<span className='brand-text font-weight-light'>SEQUESTER</span>
+					<span className='brand-text font-weight-bold'>SEQUESTER</span>
 				</Link>
 				{/* Sidebar Menu*/}
 				<div className='sidebar'>
@@ -34,7 +34,7 @@ export default function SideBar2() {
 									<li className='nav-item'>
 										<NavLink to='/SaveNewRequest' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 											<i className='fas fa-plus nav-icon' />
-											<p>บันทึกรายการใหม่</p>
+											<p className='text-black'>บันทึกรายการใหม่</p>
 										</NavLink>
 									</li>
 									<li className='nav-item'>
