@@ -151,11 +151,11 @@ export default function NewRequest() {
 			</div>
 					<div className='d-flex justify-content-start'>
 						{step > 1 ? (
-							<button className='btn btn-lg btn-warning px-4 mr-2' onClick={prevStep}>
+							<button className='btn btn-lg btn-secondary px-4 mr-2' onClick={prevStep}>
 								ย้อนกลับ
 							</button>
 						) : null}
-						<button className='btn btn-lg btn-primary px-4' onClick={nextStep}>
+						<button className='btn btn-lg btn-success px-4' onClick={nextStep}>
 							{step === 2 ? 'บันทึก' : 'ถัดไป'}
 						</button>
 					</div>

@@ -14,7 +14,7 @@ export default function SideBar2() {
 	})
 	return (
 		<>
-			<aside className='main-sidebar sidebar-teal elevation-5 vh-100 text-md' style={{position:"fixed"}}>
+			<aside className='main-sidebar sidebar-teal elevation-5 vh-100 text-md' style={{position:"fixed",backgroundColor:'#fff'}}>
 				{/* Brand Logo Click to Homepage */}
 				<Link to='/' className='brand-link'>
 					<img src='dist/img/logo.png' alt='sequester' className='brand-image img-circle elevation-3' style={{ opacity: ".8" }} />
