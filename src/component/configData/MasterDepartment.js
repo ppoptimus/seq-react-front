@@ -3,12 +3,22 @@ import systemConfig from "../../config.json"
 import axios from "axios"
 import UserDetail from "../../UserDetail"
 import Swal from "sweetalert2"
+import { Modal, Button, Form } from "react-bootstrap"
 
 export default function MasterDepartment() {
 	const [userDetail] = useState(UserDetail)
 	const [isActive, setIsActive] = useState(true)
 	const [data, setData] = useState([])
 	const [dataById, setDataById] = useState([])
+
+	const [show, setShow] = useState(false)
+	const handleClose = () => setShow(false)
+	const handleShow = (e) => {
+		if(e === 'new'){
+			setDataById([])
+		}
+		setShow(true)
+	}
 
 	useEffect(() => {
 		const config = {
@@ -29,13 +39,14 @@ export default function MasterDepartment() {
 		return () => {
 			isMounted = false
 		}
-	}, [])
+	}, [data])
 
 	const onClickEdit = (id) => {
 		let newItem = data.find((x) => x.department_code === id)
 		setDataById(newItem)
 		setIsActive(newItem.status)
 		console.log(newItem)
+		setShow(true)
 	}
 
 	const handleChange = (name) => (e) => {
@@ -70,7 +81,8 @@ export default function MasterDepartment() {
 						confirmButtonText: "ตกลง",
 					}).then((result) => {
 						if (result.isConfirmed) {
-							window.location.reload(false)
+							setData(data)
+							setShow(false)
 						}
 					})
 				}
@@ -86,7 +98,7 @@ export default function MasterDepartment() {
 	}
 	return (
 		<>
-			<button className='btn btn-info mb-2'>
+			<button className='btn btn-info mb-2' onClick={(e) => handleShow('new')}>
 				<i className='fas fa-plus'></i> เพิ่มสาขา
 			</button>
 			<div className='card'>
@@ -113,8 +125,8 @@ export default function MasterDepartment() {
 											<td>
 												<button
 													className='btn btn-warning shadow-sm'
-													data-toggle='modal'
-													data-target='#popupEdit'
+													// data-toggle='modal'
+													// data-target='#popupEdit'
 													onClick={() => onClickEdit(i.department_code)}>
 													<i className='fas fa-edit'></i>
 												</button>
@@ -126,70 +138,60 @@ export default function MasterDepartment() {
 					</table>
 				</div>
 			</div>
-			<div
-				className='modal fade'
-				id='popupEdit'
-				data-backdrop='static'
-				data-keyboard='false'
-				tabIndex={-1}
-				aria-labelledby='popupEditLabel'
-				aria-hidden='true'>
-				<div className='modal-dialog' style={{ maxWidth: "650px" }}>
-					<div className='modal-content'>
-						<div className='modal-header'>
-							<h5 className='modal-title' id='popupEditLabel'>
-								แก้ไขข้อมูลสาขา
-							</h5>
-						</div>
 
-						<form className='justify-content-center align-items-center bg-light p-4'>
-							<fieldset>
-								<div className='row mb-4'>
-									<div className='col-2'>
-										<label className='form-label'>รหัสสาขา</label>
-										<input
-											type='text'
-											className='form-control'
-											value={dataById.department_code ? dataById.department_code : ""}
-											onChange={handleChange("department_code")}
-										/>
-									</div>
-									<div className='col-4'>
-										<label className='form-label'>ชื่อสาขา</label>
-										<input
-											type='text'
-											className='form-control'
-											value={dataById.department_name ? dataById.department_name : ""}
-											onChange={handleChange("department_name")}
-										/>
-									</div>
-								</div>
-
-								<div className='custom-control custom-checkbox'>
-									<input
-										type='checkbox'
-										className='custom-control-input'
-										id='gridCheck'
-										defaultChecked={isActive}
-										onChange={onStatusChange}
+			<Modal show={show} onHide={handleClose}>
+				<Modal.Header className="bg-teal" style={{padding:'0.5rem'}}>
+					<Modal.Title>
+						<span>แก้ไขข้อมูลสาขา</span>
+					</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<Form className='justify-content-center align-items-center bg-light p-2'>
+						<Form.Group>
+							<div className='row mb-4'>
+								<div className='col-3'>
+									<Form.Label className='form-label'>รหัสสาขา</Form.Label>
+									<Form.Control
+										type='text'
+										className='form-control'
+										value={dataById.department_code ? dataById.department_code : ""}
+										onChange={handleChange("department_code")}
 									/>
-									<label className='custom-control-label' htmlFor='gridCheck'>
-										เปิด/ปิด การใช้งาน
-									</label>
 								</div>
-							</fieldset>
-						</form>
-						<div className='modal-footer'>
-							<button type='button' className='btn btn-secondary' data-dismiss='modal'>
-								ยกเลิกแก้ไข
-							</button>
-							<button type='button' className='btn btn-success' onClick={onSubmitEdit}>
-								ยืนยันแก้ไข
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
+								<div className='col-8'>
+									<Form.Label className='form-label'>ชื่อสาขา</Form.Label>
+									<Form.Control
+										type='text'
+										className='form-control'
+										value={dataById.department_name ? dataById.department_name : ""}
+										onChange={handleChange("department_name")}
+									/>
+								</div>
+							</div>
+
+							<div className='custom-control custom-checkbox'>
+								<Form.Control
+									type='checkbox'
+									className='custom-control-input'
+									id='gridCheck'
+									defaultChecked={isActive}
+									onChange={onStatusChange}></Form.Control>
+								<Form.Label className='custom-control-label' htmlFor='gridCheck'>
+									เปิด/ปิด การใช้งาน
+								</Form.Label>
+							</div>
+						</Form.Group>
+					</Form>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant='secondary' onClick={handleClose}>
+						ยกเลิก
+					</Button>
+					<Button className='btn btn-success' onClick={onSubmitEdit}>
+						ยืนยัน
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		</>
 	)
 }

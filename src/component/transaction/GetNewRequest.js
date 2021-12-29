@@ -4,8 +4,9 @@ import Swal from "sweetalert2"
 import systemConfig from "../../config.json"
 
 export default function GetNewRequest() {
-	const [isAdmin, setIsAdmin] = useState(null)
+	const [allNewRequest, setAllNewRequest] = useState([])
 	const [isReadOnly, setIsReadOnly] = useState("")
+	const [isAdmin, setIsAdmin] = useState(null)
 	const [userDetail] = useState(() => {
 		const userData = localStorage.getItem("userDetail")
 		if (userData) {
@@ -41,11 +42,11 @@ export default function GetNewRequest() {
 		}
 		getAllNewRequest()
 		setIsReadOnly(isAdmin ? "disabled" : "")
-	}, [isAdmin, isReadOnly, userDetail])
+	}, [])
 
+	
 	const [isReject, setIsReject] = useState(false)
 	const [titleItem, setTitleItems] = useState([])
-	const [allNewRequest, setAllNewRequest] = useState([])
 	const [newRequestById, setNewRequestById] = useState([])
 	const [submitEditData, setSubmitEditData] = useState({
 		request_detail_id: null,
