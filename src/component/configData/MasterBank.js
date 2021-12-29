@@ -94,7 +94,7 @@ export default function MasterBank() {
 					<h3 className='card-title'>ข้อมูลธนาคาร</h3>
 				</div>
 				<div className='card-body'>
-					<table className='table'>
+					<table className='table table-striped'>
 						<thead>
 							<tr>
 								<th>รหัส</th>
@@ -140,7 +140,7 @@ export default function MasterBank() {
 					<div className='modal-content'>
 						<div className='modal-header'>
 							<h5 className='modal-title' id='popupEditLabel'>
-								แก้ไขรายการใหม่
+								แก้ไขข้อมูลธนาคาร
 							</h5>
 						</div>
 

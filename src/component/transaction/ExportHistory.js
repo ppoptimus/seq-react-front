@@ -186,7 +186,7 @@ export default function ExportHistory() {
 
 			<div className='card'>
 				<div className='card-body'>
-					<table className='table'>
+					<table className='table table-striped'>
 						<thead>
 							<tr>
 								<th>เลขที่ชุด</th>
@@ -270,8 +270,8 @@ export default function ExportHistory() {
 					key={i.request_code}>
 					<div className='modal-dialog w-auto' style={{ maxWidth: "570px" }}>
 						<div className='modal-content'>
-							<h4 className='modal-header'>แก้ไขข้อมูล</h4>
-							<div className='modal-body pt-5'>
+							<h4 className='modal-header bg-teal'>แก้ไขข้อมูล</h4>
+							<div className='modal-body pt-3'>
 								<div className='form-group row justify-content-center align-items-center'>
 									<label className='col-form-label col-4 text-right'>ชุดหนังสือ</label>
 									<input
@@ -369,7 +369,7 @@ export default function ExportHistory() {
 							<div className='text-secondary modal-header'>จำนวนทั้งหมด {detailCount} รายการ</div>
 							<div className='modal-body'>
 								<table className='table'>
-									<thead className='table-primary'>
+									<thead className='table-primary table-striped'>
 										<tr>
 											<th>เลขที่บัญชีนายจ้าง</th>
 											<th>ประเภทธุรกิจ</th>

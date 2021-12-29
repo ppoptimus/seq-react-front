@@ -81,7 +81,7 @@ export default function ImportHistory() {
 					</div>
 				</div>
 				<div className='card-body'>
-					<table className='table text-center table-hover'>
+					<table className='table text-center table-striped'>
 						<thead>
 							<tr>
 								<th>เลขที่ชุด</th>

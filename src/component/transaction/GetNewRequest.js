@@ -209,7 +209,7 @@ export default function GetNewRequest() {
 
 	return (
 		<>
-			<table className='table table-hover'>
+			<table className='table table-striped'>
 				<thead className='bg-teal'>
 					<tr>
 						<th scope='col'></th>

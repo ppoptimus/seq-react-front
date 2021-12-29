@@ -201,7 +201,6 @@ export default function ImportFile() {
 					onSubmited(208)
 				} else {
 					uploadAttachFile()
-					
 				}
 			})
 			.catch(function (err) {
@@ -212,7 +211,7 @@ export default function ImportFile() {
 	const uploadAttachFile = async () => {
 		if (attachFile) {
 			const data = new FormData()
-			data.append("file", attachFile, attachFileName +'.'+attachFile.name.split('.').pop())
+			data.append("file", attachFile, attachFileName + "." + attachFile.name.split(".").pop())
 			await axios
 				.post(`${systemConfig.MasterData.getTitleUrl}uploadAttachFile`, data, {})
 				.then((res) => {
@@ -223,17 +222,17 @@ export default function ImportFile() {
 					onSubmited(err)
 				})
 		} else {
-			console.log('have not file')
+			console.log("have not file")
 		}
 	}
-	
+
 	return (
 		<>
-			<div className='row flex justify-content-between px-5'>
+			<div className='row flex justify-content-between pt-3 px-2'>
 				<div className='custom-file col-5'>
 					<input
 						type='file'
-						className='custom-file-input'
+						className='custom-file-input form-control-lg'
 						id='exampleInputFile'
 						accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, .txt, text/plain'
 						onChange={onSelectImportFile}
@@ -253,6 +252,7 @@ export default function ImportFile() {
 					""
 				)}
 			</div>
+
 			<hr />
 			{isShowUploadBtn ? (
 				<div className='container text-center m-3'>
@@ -264,7 +264,7 @@ export default function ImportFile() {
 				""
 			)}
 
-			<ImportHistory/>
+			<ImportHistory />
 		</>
 	)
 }
