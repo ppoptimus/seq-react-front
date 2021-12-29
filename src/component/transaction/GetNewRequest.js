@@ -42,7 +42,7 @@ export default function GetNewRequest() {
 		}
 		getAllNewRequest()
 		setIsReadOnly(isAdmin ? "disabled" : "")
-	}, [])
+	}, [allNewRequest])
 
 	
 	const [isReject, setIsReject] = useState(false)
