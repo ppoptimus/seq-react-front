@@ -23,21 +23,24 @@ export default function ImportFile() {
 		if (!!file) {
 			setIsShowInputAttach(true)
 			setIsShowUploadBtn(true)
-			setDisplayFileName(file.target.files[0].name)
-			if (file.target.files[0].type === "text/plain" || file.target.files[0].type === "text/csv") {
-				readTextFile(file)
-			} else if (
-				file.target.files[0].type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-				file.target.files[0].type === "application/vnd.ms-excel"
-			) {
-				readExcelFile(file.target.files[0])
-			} else {
-				console.log("err select file")
+			if(file.target.files.length > 0){
+				setDisplayFileName(file.target.files[0].name)
+				if (file.target.files[0].type === "text/plain" || file.target.files[0].type === "text/csv") {
+					readTextFile(file)
+				} else if (
+					file.target.files[0].type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+					file.target.files[0].type === "application/vnd.ms-excel"
+				) {
+					readExcelFile(file.target.files[0])
+				} else {
+					console.log("err select file")
+				}
 			}
 		}
+
 	}
 	const onSelectAttachFile = (file) => {
-		if (!!file) {
+		if (file.target.files.length > 0) {
 			setDisplayAttachName(file.target.files[0].name)
 			setAttachFile(file.target.files[0])
 		}
