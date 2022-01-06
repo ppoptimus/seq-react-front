@@ -257,11 +257,11 @@ export default function MasterBank() {
 						</Button>
 						{isNew ? (
 							<Button className='btn btn-success' onClick={onSubmitSaveNew}>
-								ยืนยัน1
+								ยืนยัน
 							</Button>
 						) : (
 							<Button className='btn btn-success' onClick={onSubmitEdit}>
-								ยืนยัน2
+								ยืนยัน
 							</Button>
 						)}
 					</Modal.Footer>
