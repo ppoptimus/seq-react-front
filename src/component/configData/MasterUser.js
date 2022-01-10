@@ -6,22 +6,28 @@ import systemConfig from "../../config.json"
 import UserDetail from "../../UserDetail"
 
 export default function MasterUser() {
+	const [userLdap, setUserLdap] = useState("")
 	const [userDetail] = useState(UserDetail)
 	const [isActive, setIsActive] = useState(true)
 	const [data, setData] = useState([])
 	const [dataById, setDataById] = useState([])
 	const [userLevel, setUserLevel] = useState([])
-  const [department, setDepartment] = useState([])
-  const [searchInput, setSearchInput] = useState("")
+	const [department, setDepartment] = useState([])
+	const [searchInput, setSearchInput] = useState("")
 	const [filteredResults, setFilteredResults] = useState([])
+	const [headerText, setHeaderText] = useState("แก้ไขข้อมูลผู้ใช้งาน")
 
 	const [show, setShow] = useState(false)
 	const handleClose = () => setShow(false)
 	const handleShow = (e) => {
 		if (e === "new") {
+			if(userLdap){console.log(userLdap)}
 			setDataById([])
+			setHeaderText("เพิ่มข้อมูลผู้ใช้งาน")
 		}
 		setShow(true)
+		getUserLevel()
+		getDepartment()
 	}
 
 	useEffect(() => {
@@ -45,15 +51,13 @@ export default function MasterUser() {
 		}
 	}, [data])
 
-  const onInputTextSearch = (item) => {
-    let newItem = [data.filter((x) => x.username.includes(item))]
-    setSearchInput(item)
-    setFilteredResults(newItem[0])
+	const onSearchInUseState = (item) => {
+		let newItem = [data.filter((x) => x.username.includes(item))]
+		setSearchInput(item)
+		setFilteredResults(newItem[0])
 	}
 
-  const onClickSearch = () => {
-
-  }
+	const onClickSearch = () => {}
 
 	const onClickEdit = (id) => {
 		let newItem = data.find((x) => x.user_id === id)
@@ -61,7 +65,7 @@ export default function MasterUser() {
 		setIsActive(newItem.status_id)
 		setShow(true)
 		getUserLevel()
-    getDepartment()
+		getDepartment()
 	}
 
 	const getUserLevel = () => {
@@ -80,8 +84,8 @@ export default function MasterUser() {
 			})
 	}
 
-  const getDepartment = () => {
-    const config = {
+	const getDepartment = () => {
+		const config = {
 			method: "get",
 			url: `${systemConfig.MasterData.getTitleUrl}getMasterDepartment`,
 			headers: systemConfig.MasterData.headersList,
@@ -94,11 +98,16 @@ export default function MasterUser() {
 			.catch(function (error) {
 				console.log(error)
 			})
-  }
+	}
 
 	const handleChange = (name) => (e) => {
-    console.log(name, '---', e.target.value)
-		setDataById({ ...dataById, [name]: e.target.value })
+		if (name === "search_ldap") {
+			console.log(name, "----", e.target.value)
+			setUserLdap(e.target.value)
+		} else {
+			console.log(name, "----", e.target.value)
+			setDataById({ ...dataById, [name]: e.target.value })
+		}
 	}
 
 	const onStatusChange = (e) => {
@@ -113,10 +122,10 @@ export default function MasterUser() {
 			data: {
 				user_name: dataById.username,
 				first_name: dataById.first_name,
-				last_name: userDetail.last_name,
+				last_name: dataById.last_name,
 				personal_id: dataById.personal_id,
 				department_code: dataById.department_code,
-				userlevel_id: userDetail.userlevel_id,
+				userlevel_id: dataById.userlevel_id,
 				status_id: isActive,
 				create_by: userDetail.username,
 			},
@@ -151,18 +160,29 @@ export default function MasterUser() {
 
 	return (
 		<>
-    <button className='btn btn-info mb-2' onClick={(e) => handleShow('new')}>
-				<i className='fas fa-plus'></i> เพิ่มผู้ใช้งาน
-			</button>
+			<div className='row p-2'>
+				
+					<button className='btn btn-info mr-2' onClick={(e) => handleShow("new")}>
+						<i className='fas fa-plus'></i> เพิ่มผู้ใช้งาน
+					</button>
+				
+					<input
+						className='form-control col-4'
+						placeholder='กรอก username เพื่อค้นหาจากข้อมูลส่วนกลาง'
+						onChange={handleChange("search_ldap")}></input>
+				
+			</div>
 			<div className='card'>
 				<div className='card-header bg-teal'>
 					<h3 className='card-title'>ข้อมูลผู้ใช้งานระบบ</h3>
 				</div>
-        <div className='card-body flex-column text-center'>
+				<div className='card-body flex-column text-center'>
 					<div className='form-group text-center align-item-center'>
 						<label className='col-form-label col2'>ชื่อผู้ใช้งาน</label>
-						<input className='form-control-lg col-4 mx-2' onChange={(e) => onInputTextSearch(e.target.value)}></input>
-						<button className='btn-lg btn-primary' type='button' onClick={onClickSearch}>ค้นหา</button>
+						<input className='form-control-lg col-4 mx-2' onChange={(e) => onSearchInUseState(e.target.value)}></input>
+						<button className='btn-lg btn-primary' type='button' onClick={onClickSearch}>
+							ค้นหา
+						</button>
 					</div>
 				</div>
 				<div className='card-body'>
@@ -174,56 +194,51 @@ export default function MasterUser() {
 								<th>เลขบัตรประชาชน</th>
 								<th>รหัสสาขา</th>
 								<th>ระดับผู้ใช้</th>
-                <th>สถานะ</th>
+								<th>สถานะ</th>
 								<th>แก้ไข</th>
 							</tr>
 						</thead>
 						<tbody>
 							{data
-								? (
-                  searchInput.length > 0 ?(
-                    filteredResults.map((i) => (
-                      <tr key={i.user_id}>
-                        <td>{i.username}</td>
-                        <td>{i.full_name}</td>
-                        <td>{i.personal_id}</td>
-                        <td>{i.department_code}</td>
-                        <td>{i.user_level_name}</td>
-                        <td>{i.status_name}</td>
-                        <td>
-                          <button
-                            className='btn btn-warning shadow-sm'
-                            data-toggle='modal'
-                            data-target='#popupEdit'
-                            onClick={() => onClickEdit(i.user_id)}>
-                            <i className='fas fa-edit'></i>
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  ):(
-                    data.map((i) => (
-                      <tr key={i.user_id}>
-                        <td>{i.username}</td>
-                        <td>{i.full_name}</td>
-                        <td>{i.personal_id}</td>
-                        <td>{i.department_code}</td>
-                        <td>{i.user_level_name}</td>
-                        <td>{i.status_name}</td>
-                        <td>
-                          <button
-                            className='btn btn-warning shadow-sm'
-                            data-toggle='modal'
-                            data-target='#popupEdit'
-                            onClick={() => onClickEdit(i.user_id)}>
-                            <i className='fas fa-edit'></i>
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  )
-                  
-                  )
+								? searchInput.length > 0
+									? filteredResults.map((i) => (
+											<tr key={i.user_id}>
+												<td>{i.username}</td>
+												<td>{i.full_name}</td>
+												<td>{i.personal_id}</td>
+												<td>{i.department_code}</td>
+												<td>{i.user_level_name}</td>
+												<td>{i.status_name}</td>
+												<td>
+													<button
+														className='btn btn-warning shadow-sm'
+														data-toggle='modal'
+														data-target='#popupEdit'
+														onClick={() => onClickEdit(i.user_id)}>
+														<i className='fas fa-edit'></i>
+													</button>
+												</td>
+											</tr>
+									  ))
+									: data.map((i) => (
+											<tr key={i.user_id}>
+												<td>{i.username}</td>
+												<td>{i.full_name}</td>
+												<td>{i.personal_id}</td>
+												<td>{i.department_code}</td>
+												<td>{i.user_level_name}</td>
+												<td>{i.status_name}</td>
+												<td>
+													<button
+														className='btn btn-warning shadow-sm'
+														data-toggle='modal'
+														data-target='#popupEdit'
+														onClick={() => onClickEdit(i.user_id)}>
+														<i className='fas fa-edit'></i>
+													</button>
+												</td>
+											</tr>
+									  ))
 								: "Loading..."}
 						</tbody>
 					</table>
@@ -233,67 +248,74 @@ export default function MasterUser() {
 			<Modal show={show} onHide={handleClose} size='lg' aria-labelledby='contained-modal-title-vcenter' centered>
 				<Modal.Header className='bg-teal' style={{ padding: "0.5rem", borderTop: "0px" }}>
 					<Modal.Title>
-						<span>แก้ไขข้อมูลผู้ใช้งาน</span>
+						<span>{headerText}</span>
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<Form className='justify-content-center align-items-center bg-light p-2'>
 						<Form.Group>
 							<div className='row mb-4'>
-								<div className=''>
+								<div className='form-group-lg mr-1'>
 									<Form.Label className='form-label'>ชื่อผู้ใช้</Form.Label>
 									<Form.Control
 										type='text'
 										className='form-control'
+										maxLength={50}
 										value={dataById.username ? dataById.username : ""}
 										onChange={handleChange("username")}
 									/>
 								</div>
-								<div className=''>
+
+								<div className='form-group-lg mr-1'>
 									<Form.Label className='form-label'>ชื่อ</Form.Label>
 									<Form.Control
 										type='text'
+										maxLength={50}
 										className='form-control'
 										value={dataById.first_name ? dataById.first_name : ""}
 										onChange={handleChange("first_name")}
 									/>
 								</div>
-								<div className=''>
+								<div className='form-group-lg mr-1'>
 									<Form.Label className='form-label'>นามสกุล</Form.Label>
 									<Form.Control
 										type='text'
+										maxLength={50}
 										className='form-control'
 										value={dataById.last_name ? dataById.last_name : ""}
 										onChange={handleChange("last_name")}
 									/>
 								</div>
-								<div className=''>
+							</div>
+							<div className='row mb-4'>
+								<div className='form-group-lg mr-1'>
 									<Form.Label className='form-label'>เลขบัตรประชาชน</Form.Label>
 									<Form.Control
 										type='text'
+										maxLength={20}
 										className='form-control'
 										value={dataById.personal_id ? dataById.personal_id : ""}
 										onChange={handleChange("personal_id")}
 									/>
 								</div>
-								<div className=''>
+								<div className='form-group-lg mr-1'>
+									<label className='form-label'>สาขา / จังหวัด</label>
+									<select className='form-control' onChange={handleChange("department_code")}>
+										<option>{dataById.department_name}</option>
+										{department.map((item) => (
+											<option key={item.department_code} value={item.department_code}>
+												{item.department_name}
+											</option>
+										))}
+									</select>
+								</div>
+								<div className='form-group-lg mr-1'>
 									<label className='form-label'>ระดับผู้ใช้งาน</label>
 									<select className='form-control' onChange={handleChange("userlevel_id")}>
 										<option>{dataById.user_level_name}</option>
 										{userLevel.map((item) => (
 											<option key={item.user_level_id} value={item.user_level_id}>
 												{item.user_level_name}
-											</option>
-										))}
-									</select>
-								</div>
-								<div className=''>
-									<label className='form-label'>ระดับผู้ใช้งาน</label>
-									<select className='form-control' onChange={handleChange("department_code")}>
-										<option>{dataById.department_name}</option>
-										{department.map((item) => (
-											<option key={item.department_code} value={item.department_code}>
-												{item.department_name}
 											</option>
 										))}
 									</select>
