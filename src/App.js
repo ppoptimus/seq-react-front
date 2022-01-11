@@ -6,7 +6,6 @@ import Login from "./Login"
 import UserDetail from './UserDetail'
 
 const Navbar = lazy(() => import("./menu/Navbar"))
-const Sidebar = lazy(() => import("./menu/Sidebar"))
 const Sidebar2 = lazy(() => import("./menu/SideBar2"))
 const Footer = lazy(() => import("./menu/Footer"))
 const Dashboard = lazy(() => import("./component/dashboard/GetAllRequest"))

@@ -34,7 +34,7 @@ export default function MasterUser() {
 			axios(config)
 				.then(function (res) {
 					if (isMounted) {
-						if(res.status == 200){
+						if(res.status === 200){
 							setDataById(res.data)
 						}else{
 							Swal.fire({
