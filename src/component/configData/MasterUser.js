@@ -20,10 +20,43 @@ export default function MasterUser() {
 	const [show, setShow] = useState(false)
 	const handleClose = () => setShow(false)
 	const handleShow = (e) => {
-		if (e === "new") {
-			if(userLdap){console.log(userLdap)}
-			setDataById([])
-			setHeaderText("เพิ่มข้อมูลผู้ใช้งาน")
+		if (e === "new" && userLdap) {
+			const config = {
+				method: "post",
+				url: `${systemConfig.MasterData.getTitleUrl}ldapSearch`,
+				headers: systemConfig.MasterData.headersList,
+				data: {
+					user_name: userLdap,
+					pwd: null,
+				},
+			}
+			let isMounted = true
+			axios(config)
+				.then(function (res) {
+					if (isMounted) {
+						if(res.status == 200){
+							setDataById(res.data)
+						}else{
+							Swal.fire({
+								title: "ไม่สามารถค้นหาจาก LDAP ได้!!",
+								text: res.data.description,
+								icon: "warning",
+								confirmButtonColor: "#da8d0c",
+								confirmButtonText: "ตกลง",
+							})
+						}
+						setDataById(res.data)
+						setHeaderText("เพิ่มข้อมูลผู้ใช้งาน")
+						setShow(true)
+					}
+				})
+				.catch(function (error) {
+					console.log(error)
+				})
+			return () => {
+				console.log(dataById)
+				isMounted = false
+			}
 		}
 		setShow(true)
 		getUserLevel()
@@ -56,8 +89,6 @@ export default function MasterUser() {
 		setSearchInput(item)
 		setFilteredResults(newItem[0])
 	}
-
-	const onClickSearch = () => {}
 
 	const onClickEdit = (id) => {
 		let newItem = data.find((x) => x.user_id === id)
@@ -102,10 +133,8 @@ export default function MasterUser() {
 
 	const handleChange = (name) => (e) => {
 		if (name === "search_ldap") {
-			console.log(name, "----", e.target.value)
 			setUserLdap(e.target.value)
 		} else {
-			console.log(name, "----", e.target.value)
 			setDataById({ ...dataById, [name]: e.target.value })
 		}
 	}
@@ -161,31 +190,32 @@ export default function MasterUser() {
 	return (
 		<>
 			<div className='row p-2'>
-				
-					<button className='btn btn-info mr-2' onClick={(e) => handleShow("new")}>
-						<i className='fas fa-plus'></i> เพิ่มผู้ใช้งาน
-					</button>
-				
-					<input
-						className='form-control col-4'
-						placeholder='กรอก username เพื่อค้นหาจากข้อมูลส่วนกลาง'
-						onChange={handleChange("search_ldap")}></input>
-				
+				<input
+					className='form-control col-3 mr-2'
+					placeholder='กรอก username เพื่อค้นหาจากข้อมูลส่วนกลาง'
+					onChange={handleChange("search_ldap")}></input>
+				<button className='btn btn-info mr-2' onClick={(e) => handleShow("new")}>
+					<i className='fas fa-plus'></i> เพิ่มผู้ใช้งาน
+				</button>
+
 			</div>
 			<div className='card'>
 				<div className='card-header bg-teal'>
 					<h3 className='card-title'>ข้อมูลผู้ใช้งานระบบ</h3>
 				</div>
-				<div className='card-body flex-column text-center'>
-					<div className='form-group text-center align-item-center'>
-						<label className='col-form-label col2'>ชื่อผู้ใช้งาน</label>
-						<input className='form-control-lg col-4 mx-2' onChange={(e) => onSearchInUseState(e.target.value)}></input>
-						<button className='btn-lg btn-primary' type='button' onClick={onClickSearch}>
-							ค้นหา
-						</button>
+				<div className='flex-column text-center mt-3'>
+					<div className='inner-addon right-addon col-3 p-1'>
+						<i className='fas fa-search text-secondary'></i>
+						<input
+							type='text'
+							className='form-control'
+							onChange={(e) => onSearchInUseState(e.target.value)}
+						/>
 					</div>
 				</div>
-				<div className='card-body'>
+
+				<hr />
+				<div className='card-body pt-0'>
 					<table className='table table-striped'>
 						<thead>
 							<tr>
