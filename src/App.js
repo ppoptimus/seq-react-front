@@ -15,6 +15,7 @@ const ExportManual = lazy(() => import("./component/transaction/ExportManual"))
 const ExportHistory = lazy(() => import("./component/transaction/ExportHistory"))
 const ImportFile = lazy(() => import("./component/transaction/ImportFile"))
 const ImportHistory = lazy(() => import("./component/transaction/ImportHistory"))
+const SearchData = lazy(() => import("./component/transaction/SearchData"))
 
 const MasterBank = lazy(() => import("./component/configData/MasterBank"))
 const MasterDepartment = lazy(() => import("./component/configData/MasterDepartment"))
@@ -46,6 +47,7 @@ function App() {
 								<Route path='/ExportHistory' component={ExportHistory} />
 								<Route path='/Import' component={ImportFile} />
 								<Route path='/ImportHistory' component={ImportHistory} />
+								<Route path='/SearchData' component={SearchData} />
 
 								<Route path='/MasterBank' component={MasterBank} />
 								<Route path='/MasterDepartment' component={MasterDepartment} />

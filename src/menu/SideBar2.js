@@ -56,7 +56,7 @@ export default function SideBar2() {
 										</NavLink>
 									</li>
 									<li className='nav-item'>
-										<NavLink to='/NewRequest' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
+										<NavLink to='/SearchData' className={(isActive) => "nav-link" + (!isActive ? " unselected" : "")}>
 											<i className='fas fa-search nav-icon' />
 											<p>ค้นหารายการ</p>
 										</NavLink>
