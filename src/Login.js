@@ -11,7 +11,6 @@ export default function Login(props) {
 	const [userDetail, setUserDetail] = useState(UserDetail)
 
 	useEffect(() => {
-
 		localStorage.setItem("userDetail", JSON.stringify(userDetail))
 	}, [userDetail])
 
@@ -77,41 +76,44 @@ export default function Login(props) {
 			<main id='main'>
 				<section id='left'>
 					<div id='head'>
-					<h3>ข่าวประกาศ</h3>
-						
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante</p>
+						<h3>ข่าวประกาศ</h3>
+
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante Lorem ipsum dolor sit amet,
+							consectetur adipiscing elit. Integer posuere erat a ante Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Integer posuere erat a ante
+						</p>
 					</div>
 				</section>
 				<section id='right'>
-					<br/>
-					<h1>Login</h1>
+					<img src='dist/img/logo.png' className='img-fluid w-50 mb-2'></img>
 					<form onSubmit={onSubmitLogin}>
-								<div className='form-group'>
-		 								<input
-											type='text'
-											name='user_name'
-											placeholder='ชื่อผู้ใช้'
-											className='form-control input'
-											onChange={(e) => setUserName(e.target.value)}
-											value={userName}
-										/>
-									</div>
-									<div className='form-group'>
-										<input
-											type='password'
-											name='psw'
-											placeholder='รหัสผ่าน'
-											className='form-control input'
-											onChange={(e) => setPassword(e.target.value)}
-											value={password}
-										/>
-									</div>
-									<div className='row justify-content-center my-3 px-3'>
-										<button className='btn-block bg-teal text-lg' type='submit' onClick={onSubmitLogin}>
-											เข้าระบบ
-										</button>
-									</div>
-								</form>
+						<div className='form-group'>
+							<input
+								type='text'
+								name='user_name'
+								placeholder='ชื่อผู้ใช้'
+								className='form-control input'
+								onChange={(e) => setUserName(e.target.value)}
+								value={userName}
+							/>
+						</div>
+						<div className='form-group'>
+							<input
+								type='password'
+								name='psw'
+								placeholder='รหัสผ่าน'
+								className='form-control input'
+								onChange={(e) => setPassword(e.target.value)}
+								value={password}
+							/>
+						</div>
+						<div className='row justify-content-center my-3 px-3'>
+							<button className='btn-block bg-teal text-lg' type='submit' onClick={onSubmitLogin}>
+								เข้าระบบ
+							</button>
+						</div>
+					</form>
 				</section>
 			</main>
 		</div>
