@@ -9,10 +9,30 @@ export default function Login(props) {
 	const [userName, setUserName] = useState("")
 	const [password, setPassword] = useState("")
 	const [userDetail, setUserDetail] = useState(UserDetail)
+	const [news, setnews] = useState([])
 
 	useEffect(() => {
 		localStorage.setItem("userDetail", JSON.stringify(userDetail))
-	}, [userDetail])
+		const config = {
+			method: "get",
+			url: `${systemConfig.MasterData.getTitleUrl}getMasterNews`,
+			headers: systemConfig.MasterData.headersList,
+		}
+		let isMounted = true
+		axios(config)
+			.then(function (res) {
+				if (isMounted) {
+					setnews(res.data[0])
+					console.log(res.data[0])
+				}
+			})
+			.catch(function (error) {
+				console.log(error)
+			})
+		return () => {
+			isMounted = false
+		}
+	}, [])
 
 	const onSubmitLogin = () => {
 		if (userName) {
@@ -76,13 +96,8 @@ export default function Login(props) {
 			<main id='main'>
 				<section id='left'>
 					<div id='head'>
-						<h3>ข่าวประกาศ</h3>
-
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante Lorem ipsum dolor sit amet,
-							consectetur adipiscing elit. Integer posuere erat a ante Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-							Integer posuere erat a ante
-						</p>
+						<h3 className="mb-2">ข่าวประกาศ</h3>
+						<p>{news.news_description ? news.news_description : ""}</p>
 					</div>
 				</section>
 				<section id='right'>

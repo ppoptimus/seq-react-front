@@ -3,8 +3,10 @@
   flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(#0047a4, #b4e6f9);
+  background: linear-gradient( 95.2deg, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% );
   font-family: "Raleway", sans-serif;
+  scrollbar-width: thin;
+  overflow: hidden;
 }
 
 #main {
@@ -19,19 +21,20 @@
 
 #left {
   position: relative;
-  background: linear-gradient(135deg, rgba(91, 36, 122, 0.45) 0%, rgba(27, 206, 223, 0.55) 100%), url("https://images.pexels.com/photos/556663/pexels-photo-556663.jpeg?auto=compress&cs=tinysrgb&h=650&w=940");
+  background: #005c9e;
   background-size: cover;
   background-position: center;
-  height: calc(100% + 50px);
+  height: calc(100% + 70px);
   width: 50%;
   top: -35px;
-  left: -70px;
+  left: -90px;
   padding: 25px 25px;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  box-shadow: 15px 9px 20px 0px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
   color: white;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
+  border-radius: 10px;
 }
 
 #left #head {
