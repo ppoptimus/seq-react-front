@@ -32,7 +32,7 @@ export default function Login(props) {
 		return () => {
 			isMounted = false
 		}
-	}, [])
+	}, [userDetail])
 
 	const onSubmitLogin = () => {
 		if (userName) {

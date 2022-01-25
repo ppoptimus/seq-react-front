@@ -34,9 +34,12 @@ export default function MasterUser() {
 			axios(config)
 				.then(function (res) {
 					if (isMounted) {
-						if(res.status === 200){
+						if (res.status === 200) {
 							setDataById(res.data)
-						}else{
+							console.log('step Mounted', res.data);
+							getUserLevel()
+							getDepartment()
+						} else {
 							Swal.fire({
 								title: "ไม่สามารถค้นหาจาก LDAP ได้!!",
 								text: res.data.description,
@@ -54,10 +57,11 @@ export default function MasterUser() {
 					console.log(error)
 				})
 			return () => {
-				console.log(dataById)
+				console.log('step return');
 				isMounted = false
 			}
 		}
+		console.log('step all');
 		setShow(true)
 		getUserLevel()
 		getDepartment()
@@ -86,12 +90,14 @@ export default function MasterUser() {
 
 	const onSearchInUseState = (item) => {
 		let newItem = [data.filter((x) => x.username.includes(item))]
+		
 		setSearchInput(item)
 		setFilteredResults(newItem[0])
 	}
 
 	const onClickEdit = (id) => {
 		let newItem = data.find((x) => x.user_id === id)
+		console.log(newItem);
 		setDataById(newItem)
 		setIsActive(newItem.status_id)
 		setShow(true)
@@ -189,32 +195,28 @@ export default function MasterUser() {
 
 	return (
 		<>
-			<div className='row p-2'>
+			<div className='row p-2 my-3'>
 				<input
 					className='form-control col-3 mr-2'
-					placeholder='กรอก username เพื่อค้นหาจากข้อมูลส่วนกลาง'
+					placeholder='กรอก username หรือเลขบัตร ปชช'
 					onChange={handleChange("search_ldap")}></input>
 				<button className='btn btn-info mr-2' onClick={(e) => handleShow("new")}>
 					<i className='fas fa-plus'></i> เพิ่มผู้ใช้งาน
 				</button>
-
 			</div>
 			<div className='card'>
 				<div className='card-header bg-teal'>
 					<h3 className='card-title'>ข้อมูลผู้ใช้งานระบบ</h3>
 				</div>
-				<div className='flex-column text-center mt-3'>
-					<div className='inner-addon right-addon col-3 p-1'>
-						<i className='fas fa-search text-secondary'></i>
-						<input
-							type='text'
-							className='form-control'
-							onChange={(e) => onSearchInUseState(e.target.value)}
-						/>
-					</div>
+				<div className='align-content-center justify-content-end m-3'>
+					<input
+						type='text'
+						className='form-control border-top-0 border-left-0 border-right-0 col-3'
+						placeholder='Search for Username'
+						onChange={(e) => onSearchInUseState(e.target.value)}
+					/>
 				</div>
-
-				<hr />
+				<br />
 				<div className='card-body pt-0'>
 					<table className='table table-striped'>
 						<thead>
