@@ -96,7 +96,7 @@ export default function Login(props) {
 			<main id='main'>
 				<section id='left'>
 					<div id='head'>
-						<h3 className="mb-2">ข่าวประกาศ</h3>
+						<h3 className='mb-2'>ข่าวประกาศ</h3>
 						<p>{news.news_description ? news.news_description : ""}</p>
 					</div>
 				</section>
@@ -131,61 +131,37 @@ export default function Login(props) {
 					</form>
 				</section>
 			</main>
+			<div className='bubbles'>
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+				<div className='bubble' />
+			</div>
 		</div>
-		// <div className='container px-4 py-5 mx-auto'>
-		// 	<div className='card' style={{ background: "center" }}>
-		// 		<div className='d-flex flex-lg-row flex-column-reverse'>
-		// 			<div className='card card1'>
-		// 				<div className='row justify-content-center my-auto'>
-		// 					<div className='col-md-8 col-10 my-5'>
-		// 						<div className='row justify-content-center px-3 mb-3'>
-		// 							<img id='logo' src='dist/img/logo.png' alt='sequester' />
-		// 						</div>
-		// 						<h3 className='mb-5 text-center heading'>SEQUESTER</h3>
-		// 						<form onSubmit={onSubmitLogin}>
-		// 							<div className='form-group'>
-		// 								<input
-		// 									type='text'
-		// 									name='user_name'
-		// 									placeholder='ชื่อผู้ใช้'
-		// 									className='form-control input'
-		// 									onChange={(e) => setUserName(e.target.value)}
-		// 									value={userName}
-		// 								/>
-		// 							</div>
-		// 							<div className='form-group'>
-		// 								<input
-		// 									type='password'
-		// 									name='psw'
-		// 									placeholder='รหัสผ่าน'
-		// 									className='form-control input'
-		// 									onChange={(e) => setPassword(e.target.value)}
-		// 									value={password}
-		// 								/>
-		// 							</div>
-		// 							<div className='row justify-content-center my-3 px-3'>
-		// 								<button className='btn-block btn-color' type='submit' onClick={onSubmitLogin}>
-		// 									เข้าระบบ
-		// 								</button>
-		// 							</div>
-		// 						</form>
-		// 					</div>
-		// 				</div>
-		// 			</div>
-		// 			<div className='card card2'>
-		// 				<div className='my-auto mx-md-5 px-md-5 right'>
-		// 					<h3 className='text-white'>ข่าวประชาสัมพันธ์</h3>
-		// 					<p className='text-white'>
-		// 						โดยที่ถึงแม้สถานการณ์การแพร่ระบาดของโรคติดเชื้อไวรัสโคโรนา ๒๐๑๙ ในประเทศไทย
-		// 						จะปรากฏแนวโน้มที่ดีขึ้นแล้วก็ตาม แต่สถานการณ์การแพร่ระบาดของโรคดังกล่าวในต่างประเทศ
-		// 						ก็ยังปรากฏมีอยู่ในปัจจุบัน ดังนั้น เพื่อมิให้ส่งผลกระทบต่อสุขภาพของบุคลากรของศาลปกครอง
-		// 						และสำนักงานศาลปกครอง ซึ่งจะส่งผลต่อการบริหารราชการศาลปกครองและสำนักงานศาลปกครอง
-		// 						อันอาจก่อให้เกิดความเสียหายแก่ราชการในที่สุด
-		// 					</p>
-		// 				</div>
-		// 			</div>
-		// 		</div>
-		// 	</div>
-		// </div>
 	)
 }
