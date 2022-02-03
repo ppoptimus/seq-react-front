@@ -86,7 +86,7 @@ export default function MasterUser() {
 		return () => {
 			isMounted = false
 		}
-	}, [data])
+	}, [])
 
 	const onSearchInUseState = (item) => {
 		let newItem = [data.filter((x) => x.username.includes(item))]

@@ -39,7 +39,7 @@ export default function MasterDepartment() {
 		return () => {
 			isMounted = false
 		}
-	}, [data])
+	}, [])
 
 	const onClickEdit = (id) => {
 		let newItem = data.find((x) => x.department_code === id)

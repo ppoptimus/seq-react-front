@@ -38,7 +38,7 @@ export default function SeachData() {
 		return () => {
 			isMounted = false
 		}
-	}, [dataResult])
+	}, [])
 
 	const handleInputChange = (name) => (e) => {
 		console.log(name, "---", e.target.value)

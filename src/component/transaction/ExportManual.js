@@ -28,7 +28,7 @@ export default function ExportManual() {
 		return () => {
 			isMounted = false
 		}
-	}, [data])
+	}, [])
 
 	const onSubmitGenerate = () => {
 		const config = {

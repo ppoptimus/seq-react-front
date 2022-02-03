@@ -34,8 +34,7 @@ export default function ImportHistory() {
 				isMounted = false
 			}
 		},
-		[importHistory],
-		[userDetail],
+		[],
 	)
 
 	const onClickRow = (e) => {

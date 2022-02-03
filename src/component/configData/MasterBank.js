@@ -41,7 +41,7 @@ export default function MasterBank() {
 		return () => {
 			isMounted = false
 		}
-	}, [data])
+	}, [])
 
 	const onClickEdit = (id) => {
 		let newItem = data.find((x) => x.bank_id === id)

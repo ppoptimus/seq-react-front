@@ -49,7 +49,7 @@ export default function ExportHistory() {
 		return () => {
 			isMounted = false
 		}
-	}, [userDetail])
+	}, [])
 
 	const onInputTextSearch = (i) => {
 		setSearchInput(i)
