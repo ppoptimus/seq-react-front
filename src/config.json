@@ -1,10 +1,14 @@
 {
     "MasterData":{
-      "getTitleUrl": "http://172.16.19.40/api/",
+      "getTitleUrl": "http://localhost:3000/api/",
+      "_LOCAL" : "http://localhost:3000/api/",
+      "_DEV" : "http://172.16.19.40/api",
+      "_UAT" : "https://sequat.sso.go.th/api",
+      "_UAT_IP" : "http://172.20.90.46/api",
+      "_PROD" : "",
       "headersList" : {
         "Accept": "*/*",
         "Content-Type": "application/json" 
        }
     }
-
 }

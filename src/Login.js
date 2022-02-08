@@ -23,7 +23,6 @@ export default function Login(props) {
 			.then(function (res) {
 				if (isMounted) {
 					setnews(res.data[0])
-					console.log(res.data[0])
 				}
 			})
 			.catch(function (error) {
@@ -55,6 +54,7 @@ export default function Login(props) {
 							</div>
 						)
 					}
+					
 					if (res.status === 200) {
 						if (res.data.result === 1) {
 							setUserDetail(res.data)
@@ -106,7 +106,7 @@ export default function Login(props) {
 						<div className='form-group'>
 							<input
 								type='text'
-								name='user_name'
+								name="user"
 								placeholder='ชื่อผู้ใช้'
 								className='form-control input'
 								onChange={(e) => setUserName(e.target.value)}
@@ -116,9 +116,10 @@ export default function Login(props) {
 						<div className='form-group'>
 							<input
 								type='password'
-								name='psw'
+								
 								placeholder='รหัสผ่าน'
 								className='form-control input'
+								autoComplete=""
 								onChange={(e) => setPassword(e.target.value)}
 								value={password}
 							/>
