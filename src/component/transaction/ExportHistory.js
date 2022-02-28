@@ -49,7 +49,7 @@ export default function ExportHistory() {
 		return () => {
 			isMounted = false
 		}
-	}, [])
+	}, [userDetail])
 
 	const onInputTextSearch = (i) => {
 		setSearchInput(i)
@@ -94,6 +94,7 @@ export default function ExportHistory() {
 				confirmButtonText: "ตกลง",
 			})
 		} else {
+			//******** ขั้นตอนนี้ให้ gen data เพื่อให้ TSD มา get ไปด้วย ********//
 			const config = {
 				method: "post",
 				url: `${systemConfig.MasterData.getTitleUrl}saveDocumentSet`,
@@ -116,6 +117,7 @@ export default function ExportHistory() {
 		}
 	}
 	const generateFile = (request_code) => {
+		console.log('gen file:', request_code)
 		const config = {
 			method: "post",
 			url: `${systemConfig.MasterData.getTitleUrl}getDataToExport`,
@@ -129,7 +131,7 @@ export default function ExportHistory() {
 		}
 		axios(config)
 			.then(function (res) {
-				// console.log(res)
+				console.log(res)
 			})
 			.catch(function (err) {
 				console.log(err)
@@ -343,7 +345,7 @@ export default function ExportHistory() {
 
 							<div className='modal-footer'>
 								<div className='form-group'>
-									<button type='button' className='btn btn-success mr-3 px-4' onClick={onClickSaveDocumentSet}>
+									<button id="submit-generate-file" type='button' className='btn btn-success mr-3 px-4' onClick={onClickSaveDocumentSet}>
 										บันทึก
 									</button>
 									<button type='button' className='btn btn-secondary' data-dismiss='modal'>

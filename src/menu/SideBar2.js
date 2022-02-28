@@ -21,7 +21,7 @@ export default function SideBar2() {
 					<span className='brand-text font-weight-bold'>SEQUESTER</span>
 				</Link>
 				{/* Sidebar Menu*/}
-				<div className='sidebar'>
+				<div className='sidebar' aria-expanded="false">
 					<nav className='mt-2'>
 						<ul className='nav nav-pills nav-sidebar flex-column' data-widget='treeview' role='menu' data-accordion='false'>
 							<li className='nav-item'>

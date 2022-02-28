@@ -39,12 +39,17 @@ export default function ExportManual() {
 
 		axios(config)
 			.then(function (res) {
-				console.log(res)
-				onSubmited('success')
+				console.log(res.data)
+				if(res.data[0].result === 'Failed'){
+					onSubmited('failed',res.data[0].resultMessage)
+
+				}else{
+					onSubmited('success',res.data[0].resultMessage)
+				}
 			})
 			.catch(function (err) {
 				console.log(err)
-				onSubmited(err)
+				onSubmited(err, err.message)
 			})
 	}
 
@@ -85,7 +90,7 @@ export default function ExportManual() {
 		</>
 	)
 }
-const onSubmited = (result) => {
+const onSubmited = (result, message) => {
 	if (result === 'success') {
 		Swal.fire({
 			title: 'สร้างเลขชุดหนังสือสำเร็จ',
@@ -97,17 +102,23 @@ const onSubmited = (result) => {
 				refreshPage()
 			}
 		})
-	} else {
+	} 
+	else if (result === 'failed'){
 		Swal.fire({
 			title: 'สร้างเลขชุดหนังสือไม่สำเร็จ!!',
-			text: result,
+			text: message,
+			icon: 'warning',
+			confirmButtonColor: '#9c1e1e',
+			confirmButtonText: 'ตกลง',
+		})
+	}
+	else {
+		Swal.fire({
+			title: 'สร้างเลขชุดหนังสือไม่สำเร็จ!!',
+			text: message,
 			icon: 'error',
 			confirmButtonColor: '#9c1e1e',
 			confirmButtonText: 'ตกลง',
-		}).then((result) => {
-			if (result.isConfirmed) {
-				refreshPage()
-			}
 		})
 	}
 }

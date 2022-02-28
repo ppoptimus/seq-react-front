@@ -39,7 +39,7 @@ export default function GetAllRequest() {
   useEffect(() => {
     fetchData()
     fetchDataNewRequest()
-  }, [])
+  }, [allRequestCount, userDetail])
 
   return (
     <>
