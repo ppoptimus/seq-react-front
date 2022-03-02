@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Suspense, lazy } from "react"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { HashRouter as Router, Route, Switch } from "react-router-dom"
 import Waiting from "./component/options/Waiting"
 import Login from "./Login"
 import UserDetail from './UserDetail'
