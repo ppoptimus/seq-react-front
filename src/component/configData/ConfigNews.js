@@ -1,3 +1,4 @@
+import React from 'react'
 import systemConfig from "../../config.json"
 import UserDetail from "../../UserDetail"
 import { useEffect, useState } from "react"

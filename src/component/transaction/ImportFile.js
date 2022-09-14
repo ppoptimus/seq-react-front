@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState, lazy } from "react"
 import XLSX from "xlsx"
 import Swal from "sweetalert2"

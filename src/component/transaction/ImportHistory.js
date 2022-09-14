@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import systemConfig from "../../config.json"
 import axios from "axios"
 import UserDetail from "../../UserDetail"
