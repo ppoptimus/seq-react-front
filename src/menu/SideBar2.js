@@ -31,6 +31,21 @@ export default function SideBar2() {
 				{/* Sidebar Menu*/}
 				<div className='sidebar' aria-expanded='false'>
 					<nav className='mt-2'>
+						<ul className='nav nav-pills nav-sidebar flex-column'
+						data-widget='treeview'
+						role='menu'
+						data-accordion='false'>
+						{isAdmin ? (
+							<li className='nav-item'>
+								<NavLink to='/' className={(isActive) => 'nav-link bg-pink' + (!isActive ? ' unselected' : '')} >
+									<i className='fas fa-table nav-icon' />
+									<p className='text-black'>Dashboard</p>
+								</NavLink>
+							</li>
+						) : (
+							''
+						)}
+						</ul>
 						<ul
 							className='nav nav-pills nav-sidebar flex-column'
 							data-widget='treeview'
