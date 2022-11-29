@@ -37,73 +37,81 @@ export default function NewRequest() {
   const [step, setStep] = useState(1);
 
   const nextStep = () => {
-	console.log(newRequestValue.refference_id)
+    console.log(newRequestValue.refference_id);
     if (step < 2) {
       if (newRequestValue.document_no === null || newRequestValue.document_no.trim().length === 0) {
         Swal.fire({
           icon: "warning",
           text: "กรุณากรอกเลขที่หนังสือ",
         });
-      } 
-	  else if(newRequestValue.employer_account === null || newRequestValue.employer_account.trim().length === 0){
-		Swal.fire({
-			icon: "warning",
-			text: "กรุณากรอกเลขที่บัญชีนายจ้าง",
-		  });
-	  }
-	  
-	  else if(newRequestValue.personal_type === "1" && (newRequestValue.is_foreigner === null || newRequestValue.is_foreigner.trim().length === 0)){
-		Swal.fire({
-			icon: "warning",
-			text: "กรุณาเลือกประเภทของบุคคลธรรมดา",
-		  });
-	  }
-	  else if(newRequestValue.title_code === null || newRequestValue.title_code.trim().length === 0){
-		Swal.fire({
-			icon: "warning",
-			text: "กรุณาเลือกคำนำหน้าชื่อ",
-		  });
-	  }
-	  else if(newRequestValue.personal_type === "1" && (newRequestValue.first_name === null || newRequestValue.first_name.trim().length === 0)){
-		Swal.fire({
-			icon: "warning",
-			text: "กรุณากรอกชื่อ",
-		  });
-	  }
-	  else if(newRequestValue.personal_type === "1" && (newRequestValue.last_name === null || newRequestValue.last_name.trim().length === 0)){
-		Swal.fire({
-			icon: "warning",
-			text: "กรุณากรอกนามสกุล",
-		  });
-	  }
-	  else if(newRequestValue.refference_id === null || newRequestValue.refference_id.trim().length === 0){
-		Swal.fire({
-			icon: "warning",
-			text: "กรุณากรอกเลข 13 หลัก",
-		  });
-	  }
-	  else if(newRequestValue.personal_type === "1" && (newRequestValue.birth_date === null || newRequestValue.birth_date.trim().length === 0)){
-		Swal.fire({
-			icon: "warning",
-			text: "กรุณาระบุวันเกิด",
-		  });
-	  }
-	  else if(newRequestValue.personal_type !== "1" && (newRequestValue.company_name === null || newRequestValue.company_name.trim().length === 0)){
-		Swal.fire({
-			icon: "warning",
-			text: "กรุณากรอกชื่อสถานประกอบการ",
-		  });
-	  }
-	  else if(newRequestValue.personal_type !== "1" && (newRequestValue.address === null || newRequestValue.address.trim().length === 0)){
-		Swal.fire({
-			icon: "warning",
-			text: "กรุณากรอกที่อยู่",
-		  });
-	  }
-	  else {
+      } else if (newRequestValue.employer_account === null || newRequestValue.employer_account.trim().length === 0) {
+        Swal.fire({
+          icon: "warning",
+          text: "กรุณากรอกเลขที่บัญชีนายจ้าง",
+        });
+      } else if (
+        newRequestValue.personal_type === "1" &&
+        (newRequestValue.is_foreigner === null || newRequestValue.is_foreigner.trim().length === 0)
+      ) {
+        Swal.fire({
+          icon: "warning",
+          text: "กรุณาเลือกประเภทของบุคคลธรรมดา",
+        });
+      } else if (newRequestValue.title_code === null || newRequestValue.title_code.trim().length === 0) {
+        Swal.fire({
+          icon: "warning",
+          text: "กรุณาเลือกคำนำหน้าชื่อ",
+        });
+      } else if (
+        newRequestValue.personal_type === "1" &&
+        (newRequestValue.first_name === null || newRequestValue.first_name.trim().length === 0)
+      ) {
+        Swal.fire({
+          icon: "warning",
+          text: "กรุณากรอกชื่อ",
+        });
+      } else if (
+        newRequestValue.personal_type === "1" &&
+        (newRequestValue.last_name === null || newRequestValue.last_name.trim().length === 0)
+      ) {
+        Swal.fire({
+          icon: "warning",
+          text: "กรุณากรอกนามสกุล",
+        });
+      } else if (newRequestValue.refference_id === null || newRequestValue.refference_id.trim().length === 0) {
+        Swal.fire({
+          icon: "warning",
+          text: "กรุณากรอกเลข 13 หลัก",
+        });
+      } else if (
+        newRequestValue.personal_type === "1" &&
+        (newRequestValue.birth_date === null || newRequestValue.birth_date.trim().length === 0)
+      ) {
+        Swal.fire({
+          icon: "warning",
+          text: "กรุณาระบุวันเกิด",
+        });
+      } else if (
+        newRequestValue.personal_type !== "1" &&
+        (newRequestValue.company_name === null || newRequestValue.company_name.trim().length === 0)
+      ) {
+        Swal.fire({
+          icon: "warning",
+          text: "กรุณากรอกชื่อสถานประกอบการ",
+        });
+      } else {
         setStep(step + 1);
       }
     } else if (step === 2) {
+      if (
+        newRequestValue.personal_type !== "1" &&
+        (newRequestValue.address === null || newRequestValue.address.trim().length === 0)
+      ) {
+        Swal.fire({
+          icon: "warning",
+          text: "กรุณากรอกที่อยู่",
+        });
+      }
       postNewRequest();
     }
   };
@@ -171,10 +179,11 @@ export default function NewRequest() {
       })
       .catch((err) => {
         console.log(err);
+        let text = "\n" + " กรุณาติดต่อเจ้าหน้าที่ สบท.";
         Swal.fire({
           icon: "error",
-          title: "ผลการบันทึก",
-          text: "บันทึกไม่สำเร็จ \n" + err,
+          title: "ผลการบันทึก ไม่สำเร็จ",
+          text: "เนื่องจาก " + err + text,
         });
       });
   };

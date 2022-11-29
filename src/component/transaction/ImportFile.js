@@ -300,7 +300,7 @@ const onSubmited = (param) => {
 	} else {
 		Swal.fire({
 			title: "นำเข้าข้อมูล ไม่สำเร็จ!!",
-			text: param,
+			text: "เนื่องจาก "+ param + "\n" + "กรุณาติดต่อเจ้าหน้าที่ สบท." ,
 			icon: "error",
 			confirmButtonColor: "#9c1e1e",
 			confirmButtonText: "ตกลง",

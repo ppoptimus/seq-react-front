@@ -166,7 +166,7 @@ export default function GetNewRequest() {
 				Swal.fire({
 					icon: 'error',
 					title: 'ผลการบันทึก',
-					text: "บันทึกไม่สำเร็จ \n" + error,
+					text: "เนื่องจาก"+ error.replace('Error-','') + "\n กรุณาติดต่อเจ้าหน้าที่ สบท.",
 				})
 			})
 	}
