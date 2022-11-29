@@ -173,19 +173,19 @@ export default function SeachData() {
 						<div className='row col-12'>
 							<div className='form-group col-11'>
 								<div className='icheck-primary d-inline mr-4'>
-									<input type='checkbox' id='new' defaultChecked onChange={onCheckBoxChange("1")} />
+									<input type='checkbox' id='new'  onChange={onCheckBoxChange("1")} />
 									<label htmlFor='new'>รายการใหม่</label>
 								</div>
 								<div className='icheck-primary d-inline mr-4'>
-									<input type='checkbox' id='reject' defaultChecked onChange={onCheckBoxChange("5")} />
+									<input type='checkbox' id='reject'  onChange={onCheckBoxChange("5")} />
 									<label htmlFor='reject'>ข้อมูลไม่สมบูรณ์</label>
 								</div>
 								<div className='icheck-primary d-inline mr-4'>
-									<input type='checkbox' id='exported' defaultChecked onChange={onCheckBoxChange("4")} />
+									<input type='checkbox' id='exported'  onChange={onCheckBoxChange("4")} />
 									<label htmlFor='exported'>รอผล</label>
 								</div>
 								<div className='icheck-primary d-inline mr-2'>
-									<input type='checkbox' id='imported' defaultChecked onChange={onCheckBoxChange("2")} />
+									<input type='checkbox' id='imported'  onChange={onCheckBoxChange("2")} />
 									<label htmlFor='imported'>ตรวจสอบแล้ว</label>
 								</div>
 							</div>

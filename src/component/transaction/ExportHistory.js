@@ -178,7 +178,7 @@ export default function ExportHistory() {
 
 				<div className='card-body flex-column text-center'>
 					<div className='form-group text-center align-item-center'>
-						<label className='col-form-label col2'>ชุดหนังสือ</label>
+						<label className='col-form-label col2'>ค้นหาตามเลขที่ชุดหนังสือหรือเลขที่หนังสือ</label>
 						<input className='form-control-lg col-4 mx-2' onChange={(e) => onInputTextSearch(e.target.value)}></input>
 						<button className='btn-lg btn-primary' type='button' onClick={onClickSearch}>ค้นหา</button>
 					</div>
