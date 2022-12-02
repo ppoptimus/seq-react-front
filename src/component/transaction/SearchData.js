@@ -42,6 +42,7 @@ export default function SeachData() {
 	}, [])
 
 	const handleInputChange = (name) => (e) => {
+		
 		console.log(name, "---", e.target.value)
 		setDataCriteria({ ...dataCriteria, [name]: e.target.value })
 	}
@@ -56,6 +57,12 @@ export default function SeachData() {
 	}
 
 	const onSubmitSearch = () => {
+		if(dataCriteria.department_code === "ทั้งหมด"){
+			dataCriteria.department_code = null;
+		}
+		if(dataCriteria.personal_type === '0'){
+			dataCriteria.personal_type = null;
+		}
 		const config = {
 			method: "post",
 			url: `${systemConfig.MasterData.getTitleUrl}searchRequest`,
@@ -150,7 +157,7 @@ export default function SeachData() {
 
 							<div className='form-group col-5'>
 								<select className='form-control form-control' onChange={handleInputChange("personal_type")}>
-									<option value={"null"}>ประเภทบุคคล</option>
+									<option value={0}>ประเภทบุคคล</option>
 									<option value={1}>บุคคลธรรมดา</option>
 									<option value={2}>นิติบุคคล</option>
 								</select>
@@ -160,7 +167,7 @@ export default function SeachData() {
 						<div className='row col-12'>
 							<div className='form-group col-11'>
 								<select className='form-control form-control' onChange={handleInputChange("department_code")}>
-									<option value={"null"}>สาขา</option>
+									<option value={null}>ทั้งหมด</option>
 									{department.map((item) => (
 										<option key={item.department_code} value={item.department_code}>
 											{item.department_name}

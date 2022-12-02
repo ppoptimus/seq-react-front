@@ -104,15 +104,18 @@ export default function NewRequest() {
       }
     } else if (step === 2) {
       if (
-        newRequestValue.personal_type !== "1" &&
-        (newRequestValue.address === null || newRequestValue.address.trim().length === 0)
+
+        newRequestValue.address === null || newRequestValue.address.trim().length === 0
       ) {
         Swal.fire({
           icon: "warning",
           text: "กรุณากรอกที่อยู่",
         });
       }
-      postNewRequest();
+      else{
+
+        postNewRequest();
+      }
     }
   };
 
