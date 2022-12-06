@@ -288,7 +288,7 @@ const onSubmited = (param) => {
 	} else if (param === 208) {
 		Swal.fire({
 			title: "นำเข้าข้อมูล ไม่สำเร็จ!!",
-			text: "เลขชุดหนังสือนี้มีการนำเข้าข้อมูลไปแล้ว",
+			text: "เนื่องจาก เลขชุดหนังสือนี้มีการนำเข้าข้อมูลไปแล้ว",
 			icon: "warning",
 			confirmButtonColor: "#9c1e1e",
 			confirmButtonText: "ตกลง",
@@ -299,8 +299,8 @@ const onSubmited = (param) => {
 		})
 	} else {
 		Swal.fire({
-			title: "นำเข้าข้อมูล ไม่สำเร็จ!!",
-			text: "เนื่องจาก "+ param + "\n" + "กรุณาติดต่อเจ้าหน้าที่ สบท." ,
+			title: "นำเข้า ไม่สำเร็จ!! กรุณาติดต่อเจ้าหน้าที่",
+			text: "เนื่องจาก ("+ param + ")",
 			icon: "error",
 			confirmButtonColor: "#9c1e1e",
 			confirmButtonText: "ตกลง",

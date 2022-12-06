@@ -43,7 +43,7 @@ export default function MasterUser() {
 						} else {
 							Swal.fire({
 								title: "ไม่สามารถค้นหาจาก LDAP ได้!!",
-								text: res.data.description,
+								text: "เนื่องจาก " + res.data.description + " หรือไม่มีชื่อผู้ใช้นี้",
 								icon: "warning",
 								confirmButtonColor: "#da8d0c",
 								confirmButtonText: "ตกลง",
