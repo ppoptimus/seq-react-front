@@ -103,17 +103,12 @@ export default function NewRequest() {
         setStep(step + 1);
       }
     } else if (step === 2) {
-      if (
-
-        newRequestValue.address === null || newRequestValue.address.trim().length === 0
-      ) {
+      if (newRequestValue.address === null || newRequestValue.address.trim().length === 0) {
         Swal.fire({
           icon: "warning",
           text: "กรุณากรอกที่อยู่",
         });
-      }
-      else{
-
+      } else {
         postNewRequest();
       }
     }
@@ -199,26 +194,33 @@ export default function NewRequest() {
           <div className="form-group">
             <p className="h5">วันที่ทำเอกสาร : {getShowDateFormat()} </p>
           </div>
+
           <div className="form-row align-items-center mt-3">
-            <div className="form-group mr-2">
-              <input
-                className="form-control form-control-lg"
-                type="text"
-                maxLength={20}
-                placeholder="เลขที่หนังสือ"
-                required
-                onChange={handleInputChange("document_no")}
-              ></input>
+            <div className="mb-3 row">
+              <div className="col-sm-9 ml-2">
+                <input
+                  className="form-control form-control-lg"
+                  type="text"
+                  maxLength={20}
+                  placeholder="เลขที่หนังสือ"
+                  onChange={handleInputChange("document_no")}
+                ></input>
+              </div>
+              <label className="col-sm-2 col-form-label text-danger">*</label>
             </div>
-            <div className="form-group mr-2">
-              <input
-                className="form-control form-control-lg"
-                type="text"
-                maxLength={10}
-                placeholder="เลขบัญชีนายจ้าง"
-                required
-                onChange={handleInputChange("employer_account")}
-              ></input>
+
+            <div className="mb-3 row">
+              <div className="col-sm-9 ml-2">
+                <input
+                  className="form-control form-control-lg"
+                  type="text"
+                  maxLength={10}
+                  placeholder="เลขบัญชีนายจ้าง"
+                  required
+                  onChange={handleInputChange("employer_account")}
+                ></input>
+              </div>
+              <label className="col-sm-2 col-form-label text-danger">*</label>
             </div>
             <div className="form-group">
               <select className="form-control form-control-lg" onChange={handleInputChange("personal_type")}>
